@@ -52,7 +52,7 @@ namespace
             if (request.getMethod() == Request::Method::Get)
             {
                 auto responseText = downloadSomething();
-                std::fstream fileStream { k_Destination.data(), std::fstream::out };
+                std::ofstream fileStream { k_Destination.data() };
                 fileStream << responseText;
 
                 /// Use @c cake to pass states to the next phase
@@ -62,19 +62,17 @@ namespace
 
         void sendResponse(const Cake& cake, Response& response) const override
         {
-            const auto downloadPath = cake.at("downloadPath");
-            if (downloadPath.has_value())
-            {
-                const auto body = fmt::format("File successfully stored to {} on server",
-                                              std::any_cast<std::string>(downloadPath));
-                response.send(Response::Code::Ok, body);
-                m_logger.info(body);
-                return;
-            }
-
+            const auto downloadPath = cake.at<std::string_view>("downloadPath");
+            if (downloadPath.empty())
             {
                 throw std::runtime_error { "Download failed." };
             }
+
+            const auto body = fmt::format("File successfully stored to {} on server", downloadPath);
+            response.send(Response::Code::Ok, body);
+
+            m_logger.info(body);
+            return;
         }
 
     private:
