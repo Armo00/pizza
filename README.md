@@ -1,36 +1,55 @@
-# "restapi-cxx" - Yet another C++ REST Framework
+# API-LP - A Less Painful Framework
 
-It's just yet another C++ REST Framework, but it's aiming at making "write RESTful APIs with C++"
-a less painful journey full of pleasure. 😊
+It's just yet another C++ REST Framework, but it's aiming at making "write RESTful APIs with C++" a less painful journey full of pleasure. 😊
 
-## How To Build
+## What you've got?
 
-After cloning this project to somewhere on your build machine, read the `conanfile.ini` and
-`conanprofile.debug.ini` to figure out how to use `conan install` to satisfy the requirements
-by yourself.
+Internally using Pistache, with API-LP you may just focus on your own business logic, yet still deliver a performant server application with safety and strong robustness. 🍻
 
-Or do the followings instead if you are on Arch Linux: (but I still recommend you to read those
-two forementioned files in case you need customization 🤫)
+Tired of the writing Python applications, but find writing REST APIs in C++ very painful? You are coming to the right place. 🤫
+
+## Any concepts?
+
+Basic concepts of this framework include `Endpoint` and `Handler`.
+
+ * `Handler` defines how to handle and proccess a specific request.
+ * `Endpoint` collects all `Handlers` together and serves them.
+
+## How To Build?
+
+After cloning this project to somewhere on your build machine, you need to install `conan` first.
+
+```
+ $ pip install --user conan
+```
+
+After conan is installed, read `conanfile.ini` and `conanprofile.debug.ini`, and use `conan install` to install build dependencies.
+
+After `conan install` is complete, use `cmake` and `ninja` to build.
 
 ```
  $ mkdir -p build && pushd build
  $ conan install ../conanfile.ini --profile ../conanprofile.debug.ini --build missing
- $ cmake -GNinja -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ ..
+ $ cmake -GNinja -DCMAKE_C_COMPILER=/usr/bin/clang-13 -DCMAKE_CXX_COMPILER=/usr/bin/clang++ ..
  $ ninja && popd
 ```
 
-# What next?
+## What next?
 
-Locally fork this project, add stuffs under `library` and `endpoint` to suit your own unique needs.
+ 1. You copy-rename the `hello_world` folder in `endpoint`.
+ 2. You write your own business logic in your own `Handler` there.
+ 3. You add your `Handlers` to the `Endpoint`.
+ 5. You re-run the build command.
+ 6. You run your application on your server.
 
-Currently, under `library` you should only put header files in there, the `#include <foo/bar.h>`
-would be strictly following the directory structure; while under `endpoint`, straight on create
-a new folder and see how `hello_world` is composed. I'm sure you will get the point. (Yes,
-of course you may also copy-rename the `hello_world` folder for a fresh starting point. 🤫)
+## Release Notes
 
-You may also receive updates by (for now) merging "the latest commit from me" into
-"your local branch".
+ 1. Currently, under `library/include` you should only put header files there, the `#include <foo/bar.h>` path would be strictly following the directory structure. Your `namespace` definitions should also follow the directory structure. We recommend you to put your supporting code and details under `library/include`.
 
-PS: Since I'm currently the only person working on this project... If you used my framework and
-made changes under `library/own` and `library/external`, PR this change back to me, please!
-That would be appreciated. 😖
+ 2. The `hello_world` endpoint is not technically a `Hello, World`, it's rather an example showing you how to use this framework to serve something.
+
+ 3. You may receive updates by (for now) merging "the latest commit from me" into "your local branch".
+
+ 4. This project would not be possible without the existence of Pistache. Do not forget to pay them a visit as well. 😊
+
+ 5. Since I'm currently the only person working on this project... If you used my framework and made changes under `library/include/own` and `library/include/external`, PR this change back to me, please! That would be appreciated. 😖
