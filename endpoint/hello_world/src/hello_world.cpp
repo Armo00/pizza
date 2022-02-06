@@ -26,7 +26,7 @@ namespace
             : own::endpoint::Handler { k_Name }
         { }
 
-        void validateRequest(const Request request) const override
+        void validateRequest(const Request& request) const override
         {
             if (request.getMethod() == Request::Method::Get)
             {
@@ -45,7 +45,7 @@ namespace
             }
         }
 
-        void processRequest(const Request request, Cake& cake) const override
+        void processRequest(const Request& request, Cake& cake) const override
         {
             static constexpr std::string_view k_Destination = "/data/result.html";
 
@@ -60,7 +60,7 @@ namespace
             }
         }
 
-        void sendResponse(const Cake& cake, Response response) const override
+        void sendResponse(const Cake& cake, Response& response) const override
         {
             const auto downloadPath = cake.at("downloadPath");
             if (downloadPath.has_value())

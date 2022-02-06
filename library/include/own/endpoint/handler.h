@@ -110,14 +110,14 @@ namespace own::endpoint
          *
          * @param request is the @c Request object
          */
-        virtual void validateRequest([[maybe_unused]] const Request request) const { }
+        virtual void validateRequest([[maybe_unused]] const Request& request) const { }
 
         /** Process the request, prepare for the response
          *
          * @param request is the @c Request object
          * @param cake is the data generated in @c processRequest
          */
-        virtual void processRequest([[maybe_unused]] const Request request,
+        virtual void processRequest([[maybe_unused]] const Request& request,
                                     [[maybe_unused]] Cake& cake) const
         { }
 
@@ -127,7 +127,7 @@ namespace own::endpoint
          * @param response is the @c Response object
          */
         virtual void sendResponse([[maybe_unused]] const Cake& cake,
-                                  [[maybe_unused]] Response response) const
+                                  [[maybe_unused]] Response& response) const
         { }
 
     protected:
