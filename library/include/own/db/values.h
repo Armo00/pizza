@@ -23,8 +23,8 @@ namespace own::db
          *
          * @param values are the values
          */
-        explicit Values(std::initializer_list<std::any> values)
-            : m_self { values }
+        explicit Values(const std::vector<std::any>&& values)
+            : m_self { std::move(values) }
         { }
 
         /** The read-only @c at method
