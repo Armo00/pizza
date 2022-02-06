@@ -46,7 +46,8 @@ namespace own::endpoint
          *
          * @returns the name of the handler added
          */
-        template <typename HandlerType> auto addHandler()
+        template <typename HandlerType>
+        auto addHandler()
         {
             auto handler = std::make_unique<HandlerType>();
             for (const auto& [method, path] : HandlerType::k_Api)

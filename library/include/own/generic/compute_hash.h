@@ -29,7 +29,8 @@ namespace own
      *
      * @returns the hashed message
      */
-    template <typename Hasher> auto computeHash(const std::string_view rawMessage)
+    template <typename Hasher>
+    auto computeHash(const std::string_view rawMessage)
     {
         Hasher hasher;
         CryptoPP::byte digest[Hasher::DIGESTSIZE];
