@@ -21,7 +21,7 @@ namespace own::db
     public:
         /** Constructor
          *
-         * @param values are the values
+         * @param values are the data to bind
          */
         explicit Values(const std::vector<std::any>&& values)
             : m_self { std::move(values) }

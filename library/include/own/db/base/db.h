@@ -90,17 +90,17 @@ namespace own::db::base
          * @param tableName is the table name
          * @returns the query result
          */
-        [[nodiscard]] std::unique_ptr<std::vector<Values>>
-        executeSelectFrom(const std::vector<std::string>& columns, const std::string_view tableName)
+        [[nodiscard]] std::vector<Values> executeSelectFrom(const std::vector<std::string>& columns,
+                                                            const std::string_view tableName)
         {
             static constexpr std::string_view k_SelectFrom { "SELECT {} FROM {};" };
             const auto statement
                 = fmt::format(k_SelectFrom, fmt::format("{}", fmt::join(columns, ", ")), tableName);
 
-            /// Use @c unique_ptr to prevent copy
-            auto result = std::make_unique<std::vector<Values>>();
-            executeStatement(statement, *result);
-            return result;
+            // Use explicit move semantics to prevent copy
+            std::vector<Values> result {};
+            executeStatement(statement, result);
+            return std::move(result);
         }
 
         /** Execute SELECT statement
@@ -110,18 +110,18 @@ namespace own::db::base
          * @param condition is the condition
          * @returns the query result
          */
-        [[nodiscard]] std::unique_ptr<std::vector<Values>>
-        executeSelectFrom(const std::vector<std::string>& columns, const std::string_view tableName,
-                          const std::string_view condition)
+        [[nodiscard]] std::vector<Values> executeSelectFrom(const std::vector<std::string>& columns,
+                                                            const std::string_view tableName,
+                                                            const std::string_view condition)
         {
             static constexpr std::string_view k_SelectFrom { "SELECT {} FROM {} WHERE {};" };
             const auto statement = fmt::format(
                 k_SelectFrom, fmt::format("{}", fmt::join(columns, ", ")), tableName, condition);
 
-            /// Use @c unique_ptr to prevent copy
-            auto result = std::make_unique<std::vector<Values>>();
-            executeStatement(statement, *result);
-            return result;
+            // Use explicit move semantics to prevent copy
+            std::vector<Values> result {};
+            executeStatement(statement, result);
+            return std::move(result);
         }
 
     protected:
