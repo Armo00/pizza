@@ -32,14 +32,14 @@ namespace own::db::sqlite
 
         void executeStatement(const std::string_view statement) final
         {
-            m_logger.debug(statement);
+            base::Database::executeStatement(statement);
             SQLite::Statement query { m_connection, statement.data() };
             query.exec();
         }
 
         void executeStatement(const std::string_view statement, std::vector<Values>& result) final
         {
-            m_logger.debug(statement);
+            base::Database::executeStatement(statement);
             SQLite::Statement query { m_connection, statement.data() };
             while (query.executeStep())
             {
