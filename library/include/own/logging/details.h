@@ -33,9 +33,8 @@ namespace own::logging::details
     inline void writeStdout(const Level level, const std::string_view where,
                             const std::string_view what)
     {
-        const auto message
-            = fmt::format(k_LogTemplate, std::time(nullptr),
-                          pystring::upper(magic_enum::enum_name(level).data()), where, what);
+        const auto message = fmt::format(k_LogTemplate, std::time(nullptr),
+                                         magic_enum::enum_name(level), where, what);
 
         std::fprintf(stdout, "%s", message.data());
     }
@@ -49,9 +48,8 @@ namespace own::logging::details
     inline void writeStderr(const Level level, const std::string_view where,
                             const std::string_view what)
     {
-        const auto message
-            = fmt::format(k_LogTemplate, std::time(nullptr),
-                          pystring::upper(magic_enum::enum_name(level).data()), where, what);
+        const auto message = fmt::format(k_LogTemplate, std::time(nullptr),
+                                         magic_enum::enum_name(level), where, what);
 
         std::fprintf(stderr, "%s", message.data());
     }
