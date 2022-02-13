@@ -90,7 +90,7 @@ namespace own::logging
     /**
      * The logger
      */
-    class Logger
+    class Logger final
     {
     public:
         /** Constructor
@@ -164,7 +164,7 @@ namespace own::logging
         /**
          * @returns registered name of this logger
          */
-        std::string_view getWhere() const noexcept { return m_where; };
+        [[nodiscard]] std::string_view getWhere() const noexcept { return m_where; };
 
     private:
         const std::string_view m_where;

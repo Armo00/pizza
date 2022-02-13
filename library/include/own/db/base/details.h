@@ -17,7 +17,7 @@ namespace own::db::base::details
      * @param obj is the @c any object
      * @returns the "SQL-encoded" string
      */
-    inline std::string toSqlEncodedString(const std::any& obj)
+    [[nodiscard]] inline std::string toSqlEncodedString(const std::any& obj)
     {
         /// Represents the @c NULL value
         static constexpr std::string_view k_NullValue { "NULL" };

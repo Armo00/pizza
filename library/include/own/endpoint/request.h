@@ -116,7 +116,7 @@ namespace own::endpoint
         }
 
     private:
-        /// The request object
+        /// The Request object
         const Pistache::Http::Request& m_request;
     };
 

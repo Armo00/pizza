@@ -73,10 +73,10 @@ namespace own::endpoint
         }
 
     private:
-        /// The request object
+        /// The Response object
         Pistache::Http::ResponseWriter& m_response;
 
-        /// Response sent?
+        /// Indicates if the response has been sent
         bool m_sent;
     };
 

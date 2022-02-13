@@ -30,7 +30,7 @@ namespace own
      * @returns the hashed message
      */
     template <typename Hasher>
-    auto computeHash(const std::string_view rawMessage)
+    [[nodiscard]] std::string computeHash(const std::string_view rawMessage) noexcept
     {
         Hasher hasher;
         CryptoPP::byte digest[Hasher::DIGESTSIZE];
@@ -51,7 +51,7 @@ namespace own
      * @param rawMessage is the message to be hashed
      * @returns the hashed message
      */
-    inline auto computeMd5Hash(const std::string_view rawMessage)
+    [[nodiscard]] inline auto computeMd5Hash(const std::string_view rawMessage) noexcept
     {
         return computeHash<CryptoPP::Weak::MD5>(rawMessage);
     }

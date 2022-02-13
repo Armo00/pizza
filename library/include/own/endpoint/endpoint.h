@@ -35,7 +35,7 @@ namespace own::endpoint
          *
          * @returns endpoint
          */
-        static auto& getEndpoint() noexcept
+        [[nodiscard]] static auto& getEndpoint() noexcept
         {
             static Endpoint endpoint;
 
@@ -47,7 +47,7 @@ namespace own::endpoint
          * @returns the name of the handler added
          */
         template <typename HandlerType>
-        auto addHandler() noexcept
+        [[nodiscard]] std::string_view addHandler() noexcept
         {
             auto handler = std::make_unique<HandlerType>();
             for (const auto& [method, path] : HandlerType::k_Api)

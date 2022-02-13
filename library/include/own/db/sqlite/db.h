@@ -17,7 +17,7 @@ namespace own::db::sqlite
      *
      * Don't use it on databases other than @c foo.sqlite3 ! ;)
      */
-    class Database : public base::Database
+    class Database final : public base::Database
     {
     public:
         /** Constructor
