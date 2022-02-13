@@ -68,10 +68,9 @@ namespace
                 throw std::runtime_error { "Download failed." };
             }
 
-            const auto body = fmt::format("File successfully stored to {} on server", downloadPath);
-            response.send(Response::Code::Ok, body);
-
-            m_logger.info(body);
+            static constexpr std::string_view k_Body { "File successfully stored to {} on server" };
+            response.send(Response::Code::Ok, k_Body, downloadPath);
+            m_logger.info(k_Body, downloadPath);
             return;
         }
 

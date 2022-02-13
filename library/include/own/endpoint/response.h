@@ -7,6 +7,7 @@
 #ifndef OWN_ENDPOINT_PISTACHE_RESPONSE_INCLUDED
 #define OWN_ENDPOINT_PISTACHE_RESPONSE_INCLUDED
 
+#include <external/fmt/all.h>
 #include <external/pistache/all.h>
 #include <own/generic/types.h>
 
@@ -27,17 +28,20 @@ namespace own::endpoint
          * @param request is a reference to @c Pistache::Http::Request object
          * @note intentionally implicit
          */
-        explicit Response(Pistache::Http::ResponseWriter& response)
+        explicit Response(Pistache::Http::ResponseWriter& response) noexcept
             : m_response { response }
             , m_sent { false }
         { }
 
         /** Send response
          *
+         * @tparam Args are the types of arguments
          * @param code is the response code
          * @param body is the response body
+         * @param args are the arguments
          */
-        void send(const Code code, const std::string_view body)
+        template <typename... Args>
+        void send(const Code code, const std::string_view body, const Args&... args)
         {
             if (m_sent)
             {
@@ -47,16 +51,19 @@ namespace own::endpoint
             switch (code)
             {
             case Code::Ok:
-                m_response.send(Pistache::Http::Code::Ok, body.data());
+                m_response.send(Pistache::Http::Code::Ok,
+                                fmt::vformat(body, fmt::make_format_args(args...)));
                 return;
 
             case Code::BadRequest:
-                m_response.send(Pistache::Http::Code::Bad_Request, body.data());
+                m_response.send(Pistache::Http::Code::Bad_Request,
+                                fmt::vformat(body, fmt::make_format_args(args...)));
                 m_sent = true;
                 return;
 
             case Code::ServerError:
-                m_response.send(Pistache::Http::Code::Internal_Server_Error, body.data());
+                m_response.send(Pistache::Http::Code::Internal_Server_Error,
+                                fmt::vformat(body, fmt::make_format_args(args...)));
                 m_sent = true;
                 return;
 

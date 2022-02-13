@@ -21,37 +21,39 @@ namespace own::logging::details
     /// Logging level
     enum class Level { Debug, Info, Warn, Error, Fatal };
 
-    /// Template of every log
-    static constexpr std::string_view k_LogTemplate = "{}:{}:{}:{}\n";
+    /// Represents the format of each log
+    static constexpr std::string_view k_Log = "{}:{}:{}:{}\n";
 
     /** Write log to stdout
      *
+     * @tparam Args are the types of arguments
      * @param level is the log level
      * @param where is where this log occurs
      * @param what is the message to print
+     * @param args are the arguments
      */
-    inline void writeStdout(const Level level, const std::string_view where,
-                            const std::string_view what)
+    template <typename... Args>
+    void writeStdout(const Level level, const std::string_view where, const std::string_view what,
+                     const Args&... args) noexcept
     {
-        const auto message = fmt::format(k_LogTemplate, std::time(nullptr),
-                                         magic_enum::enum_name(level), where, what);
-
-        std::fprintf(stdout, "%s", message.data());
+        fmt::print(stdout, k_Log, std::time(nullptr), magic_enum::enum_name(level), where,
+                   fmt::vformat(what, fmt::make_format_args(args...)));
     }
 
     /** Write log to stderr
      *
+     * @tparam Args are the types of arguments
      * @param level is the log level
      * @param where is where this log occurs
      * @param what is the message to print
+     * @param args are the arguments
      */
-    inline void writeStderr(const Level level, const std::string_view where,
-                            const std::string_view what)
+    template <typename... Args>
+    void writeStderr(const Level level, const std::string_view where, const std::string_view what,
+                     const Args&... args) noexcept
     {
-        const auto message = fmt::format(k_LogTemplate, std::time(nullptr),
-                                         magic_enum::enum_name(level), where, what);
-
-        std::fprintf(stderr, "%s", message.data());
+        fmt::print(stderr, k_Log, std::time(nullptr), magic_enum::enum_name(level), where,
+                   fmt::vformat(what, fmt::make_format_args(args...)));
     }
 
 } // namespace own::logging::details

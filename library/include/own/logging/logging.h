@@ -19,52 +19,72 @@ namespace own::logging
 
     /** Write debug message to stdout
      *
+     * @tparam Args are the types of arguments
      * @param where is where this log occurs
      * @param what is the message to print
+     * @param args are the arguments
      */
-    inline void debug(const std::string_view where, const std::string_view what)
+    template <typename... Args>
+    void debug(const std::string_view where, const std::string_view what,
+               const Args&... args) noexcept
     {
-        details::writeStdout(details::Level::Debug, where, what);
+        details::writeStdout(details::Level::Debug, where, what, args...);
     }
 
     /** Write info message to stdout
      *
+     * @tparam Args are the types of arguments
      * @param where is where this log occurs
      * @param what is the message to print
+     * @param args are the arguments
      */
-    inline void info(const std::string_view where, const std::string_view what)
+    template <typename... Args>
+    void info(const std::string_view where, const std::string_view what,
+              const Args&... args) noexcept
     {
-        details::writeStdout(details::Level::Info, where, what);
+        details::writeStdout(details::Level::Info, where, what, args...);
     }
 
     /** Write warn message to stderr
      *
+     * @tparam Args are the types of arguments
      * @param where is where this log occurs
      * @param what is the message to print
+     * @param args are the arguments
      */
-    inline void warn(const std::string_view where, const std::string_view what)
+    template <typename... Args>
+    void warn(const std::string_view where, const std::string_view what,
+              const Args&... args) noexcept
     {
-        details::writeStderr(details::Level::Warn, where, what);
+        details::writeStderr(details::Level::Warn, where, what, args...);
     }
 
     /** Write error message to stderr
      *
+     * @tparam Args are the types of arguments
      * @param where is where this log occurs
      * @param what is the message to print
+     * @param args are the arguments
      */
-    inline void error(const std::string_view where, const std::string_view what)
+    template <typename... Args>
+    void error(const std::string_view where, const std::string_view what,
+               const Args&... args) noexcept
     {
-        details::writeStderr(details::Level::Error, where, what);
+        details::writeStderr(details::Level::Error, where, what, args...);
     }
 
     /** Write fatal message to stderr
      *
+     * @tparam Args are the types of arguments
      * @param where is where this log occurs
      * @param what is the message to print
+     * @param args are the arguments
      */
-    inline void fatal(const std::string_view where, const std::string_view what)
+    template <typename... Args>
+    void fatal(const std::string_view where, const std::string_view what,
+               const Args&... args) noexcept
     {
-        details::writeStderr(details::Level::Fatal, where, what);
+        details::writeStderr(details::Level::Fatal, where, what, args...);
     }
 
     /**
@@ -77,47 +97,77 @@ namespace own::logging
          *
          * @param where is where the logs occur
          */
-        explicit Logger(const std::string_view where)
+        explicit Logger(const std::string_view where) noexcept
             : m_where { where }
         { }
 
         /** Write debug message to stdout
          *
+         * @tparam Args are the types of arguments
          * @param what is the message to print
+         * @param args are the arguments
          */
-        void debug(const std::string_view what) const { own::logging::debug(m_where, what); }
+        template <typename... Args>
+        void debug(const std::string_view what, const Args&... args) const noexcept
+        {
+            own::logging::debug(m_where, what, args...);
+        }
 
         /** Write info message to stdout
          *
+         * @tparam Args are the types of arguments
          * @param what is the message to print
+         * @param args are the arguments
          */
-        void info(const std::string_view what) const { own::logging::info(m_where, what); }
+        template <typename... Args>
+        void info(const std::string_view what, const Args&... args) const noexcept
+        {
+            own::logging::info(m_where, what, args...);
+        }
 
         /** Write warn message to stderr
          *
+         * @tparam Args are the types of arguments
          * @param what is the message to print
+         * @param args are the arguments
          */
-        void warn(const std::string_view what) const { own::logging::warn(m_where, what); }
+        template <typename... Args>
+        void warn(const std::string_view what, const Args&... args) const noexcept
+        {
+            own::logging::warn(m_where, what, args...);
+        }
 
         /** Write error message to stderr
          *
+         * @tparam Args are the types of arguments
          * @param what is the message to print
+         * @param args are the arguments
          */
-        void error(const std::string_view what) const { own::logging::error(m_where, what); }
+        template <typename... Args>
+        void error(const std::string_view what, const Args&... args) const noexcept
+        {
+            own::logging::error(m_where, what, args...);
+        }
 
         /** Write fatal message to stderr
          *
+         * @tparam Args are the types of arguments
          * @param what is the message to print
+         * @param args are the arguments
          */
-        void fatal(const std::string_view what) const { own::logging::fatal(m_where, what); }
+        template <typename... Args>
+        void fatal(const std::string_view what, const Args&... args) const noexcept
+        {
+            own::logging::fatal(m_where, what, args...);
+        }
 
         /**
          * @returns registered name of this logger
          */
-        auto getWhere() const { return m_where; };
+        std::string_view getWhere() const noexcept { return m_where; };
 
     private:
-        const std::string m_where;
+        const std::string_view m_where;
     };
 
 } // namespace own::logging
