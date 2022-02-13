@@ -21,91 +21,11 @@ namespace own::endpoint
 
     /** The base class of all handlers
      *
-     * @note Remember, this is a singleton-multithreaded class - Mark every phase with @c const !
+     * @note Remember, this is a singleton-multithreaded class - Mark everything as const!
      */
     class Handler
     {
-    public:
-        /// Allow direct access of @c own::endpoint::Request class
-        using Request = own::endpoint::Request;
-
-        /// Allow direct access of @c own::endpoint::Response class
-        using Response = own::endpoint::Response;
-
-        /// The cake
-        using Cake = own::endpoint::Cake;
-
-        /// The RESTful description
-        using ApiDesc = std::pair<Request::Method, const std::string_view>;
-
-        /** Handle the request
-         *
-         * @param request is the @c Pistache::Http::Request object
-         * @param response is the @c Pistache::Http::ResponseWriter object
-         */
-        void handleRequest(const Pistache::Rest::Request& request,
-                           Pistache::Http::ResponseWriter response)
-        {
-            const Request requestWrapper { request };
-            Response responseWrapper { response };
-            Cake cake;
-
-            try
-            {
-                validateRequest(requestWrapper);
-            }
-            catch (const std::invalid_argument& e)
-            {
-                responseWrapper.send(Response::Code::BadRequest, "Bad Request");
-                m_logger.error(fmt::format("std::invalid_argument caught: {}", e.what()));
-                return;
-            }
-            catch (const std::runtime_error& e)
-            {
-                responseWrapper.send(Response::Code::BadRequest, "Bad Request");
-                m_logger.error(fmt::format("std::runtime_error caught: {}", e.what()));
-                return;
-            }
-            catch (const std::logic_error& e)
-            {
-                responseWrapper.send(Response::Code::BadRequest, "Bad Request");
-                m_logger.error(fmt::format("std::logic_error caught: {}", e.what()));
-                return;
-            }
-            catch (const std::exception& e)
-            {
-                responseWrapper.send(Response::Code::BadRequest, "Bad Request");
-                m_logger.error(fmt::format("std::exception caught: {}", e.what()));
-                return;
-            }
-
-            try
-            {
-                processRequest(requestWrapper, cake);
-                sendResponse(cake, responseWrapper);
-            }
-            catch (const std::invalid_argument& e)
-            {
-                responseWrapper.send(Response::Code::ServerError, "Server Error");
-                m_logger.error(fmt::format("std::invalid_argument caught: {}", e.what()));
-            }
-            catch (const std::runtime_error& e)
-            {
-                responseWrapper.send(Response::Code::ServerError, "Server Error");
-                m_logger.error(fmt::format("std::runtime_error caught: {}", e.what()));
-            }
-            catch (const std::logic_error& e)
-            {
-                responseWrapper.send(Response::Code::ServerError, "Server Error");
-                m_logger.error(fmt::format("std::logic_error caught: {}", e.what()));
-            }
-            catch (const std::exception& e)
-            {
-                responseWrapper.send(Response::Code::ServerError, "Server Error");
-                m_logger.error(fmt::format("std::exception caught: {}", e.what()));
-            }
-        }
-
+    private:
         /** Prepare the handler
          *
          * @param request is the @c Request object
@@ -130,16 +50,97 @@ namespace own::endpoint
                                   [[maybe_unused]] Response& response) const
         { }
 
+    public:
+        /// Allow @c Handler::Request alias to @c own::endpoint::Request
+        using Request = own::endpoint::Request;
+
+        /// Allow @c Handler::Request alias to @c own::endpoint::Response
+        using Response = own::endpoint::Response;
+
+        /// The Cake
+        using Cake = own::endpoint::Cake;
+
+        /// The API description
+        using ApiDesc = std::pair<Request::Method, const std::string_view>;
+
+        /** Handle the request
+         *
+         * @param request is the @c Pistache::Http::Request object
+         * @param response is the @c Pistache::Http::ResponseWriter object
+         */
+        void handleRequest(const Pistache::Rest::Request& request,
+                           Pistache::Http::ResponseWriter response)
+        {
+            const Request requestWrapper { request };
+            Response responseWrapper { response };
+            Cake cake;
+
+            try
+            {
+                validateRequest(requestWrapper);
+            }
+            catch (const std::invalid_argument& e)
+            {
+                responseWrapper.send(Response::Code::BadRequest, "Bad Request");
+                m_logger.error("std::invalid_argument caught: {}", e.what());
+                return;
+            }
+            catch (const std::runtime_error& e)
+            {
+                responseWrapper.send(Response::Code::BadRequest, "Bad Request");
+                m_logger.error("std::runtime_error caught: {}", e.what());
+                return;
+            }
+            catch (const std::logic_error& e)
+            {
+                responseWrapper.send(Response::Code::BadRequest, "Bad Request");
+                m_logger.error("std::logic_error caught: {}", e.what());
+                return;
+            }
+            catch (const std::exception& e)
+            {
+                responseWrapper.send(Response::Code::BadRequest, "Bad Request");
+                m_logger.error("std::exception caught: {}", e.what());
+                return;
+            }
+
+            try
+            {
+                processRequest(requestWrapper, cake);
+                sendResponse(cake, responseWrapper);
+            }
+            catch (const std::invalid_argument& e)
+            {
+                responseWrapper.send(Response::Code::ServerError, "Server Error");
+                m_logger.error("std::invalid_argument caught: {}", e.what());
+            }
+            catch (const std::runtime_error& e)
+            {
+                responseWrapper.send(Response::Code::ServerError, "Server Error");
+                m_logger.error("std::runtime_error caught: {}", e.what());
+            }
+            catch (const std::logic_error& e)
+            {
+                responseWrapper.send(Response::Code::ServerError, "Server Error");
+                m_logger.error("std::logic_error caught: {}", e.what());
+            }
+            catch (const std::exception& e)
+            {
+                responseWrapper.send(Response::Code::ServerError, "Server Error");
+                m_logger.error("std::exception caught: {}", e.what());
+            }
+        }
+
     protected:
         /** Constructor
          *
          * @param name is the name of this handler
          */
-        explicit Handler(const std::string_view endpointName)
+        explicit Handler(const std::string_view endpointName) noexcept
             : m_logger { endpointName }
         { }
 
-        /// Logger
+        /// The Logger
         const own::logging::Logger m_logger;
     };
 

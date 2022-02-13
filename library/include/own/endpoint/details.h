@@ -28,7 +28,7 @@ namespace own::endpoint::details
      */
     inline void addHandler(Pistache::Rest::Router& router, Handler& handler,
                            const Request::Method method, const std::string_view path,
-                           const own::logging::Logger& logger)
+                           const own::logging::Logger& logger) noexcept
     {
         switch (method)
         {

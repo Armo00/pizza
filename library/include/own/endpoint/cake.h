@@ -26,30 +26,31 @@ namespace own::endpoint
     public:
         /** The @c emplace method
          *
-         * @tparam ValueType is the value type to cast
+         * @tparam Value is the value type to cast
          * @param key is the key
          * @param value is the value
          */
-        template <typename ValueType>
-        void emplace(const std::string_view key, const ValueType& value) noexcept
+        template <typename Value>
+        void emplace(const std::string_view key, const Value& value) noexcept
         {
             m_self.emplace(key, value);
         }
 
         /** The read-only @c at const-method
          *
-         * @tparam ValueType is the value type to cast
+         * @tparam Value is the value type to cast
          * @param key is the key
-         * @param def is the def value
-         * @returns the value for key if key is in the cake, otherwise def value
+         * @param def is the default value in case the key does not exist
+         *
+         * @returns the value for key if key is in the cake, otherwise the default value
          */
-        template <typename ValueType>
-        ValueType at(const std::string_view key, const ValueType& def = {}) const
+        template <typename Value>
+        [[nodiscard]] Value at(const std::string_view key, const Value& def = {}) const
         {
             if (m_self.contains(key.data()))
             {
                 const auto value = m_self.at(key.data());
-                return std::any_cast<ValueType>(value);
+                return std::any_cast<Value>(value);
             }
             return def;
         }

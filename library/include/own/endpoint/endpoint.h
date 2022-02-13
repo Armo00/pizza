@@ -35,7 +35,7 @@ namespace own::endpoint
          *
          * @returns endpoint
          */
-        static auto& getEndpoint()
+        static auto& getEndpoint() noexcept
         {
             static Endpoint endpoint;
 
@@ -47,16 +47,14 @@ namespace own::endpoint
          * @returns the name of the handler added
          */
         template <typename HandlerType>
-        auto addHandler()
+        auto addHandler() noexcept
         {
             auto handler = std::make_unique<HandlerType>();
             for (const auto& [method, path] : HandlerType::k_Api)
             {
-                const auto methodName = magic_enum::enum_name(method).data();
-                const auto what       = fmt::format("Registering {} on {} {}", HandlerType::k_Name,
-                                                    pystring::upper(methodName), path);
+                m_logger.debug("Registering {} on {} {}", HandlerType::k_Name,
+                               magic_enum::enum_name(method), path);
 
-                m_logger.debug(what);
                 details::addHandler(m_router, *handler, method, path, m_logger);
             }
 
@@ -79,12 +77,12 @@ namespace own::endpoint
             m_self->init(options);
             m_self->setHandler(m_router.handler());
 
-            m_logger.info(fmt::format("Serving on {}:{} with {} threads", ip, port, threads));
+            m_logger.info("Serving on {}:{} with {} threads", ip, port, threads);
             m_self->serve();
         }
 
     private:
-        explicit Endpoint() = default;
+        explicit Endpoint() noexcept = default;
 
         /// The logger
         own::logging::Logger m_logger { "endpoint" };
