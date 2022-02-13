@@ -30,16 +30,25 @@ namespace own::db::sqlite
             , m_connection { dbPath.data(), SQLite::OPEN_READWRITE }
         { }
 
-        void executeStatement(const std::string_view statement) final
+    private:
+        /** Do statement execution
+         *
+         * @param statement is the statement to execute
+         */
+        void doStatementExecution(const std::string_view statement) final
         {
-            base::Database::executeStatement(statement);
             SQLite::Statement query { m_connection, statement.data() };
             query.exec();
         }
 
-        void executeStatement(const std::string_view statement, std::vector<Values>& result) final
+        /** Do statement execution
+         *
+         * @param result is passed in to store the query result
+         * @param statement is the statement to execute
+         */
+        void doStatementExecution(std::vector<Values>& result,
+                                  const std::string_view statement) final
         {
-            base::Database::executeStatement(statement);
             SQLite::Statement query { m_connection, statement.data() };
             while (query.executeStep())
             {
@@ -54,8 +63,7 @@ namespace own::db::sqlite
             }
         }
 
-    private:
-        /// The connection
+        /// The Connection
         SQLite::Database m_connection;
     };
 } // namespace own::db::sqlite

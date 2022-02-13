@@ -21,24 +21,39 @@ namespace own::db
     public:
         /** Constructor
          *
-         * @param values are the data to bind
+         * @tparam Args are the types of arguments
+         * @param args are the data to bind
          */
-        explicit Values(const std::vector<std::any>&& values)
-            : m_self { std::move(values) }
+        template <typename... Args>
+        Values(const Args&... args) noexcept
+            : m_self { args... }
         { }
 
         /** The read-only @c at method
          *
-         * @tparam ValueType is the value type to cast
+         * @tparam Value is the value type to cast
          * @param index is the index of values
+         *
          * @returns the value at @c index of values
          */
-        template <typename ValueType>
-        ValueType at(const size_t index) const
+        template <typename Value>
+        [[nodiscard]] Value at(const size_t index) const
         {
             const auto value = m_self.at(index);
-            return std::any_cast<ValueType>(value);
+            return std::any_cast<Value>(value);
         }
+
+        /** Get begin const-iterator
+         *
+         * @returns the begin const-iterator
+         */
+        [[nodiscard]] auto begin() const noexcept { return m_self.begin(); }
+
+        /** Get end const-iterator
+         *
+         * @returns the end const-iterator
+         */
+        [[nodiscard]] auto end() const noexcept { return m_self.end(); }
 
     private:
         const std::vector<std::any> m_self;

@@ -23,6 +23,27 @@ namespace own::db::base
      */
     class Database
     {
+    private:
+        /** Do statement execution
+         *
+         * @param statement is the statement to execute
+         */
+        virtual void doStatementExecution([[maybe_unused]] const std::string_view statement)
+        {
+            m_logger.warn("`doStatementExecution' is not implemented!");
+        }
+
+        /** Do statement execution
+         *
+         * @param result is passed in to store the query result
+         * @param statement is the statement to execute
+         */
+        virtual void doStatementExecution([[maybe_unused]] std::vector<Values>& result,
+                                          [[maybe_unused]] const std::string_view statement)
+        {
+            m_logger.warn("`doStatementExecution' is not implemented!");
+        }
+
     public:
         /** Constructor
          *
@@ -37,26 +58,34 @@ namespace own::db::base
 
         /** Execute statement
          *
+         * @tparam Args are the types of arguments
          * @param statement is the statement to execute
+         * @param args are the data to bind
          */
-        virtual void executeStatement(const std::string_view statement)
+        template <typename... Args>
+        void executeStatement(const std::string_view statement, const Args&... args)
         {
-            m_logger.debug(statement);
+            m_logger.debug(statement, args...);
 
             // Must be overridden or it won't do anything.
+            doStatementExecution(fmt::vformat(statement, fmt::make_format_args(args...)));
         }
 
         /** Execute statement
          *
-         * @param statement is the statement to execute
+         * @tparam Args are the types of arguments
          * @param result is passed in to store the query result
+         * @param statement is the statement to execute
+         * @param args are the data to bind
          */
-        virtual void executeStatement(const std::string_view statement,
-                                      [[maybe_unused]] std::vector<Values>& result)
+        template <typename... Args>
+        void executeStatement(std::vector<Values>& result, const std::string_view statement,
+                              const Args&... args)
         {
-            m_logger.debug(statement);
+            m_logger.debug(statement, args...);
 
             // Must be overridden or it won't do anything.
+            doStatementExecution(result, fmt::vformat(statement, fmt::make_format_args(args...)));
         }
 
         /** Execute INSERT INTO statement
@@ -66,19 +95,17 @@ namespace own::db::base
          * @param values are the values to insert
          */
         void executeInsertInto(const std::string_view tableName,
-                               const std::vector<std::string>& columns,
-                               const std::vector<std::any>& values)
+                               const std::vector<std::string>& columns, const Values& values)
         {
             /// Represents the INSERT INTO statement
-            static constexpr std::string_view k_InsertInto { "INSERT INTO {} {} VALUES {};" };
+            static constexpr std::string_view k_InsertInto { "INSERT INTO {} ({}) VALUES ({});" };
 
             std::vector<std::string> encodedValues;
             std::transform(values.begin(), values.end(), std::back_inserter(encodedValues),
                            details::toSqlEncodedString);
 
-            executeStatement(fmt::format(k_InsertInto, tableName,
-                                         fmt::format("({})", fmt::join(columns, ", ")),
-                                         fmt::format("({})", fmt::join(encodedValues, ", "))));
+            executeStatement(k_InsertInto, tableName, fmt::join(columns, ", "),
+                             fmt::join(encodedValues, ", "));
         }
 
         /** Execute INSERT INTO statement
@@ -86,21 +113,19 @@ namespace own::db::base
          * @param tableName is the table name
          * @param values are the values to insert
          */
-        void executeInsertInto(const std::string_view tableName,
-                               const std::vector<std::any>& values)
+        void executeInsertInto(const std::string_view tableName, const Values& values)
         {
             /// Represents the INSERT INTO statement
-            static constexpr std::string_view k_InsertInto { "INSERT INTO {} VALUES {};" };
+            static constexpr std::string_view k_InsertInto { "INSERT INTO {} VALUES ({});" };
 
             std::vector<std::string> encodedValues;
             std::transform(values.begin(), values.end(), std::back_inserter(encodedValues),
                            details::toSqlEncodedString);
 
-            executeStatement(fmt::format(k_InsertInto, tableName,
-                                         fmt::format("({})", fmt::join(encodedValues, ", "))));
+            executeStatement(k_InsertInto, tableName, fmt::join(encodedValues, ", "));
         }
 
-        /** Execute SELECT FROM statement
+        /** Execute SELECT statement
          *
          * @param columns are the columns to select from
          * @param tableName is the table name
@@ -109,18 +134,17 @@ namespace own::db::base
         [[nodiscard]] std::vector<Values> executeSelectFrom(const std::vector<std::string>& columns,
                                                             const std::string_view tableName)
         {
-            /// Represents the SELECT FROM statement
+            /// Represents the SELECT statement
             static constexpr std::string_view k_SelectFrom { "SELECT {} FROM {};" };
-            const auto statement
-                = fmt::format(k_SelectFrom, fmt::format("{}", fmt::join(columns, ", ")), tableName);
+
+            std::vector<Values> result {};
+            executeStatement(result, k_SelectFrom, fmt::join(columns, ", "), tableName);
 
             // Use explicit move semantics to prevent copy
-            std::vector<Values> result {};
-            executeStatement(statement, result);
             return std::move(result);
         }
 
-        /** Execute SELECT FROM statement
+        /** Execute SELECT statement
          *
          * @param columns are the columns to select from
          * @param tableName is the table name
@@ -131,19 +155,17 @@ namespace own::db::base
                                                             const std::string_view tableName,
                                                             const std::string_view condition)
         {
-            /// Represents the SELECT FROM statement
+            /// Represents the SELECT statement
             static constexpr std::string_view k_SelectFrom { "SELECT {} FROM {} WHERE {};" };
-            const auto statement = fmt::format(
-                k_SelectFrom, fmt::format("{}", fmt::join(columns, ", ")), tableName, condition);
+
+            std::vector<Values> result {};
+            executeStatement(result, k_SelectFrom, fmt::join(columns, ", "), tableName, condition);
 
             // Use explicit move semantics to prevent copy
-            std::vector<Values> result {};
-            executeStatement(statement, result);
             return std::move(result);
         }
 
     protected:
-        /// The logger
         const logging::Logger m_logger;
     };
 
