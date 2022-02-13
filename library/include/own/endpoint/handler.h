@@ -21,10 +21,12 @@ namespace own::endpoint
 
     /** The base class of all handlers
      *
-     * @note Remember, this is a singleton-multithreaded class - Mark everything as const!
+     * @note Remember, this is a multithreaded class - Mark everything as const!
      */
     class Handler
     {
+        DEFAULT_DESTRUCTIBLE_BASE_CLASS(Handler)
+
     private:
         /** Prepare the handler
          *
@@ -136,8 +138,8 @@ namespace own::endpoint
          *
          * @param name is the name of this handler
          */
-        explicit Handler(const std::string_view endpointName) noexcept
-            : m_logger { endpointName }
+        explicit Handler(const std::string_view name) noexcept
+            : m_logger { name }
         { }
 
         /// The Logger

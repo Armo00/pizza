@@ -23,11 +23,11 @@ namespace own::db::sqlite
         /** Constructor
          *
          * @param name is the name of database
-         * @param dbPath is the path to the database file
+         * @param path is the path to the database file
          */
-        explicit Database(const std::string_view name, const std::string_view dbPath)
+        explicit Database(const std::string_view name, const std::string_view path)
             : base::Database { name }
-            , m_connection { dbPath.data(), SQLite::OPEN_READWRITE }
+            , m_connection { path.data(), SQLite::OPEN_READWRITE }
         { }
 
     private:
@@ -52,10 +52,9 @@ namespace own::db::sqlite
             SQLite::Statement query { m_connection, statement.data() };
             while (query.executeStep())
             {
-                const size_t columnCount = query.getColumnCount();
                 std::vector<std::any> resultStep;
-                resultStep.reserve(columnCount);
-                for (size_t index = 0; index < columnCount; ++index)
+                resultStep.reserve(query.getColumnCount());
+                for (int index = 0; index < query.getColumnCount(); ++index)
                 {
                     resultStep.emplace_back(details::getColumn(query, index));
                 }

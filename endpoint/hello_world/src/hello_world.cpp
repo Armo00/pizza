@@ -71,11 +71,10 @@ namespace
             static constexpr std::string_view k_Body { "File successfully stored to {} on server" };
             response.send(Response::Code::Ok, k_Body, downloadPath);
             m_logger.info(k_Body, downloadPath);
-            return;
         }
 
     private:
-        std::string downloadSomething() const
+        [[nodiscard]] static std::string downloadSomething()
         {
             static constexpr std::string_view k_Url = "http://pistache.io/";
 
@@ -86,7 +85,6 @@ namespace
 
     // Let the endpoint be aware of the existence of this handler, and
     // thereby be able to serve it
-    auto& endpoint         = own::endpoint::Endpoint::getEndpoint();
-    const auto handlerName = endpoint.addHandler<HelloHandler>();
+    const auto handlerName = own::endpoint::addHandler<HelloHandler>();
 
 } // namespace

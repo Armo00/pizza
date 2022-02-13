@@ -19,14 +19,15 @@ namespace own::endpoint
      */
     class Response final
     {
+        DEFAULT_DESTRUCTIBLE_FINAL_CLASS(Response)
+
     public:
         /// Response codes
         enum class Code { Ok, BadRequest, ServerError };
 
         /** Constructor
          *
-         * @param request is a reference to @c Pistache::Http::Request object
-         * @note intentionally implicit
+         * @param response is a reference to @c Pistache::Http::ResponseWriter object
          */
         explicit Response(Pistache::Http::ResponseWriter& response) noexcept
             : m_response { response }

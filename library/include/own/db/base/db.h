@@ -23,6 +23,8 @@ namespace own::db::base
      */
     class Database
     {
+        DEFAULT_DESTRUCTIBLE_BASE_CLASS(Database)
+
     private:
         /** Do statement execution
          *
@@ -139,9 +141,7 @@ namespace own::db::base
 
             std::vector<Values> result {};
             executeStatement(result, k_SelectFrom, fmt::join(columns, ", "), tableName);
-
-            // Use explicit move semantics to prevent copy
-            return std::move(result);
+            return result;
         }
 
         /** Execute SELECT statement
@@ -160,12 +160,11 @@ namespace own::db::base
 
             std::vector<Values> result {};
             executeStatement(result, k_SelectFrom, fmt::join(columns, ", "), tableName, condition);
-
-            // Use explicit move semantics to prevent copy
-            return std::move(result);
+            return result;
         }
 
     protected:
+        /// The Logger
         const logging::Logger m_logger;
     };
 

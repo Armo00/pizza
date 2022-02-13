@@ -23,7 +23,12 @@ namespace own::endpoint
      */
     class Cake final
     {
+        DEFAULT_DESTRUCTIBLE_FINAL_CLASS(Cake)
+
     public:
+        /// Constructor
+        explicit Cake() = default;
+
         /** The @c emplace method
          *
          * @tparam Value is the value type to cast

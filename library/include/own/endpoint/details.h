@@ -24,11 +24,9 @@ namespace own::endpoint::details
      * @param handler is the handler object
      * @param method is the request method
      * @param path is the request path
-     * @param logger is the logger
      */
     inline void addHandler(Pistache::Rest::Router& router, Handler& handler,
-                           const Request::Method method, const std::string_view path,
-                           const own::logging::Logger& logger) noexcept
+                           const Request::Method method, const std::string_view path) noexcept
     {
         switch (method)
         {
@@ -56,9 +54,6 @@ namespace own::endpoint::details
             return Pistache::Rest::Routes::Delete(
                 router, path.data(),
                 Pistache::Rest::Routes::bind(&Handler::handleRequest, &handler));
-
-        default:
-            throw std::logic_error { "That's not possible!" };
         }
     }
 

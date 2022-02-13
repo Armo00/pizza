@@ -18,7 +18,7 @@ namespace own::db::sqlite::details
      * @param index is the column index
      * @returns the value from column
      */
-    [[nodiscard]] inline std::any getColumn(SQLite::Statement& query, const size_t index) noexcept
+    [[nodiscard]] inline std::any getColumn(SQLite::Statement& query, const int index) noexcept
     {
         const auto column = query.getColumn(index);
         if (column.isNull())

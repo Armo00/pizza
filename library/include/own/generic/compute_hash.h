@@ -22,25 +22,27 @@ namespace own
     /** Compute hash
      *
      * @tparam Hasher is the hasher class from Crypto++
-     *
-     * @param hasher is the hasher from Crypto++
-     * @param digestSize is the length of hash digest
      * @param rawMessage is the message to be hashed
-     *
      * @returns the hashed message
+     *
+     * @todo Consider replace this cryptopp...
      */
     template <typename Hasher>
     [[nodiscard]] std::string computeHash(const std::string_view rawMessage) noexcept
     {
+        std::string output;
+        auto sink = std::make_unique<CryptoPP::StringSink>(output);
+
         Hasher hasher;
-        CryptoPP::byte digest[Hasher::DIGESTSIZE];
-        hasher.CalculateDigest(digest, (const CryptoPP::byte*)rawMessage.data(), rawMessage.size());
+        std::array<CryptoPP::byte, Hasher::DIGESTSIZE> digest {};
+        hasher.CalculateDigest(
+            // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+            digest.data(), reinterpret_cast<const CryptoPP::byte*>(rawMessage.data()),
+            rawMessage.size());
 
         CryptoPP::HexEncoder encoder;
-        std::string output;
-
-        encoder.Attach(new CryptoPP::StringSink(output));
-        encoder.Put(digest, sizeof(digest));
+        encoder.Attach(sink.get());
+        encoder.Put(digest.data(), sizeof(digest));
         encoder.MessageEnd();
 
         return pystring::lower(output);

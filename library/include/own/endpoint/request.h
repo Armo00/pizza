@@ -19,6 +19,8 @@ namespace own::endpoint
      */
     class Request final
     {
+        DEFAULT_DESTRUCTIBLE_FINAL_CLASS(Request)
+
     public:
         /// Request methods
         enum class Method { Post, Get, Put, Patch, Delete };
@@ -95,14 +97,13 @@ namespace own::endpoint
                 return query.as_str();
             }
 
-            if (const auto value = query.get(key.data()); value.isEmpty())
+            const auto value = query.get(key.data());
+            if (value.isEmpty())
             {
                 return {};
             }
-            else
-            {
-                return cpr::util::urlDecode(value.get());
-            }
+
+            return cpr::util::urlDecode(value.get());
         }
 
         /** Get request body

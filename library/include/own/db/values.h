@@ -25,7 +25,7 @@ namespace own::db
          * @param args are the data to bind
          */
         template <typename... Args>
-        Values(const Args&... args) noexcept
+        explicit Values(const Args&... args) noexcept
             : m_self { args... }
         { }
 

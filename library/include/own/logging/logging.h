@@ -92,6 +92,8 @@ namespace own::logging
      */
     class Logger final
     {
+        DEFAULT_DESTRUCTIBLE_FINAL_CLASS(Logger)
+
     public:
         /** Constructor
          *
