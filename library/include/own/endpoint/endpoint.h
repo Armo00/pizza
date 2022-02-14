@@ -75,16 +75,16 @@ namespace own::endpoint
         }
 
     private:
-        /// The logger
+        /// The Logger
         own::logging::Logger m_logger { "endpoint" };
 
-        /// The registry itself
+        /// The Registry for Handlers
         std::vector<std::unique_ptr<Handler>> m_registry;
 
-        /// The Pistache router
+        /// The Pistache REST Router
         Pistache::Rest::Router m_router;
 
-        /// The Pistache HTTP handler
+        /// The Pistache HTTP Endpoint
         std::unique_ptr<Pistache::Http::Endpoint> m_self;
     };
 
