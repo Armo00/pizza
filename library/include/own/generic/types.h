@@ -10,6 +10,7 @@
 #include <external/cppitertools/all.h>
 #include <external/frozen/all.h>
 #include <external/magic_enum/all.h>
+#include <external/nlohmann_json/all.h>
 #include <external/pystring/all.h>
 #include <external/std/all.h>
 

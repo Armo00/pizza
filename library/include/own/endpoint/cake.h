@@ -15,7 +15,7 @@ namespace own::endpoint
     /** The Cake
      *
      * @details
-     * This is a wrapper to @c unordered_map<string,any> with restricted set of operations.
+     * This is a wrapper to @c unordered_map<string,json> with restricted set of operations.
      * This is a binding. This is not a lie. :P
      *
      * @note
@@ -31,11 +31,11 @@ namespace own::endpoint
 
         /** The @c emplace method
          *
-         * @tparam Value is the value type to cast
+         * @tparam Value is the value type to cast (default: json)
          * @param key is the key
          * @param value is the value
          */
-        template <typename Value>
+        template <typename Value = nlohmann::json>
         void emplace(const std::string_view key, const Value& value) noexcept
         {
             m_self.emplace(key, value);
@@ -43,26 +43,44 @@ namespace own::endpoint
 
         /** The read-only @c at const-method
          *
-         * @tparam Value is the value type to cast
+         * @tparam Value is the value type to cast (default: json)
          * @param key is the key
          * @param def is the default value in case the key does not exist
          *
          * @returns the value for key if key is in the cake, otherwise the default value
-         * @throws std::bad_any_cast in case any_cast fails
+         * @throws json::type_error in case get_ref fails
          */
-        template <typename Value>
+        template <typename Value = nlohmann::json>
         [[nodiscard]] const Value& at(const std::string_view key, const Value& def = {}) const
         {
             if (m_self.contains(key.data()))
             {
                 const auto& value = m_self.at(key.data());
-                return std::any_cast<const Value&>(value);
+                if constexpr (std::is_same_v<Value, nlohmann::json>)
+                {
+                    return value;
+                }
+                else
+                {
+                    return value.get_ref<const Value&>();
+                }
             }
             return def;
         }
 
+        /** Dump the Cake into JSON-serialized string
+         *
+         * @returns the JSON-serialized string
+         */
+        [[nodiscard]] std::string dump() const
+        {
+            // We must use function-style constructor here, or else
+            // nlohmann::json will be intepreting m_self as an array
+            return nlohmann::json(m_self).dump();
+        }
+
     private:
-        std::unordered_map<std::string, std::any> m_self;
+        std::unordered_map<std::string, nlohmann::json> m_self;
     };
 
 } // namespace own::endpoint

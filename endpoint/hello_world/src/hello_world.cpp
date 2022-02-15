@@ -56,13 +56,14 @@ namespace
                 fileStream << responseText;
 
                 /// Use @c cake to pass states to the next phase
-                cake.emplace("downloadPath", k_Destination);
+                cake.emplace("download_path", k_Destination);
+                m_logger.debug("Content of cake is {}", cake.dump());
             }
         }
 
         void sendResponse(const Cake& cake, Response& response) const override
         {
-            const auto downloadPath = cake.at<std::string_view>("downloadPath");
+            const auto& downloadPath = cake.at<std::string>("download_path");
             if (downloadPath.empty())
             {
                 throw std::runtime_error { "Download failed." };
