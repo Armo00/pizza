@@ -9,6 +9,7 @@
 
 #include <external/fmt/all.h>
 #include <external/pistache/all.h>
+#include <own/endpoint/cake.h>
 #include <own/generic/types.h>
 
 namespace own::endpoint
@@ -68,6 +69,19 @@ namespace own::endpoint
                                 fmt::vformat(body, fmt::make_format_args(args...)));
                 m_sent = true;
                 return;
+            }
+        }
+
+        /** Send JSON response
+         *
+         * @param code is the response code
+         * @param cake is the Cake object
+         */
+        void send(const Code code, const Cake& cake) noexcept
+        {
+            if (not m_sent)
+            {
+                return send(code, "{}", cake.dump());
             }
         }
 

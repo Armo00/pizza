@@ -31,15 +31,12 @@ namespace
             if (request.getMethod() == Request::Method::Get)
             {
                 m_logger.info("It works!");
-                return;
             }
-
-            if (request.getMethod() == Request::Method::Post)
+            else if (request.getMethod() == Request::Method::Post)
             {
                 m_logger.info(request.getBody());
-                return;
             }
-
+            else
             {
                 throw std::runtime_error { "Invalid request method." };
             }
@@ -47,39 +44,43 @@ namespace
 
         void processRequest(const Request& request, Cake& cake) const override
         {
-            static constexpr std::string_view k_Destination = "/data/result.html";
-
             if (request.getMethod() == Request::Method::Get)
             {
+                static constexpr std::string_view k_Destination = "/data/result.html";
+
                 auto responseText = downloadSomething();
                 std::ofstream fileStream { k_Destination.data() };
                 fileStream << responseText;
 
                 /// Use @c cake to pass states to the next phase
                 cake.emplace("download_path", k_Destination);
+                cake.emplace("time_stamp", std::time(nullptr));
                 m_logger.debug("Content of cake is {}", cake.dump());
+            }
+            else
+            {
+                throw std::runtime_error { "Invalid request method." };
             }
         }
 
         void sendResponse(const Cake& cake, Response& response) const override
         {
             const auto& downloadPath = cake.at<std::string>("download_path");
-            if (downloadPath.empty())
+            if (not downloadPath.empty())
             {
-                throw std::runtime_error { "Download failed." };
+                response.send(Response::Code::Ok, cake);
+                m_logger.info("File successfully stored to {} on server", downloadPath);
             }
-
-            static constexpr std::string_view k_Body { "File successfully stored to {} on server" };
-            response.send(Response::Code::Ok, k_Body, downloadPath);
-            m_logger.info(k_Body, downloadPath);
+            else
+            {
+                throw std::runtime_error { "The cake is a lie." };
+            }
         }
 
     private:
         [[nodiscard]] static std::string downloadSomething()
         {
-            static constexpr std::string_view k_Url = "http://pistache.io/";
-
-            auto response = cpr::Get(cpr::Url { k_Url.data() });
+            const auto response = cpr::Get(cpr::Url { "http://pistache.io/" });
             return response.text;
         }
     };

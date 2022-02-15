@@ -3,6 +3,8 @@ project("restapi-cxx")
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS true)
 set(CMAKE_CXX_STANDARD 20)
+# remove no-error=documentation as soon as
+# https://github.com/pistacheio/pistache/issues/1038 is fixed
 add_compile_options(-Wall -Wextra -Wdocumentation -Werror -Wfatal-errors
                     -Wno-error=documentation)
 

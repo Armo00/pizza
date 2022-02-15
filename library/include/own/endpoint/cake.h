@@ -48,10 +48,10 @@ namespace own::endpoint
          * @param def is the default value in case the key does not exist
          *
          * @returns the value for key if key is in the cake, otherwise the default value
-         * @throws json::type_error in case get_ref fails
          */
         template <typename Value = nlohmann::json>
-        [[nodiscard]] const Value& at(const std::string_view key, const Value& def = {}) const
+        [[nodiscard]] const Value& at(const std::string_view key,
+                                      const Value& def = {}) const noexcept
         {
             if (m_self.contains(key.data()))
             {
@@ -72,7 +72,7 @@ namespace own::endpoint
          *
          * @returns the JSON-serialized string
          */
-        [[nodiscard]] std::string dump() const
+        [[nodiscard]] std::string dump() const noexcept
         {
             // We must use function-style constructor here, or else
             // nlohmann::json will be intepreting m_self as an array
