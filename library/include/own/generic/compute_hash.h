@@ -20,22 +20,23 @@ namespace own
  * @returns the hashed message
  *
  * @todo Consider replace this cryptopp...
+ * @todo This unit must be refactored...
  */
 template <typename Hasher>
 [[nodiscard]] std::string computeHash(const std::string_view rawMessage) noexcept
 {
     std::string output;
-    auto sink = std::make_unique<CryptoPP::StringSink>(output);
+    std::array<CryptoPP::byte, Hasher::DIGESTSIZE> digest{};
 
     Hasher hasher;
-    std::array<CryptoPP::byte, Hasher::DIGESTSIZE> digest{};
     hasher.CalculateDigest(
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
         digest.data(), reinterpret_cast<const CryptoPP::byte*>(rawMessage.data()),
         rawMessage.size());
 
     CryptoPP::HexEncoder encoder;
-    encoder.Attach(sink.get());
+    // NOLINTNEXTLINE(cppcoreguidelines-owning-memory,bugprone-unhandled-exception-at-new)
+    encoder.Attach(new CryptoPP::StringSink{output});
     encoder.Put(digest.data(), sizeof(digest));
     encoder.MessageEnd();
 
