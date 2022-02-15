@@ -48,14 +48,15 @@ namespace own::endpoint
          * @param def is the default value in case the key does not exist
          *
          * @returns the value for key if key is in the cake, otherwise the default value
+         * @throws std::bad_any_cast in case any_cast fails
          */
         template <typename Value>
-        [[nodiscard]] Value at(const std::string_view key, const Value& def = {}) const
+        [[nodiscard]] const Value& at(const std::string_view key, const Value& def = {}) const
         {
             if (m_self.contains(key.data()))
             {
-                const auto value = m_self.at(key.data());
-                return std::any_cast<Value>(value);
+                const auto& value = m_self.at(key.data());
+                return std::any_cast<const Value&>(value);
             }
             return def;
         }
