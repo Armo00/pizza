@@ -9,8 +9,4 @@
 
 #include <pqxx/pqxx>
 
-#include <pqxx/connection.hxx>
-#include <pqxx/field.hxx>
-#include <pqxx/types.hxx>
-
 #endif

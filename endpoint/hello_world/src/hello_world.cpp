@@ -12,81 +12,79 @@
 namespace
 {
 
-    class HelloHandler : public own::endpoint::Handler
+class HelloHandler : public own::endpoint::Handler
+{
+   public:
+    static constexpr std::string_view k_Name = "hello";
+
+    static constexpr auto k_Api = std::to_array<ApiDesc>({
+        { Request::Method::Get, "/hello"},
+        {Request::Method::Post, "/hello"},
+    });
+
+    explicit HelloHandler() : own::endpoint::Handler{k_Name} {}
+
+    void validateRequest(const Request& request) const override
     {
-    public:
-        static constexpr std::string_view k_Name = "hello";
-
-        static constexpr auto k_Api = std::to_array<ApiDesc>({
-            { Request::Method::Get, "/hello" },
-            { Request::Method::Post, "/hello" },
-        });
-
-        explicit HelloHandler()
-            : own::endpoint::Handler { k_Name }
-        { }
-
-        void validateRequest(const Request& request) const override
+        if (request.getMethod() == Request::Method::Get)
         {
-            if (request.getMethod() == Request::Method::Get)
-            {
-                m_logger.info("It works!");
-            }
-            else if (request.getMethod() == Request::Method::Post)
-            {
-                m_logger.info(request.getBody());
-            }
-            else
-            {
-                throw std::runtime_error { "Invalid request method." };
-            }
+            m_logger.info("It works!");
         }
-
-        void processRequest(const Request& request, Cake& cake) const override
+        else if (request.getMethod() == Request::Method::Post)
         {
-            if (request.getMethod() == Request::Method::Get)
-            {
-                static constexpr std::string_view k_Destination = "/data/result.html";
-
-                auto responseText = downloadSomething();
-                std::ofstream fileStream { k_Destination.data() };
-                fileStream << responseText;
-
-                /// Use @c cake to pass states to the next phase
-                cake.emplace("download_path", k_Destination);
-                cake.emplace("time_stamp", std::time(nullptr));
-                m_logger.debug("Content of cake is {}", cake.dump());
-            }
-            else
-            {
-                throw std::runtime_error { "Invalid request method." };
-            }
+            m_logger.info(request.getBody());
         }
-
-        void sendResponse(const Cake& cake, Response& response) const override
+        else
         {
-            const auto& downloadPath = cake.at<std::string>("download_path");
-            if (not downloadPath.empty())
-            {
-                response.send(Response::Code::Ok, cake);
-                m_logger.info("File successfully stored to {} on server", downloadPath);
-            }
-            else
-            {
-                throw std::runtime_error { "The cake is a lie." };
-            }
+            throw std::runtime_error{"Invalid request method."};
         }
+    }
 
-    private:
-        [[nodiscard]] static std::string downloadSomething()
+    void processRequest(const Request& request, Cake& cake) const override
+    {
+        if (request.getMethod() == Request::Method::Get)
         {
-            const auto response = cpr::Get(cpr::Url { "http://pistache.io/" });
-            return response.text;
+            static constexpr std::string_view k_Destination = "/data/result.html";
+
+            auto responseText = downloadSomething();
+            std::ofstream fileStream{k_Destination.data()};
+            fileStream << responseText;
+
+            /// Use @c cake to pass states to the next phase
+            cake.emplace("download_path", k_Destination);
+            cake.emplace("time_stamp", std::time(nullptr));
+            m_logger.debug("Content of cake is {}", cake.dump());
         }
-    };
+        else
+        {
+            throw std::runtime_error{"Invalid request method."};
+        }
+    }
 
-    // Let the endpoint be aware of the existence of this handler, and
-    // thereby be able to serve it
-    const auto handlerName = own::endpoint::addHandler<HelloHandler>();
+    void sendResponse(const Cake& cake, Response& response) const override
+    {
+        const auto& downloadPath = cake.at<std::string>("download_path");
+        if (not downloadPath.empty())
+        {
+            response.send(Response::Code::Ok, cake);
+            m_logger.info("File successfully stored to {} on server", downloadPath);
+        }
+        else
+        {
+            throw std::runtime_error{"The cake is a lie."};
+        }
+    }
 
-} // namespace
+   private:
+    [[nodiscard]] static std::string downloadSomething()
+    {
+        const auto response = cpr::Get(cpr::Url{"http://pistache.io/"});
+        return response.text;
+    }
+};
+
+// Let the endpoint be aware of the existence of this handler, and
+// thereby be able to serve it
+const auto handlerName = own::endpoint::addHandler<HelloHandler>();
+
+}  // namespace

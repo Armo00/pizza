@@ -10,54 +10,48 @@
 #include <external/cryptopp/hash.h>
 #include <own/generic/types.h>
 
-/**
- * @namespace own
- *
- * In this unit, some self-made OpenSSL C++ bindings were introduced such
- * that they are capable of C++'s std containers... you get the point.
- */
 namespace own
 {
 
-    /** Compute hash
-     *
-     * @tparam Hasher is the hasher class from Crypto++
-     * @param rawMessage is the message to be hashed
-     * @returns the hashed message
-     *
-     * @todo Consider replace this cryptopp...
-     */
-    template <typename Hasher>
-    [[nodiscard]] std::string computeHash(const std::string_view rawMessage) noexcept
-    {
-        std::string output;
-        auto sink = std::make_unique<CryptoPP::StringSink>(output);
+/** Compute hash
+ *
+ * @tparam Hasher is the hasher class from Crypto++
+ * @param rawMessage is the message to be hashed
+ * @returns the hashed message
+ *
+ * @todo Consider replace this cryptopp...
+ */
+template <typename Hasher>
+[[nodiscard]] std::string computeHash(const std::string_view rawMessage) noexcept
+{
+    std::string output;
+    auto sink = std::make_unique<CryptoPP::StringSink>(output);
 
-        Hasher hasher;
-        std::array<CryptoPP::byte, Hasher::DIGESTSIZE> digest {};
-        hasher.CalculateDigest(
-            // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
-            digest.data(), reinterpret_cast<const CryptoPP::byte*>(rawMessage.data()),
-            rawMessage.size());
+    Hasher hasher;
+    std::array<CryptoPP::byte, Hasher::DIGESTSIZE> digest{};
+    hasher.CalculateDigest(
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+        digest.data(), reinterpret_cast<const CryptoPP::byte*>(rawMessage.data()),
+        rawMessage.size());
 
-        CryptoPP::HexEncoder encoder;
-        encoder.Attach(sink.get());
-        encoder.Put(digest.data(), sizeof(digest));
-        encoder.MessageEnd();
+    CryptoPP::HexEncoder encoder;
+    encoder.Attach(sink.get());
+    encoder.Put(digest.data(), sizeof(digest));
+    encoder.MessageEnd();
 
-        return pystring::lower(output);
-    }
+    return pystring::lower(output);
+}
 
-    /** Compute MD5 hash
-     *
-     * @param rawMessage is the message to be hashed
-     * @returns the hashed message
-     */
-    [[nodiscard]] inline auto computeMd5Hash(const std::string_view rawMessage) noexcept
-    {
-        return computeHash<CryptoPP::Weak::MD5>(rawMessage);
-    }
+/** Compute MD5 hash
+ *
+ * @param rawMessage is the message to be hashed
+ * @returns the hashed message
+ */
+[[nodiscard]] inline auto computeMd5Hash(const std::string_view rawMessage) noexcept
+{
+    return computeHash<CryptoPP::Weak::MD5>(rawMessage);
+}
 
-} // namespace own
+}  // namespace own
 
 #endif

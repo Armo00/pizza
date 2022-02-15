@@ -14,44 +14,49 @@
 
 namespace own::endpoint
 {
-    /** Response
+/** Response
+ *
+ * This class is an interface to @c Pistache::Http::ResponseWriter
+ */
+class Response final
+{
+    DEFAULT_DESTRUCTIBLE_FINAL_CLASS(Response)
+
+   public:
+    /** Constructor
      *
-     * This class is an interface to @c Pistache::Http::ResponseWriter
+     * @param response is a reference to @c Pistache::Http::ResponseWriter object
      */
-    class Response final
+    explicit Response(Pistache::Http::ResponseWriter& response) noexcept
+        : m_response{response}, m_sent{false}
     {
-        DEFAULT_DESTRUCTIBLE_FINAL_CLASS(Response)
+    }
 
-    public:
-        /// Response codes
-        enum class Code { Ok, BadRequest, ServerError };
+    /// Response codes
+    enum class Code
+    {
+        Ok,          ///< Represents response code 200 OK
+        BadRequest,  ///< Represents response code 400 Bad Request
+        ServerError  ///< Represents response code 500 Server Error
+    };
 
-        /** Constructor
-         *
-         * @param response is a reference to @c Pistache::Http::ResponseWriter object
-         */
-        explicit Response(Pistache::Http::ResponseWriter& response) noexcept
-            : m_response { response }
-            , m_sent { false }
-        { }
-
-        /** Send response
-         *
-         * @tparam Args are the types of arguments
-         * @param code is the response code
-         * @param body is the response body
-         * @param args are the arguments
-         */
-        template <typename... Args>
-        void send(const Code code, const std::string_view body, const Args&... args) noexcept
+    /** Send response
+     *
+     * @tparam Args are the types of arguments
+     * @param code is the response code
+     * @param body is the response body
+     * @param args are the arguments
+     */
+    template <typename... Args>
+    void send(const Code code, const std::string_view body, const Args&... args) noexcept
+    {
+        if (m_sent)
         {
-            if (m_sent)
-            {
-                return;
-            }
+            return;
+        }
 
-            switch (code)
-            {
+        switch (code)
+        {
             case Code::Ok:
                 m_response.send(Pistache::Http::Code::Ok,
                                 fmt::vformat(body, fmt::make_format_args(args...)));
@@ -69,30 +74,30 @@ namespace own::endpoint
                                 fmt::vformat(body, fmt::make_format_args(args...)));
                 m_sent = true;
                 return;
-            }
         }
+    }
 
-        /** Send JSON response
-         *
-         * @param code is the response code
-         * @param cake is the Cake object
-         */
-        void send(const Code code, const Cake& cake) noexcept
+    /** Send JSON response
+     *
+     * @param code is the response code
+     * @param cake is the Cake object
+     */
+    void send(const Code code, const Cake& cake) noexcept
+    {
+        if (not m_sent)
         {
-            if (not m_sent)
-            {
-                return send(code, "{}", cake.dump());
-            }
+            return send(code, "{}", cake.dump());
         }
+    }
 
-    private:
-        /// The Response object
-        Pistache::Http::ResponseWriter& m_response;
+   private:
+    /// The Response object
+    Pistache::Http::ResponseWriter& m_response;
 
-        /// Indicates if the response has been sent
-        bool m_sent;
-    };
+    /// Indicates if the response has been sent
+    bool m_sent;
+};
 
-} // namespace own::endpoint
+}  // namespace own::endpoint
 
 #endif
