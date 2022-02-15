@@ -12,7 +12,8 @@
 namespace own::db
 {
 
-/** Immutable data bindings for database query
+/**
+ * Immutable data bindings for database query
  *
  * We call it @c Values because of the `INSERT INTO table VALUES (val1, val2,...)`
  */
@@ -33,14 +34,13 @@ class Values final
      *
      * @tparam Value is the value type to cast
      * @param index is the index of values
-     *
      * @returns the value at @c index of values
      */
     template <typename Value>
-    [[nodiscard]] Value at(const size_t index) const
+    [[nodiscard]] const Value& at(const size_t index) const
     {
-        const auto value = m_self.at(index);
-        return std::any_cast<Value>(value);
+        const auto& value = m_self.at(index);
+        return std::any_cast<const Value&>(value);
     }
 
     /** Get begin const-iterator
