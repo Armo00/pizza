@@ -3,7 +3,8 @@ project("restapi-cxx")
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS true)
 set(CMAKE_CXX_STANDARD 20)
-add_compile_options(-Werror=all -Werror=extra -Wdocumentation -Wfatal-errors)
+add_compile_options(-Wall -Wextra -Wdocumentation -Werror -Wfatal-errors
+                    -Wno-error=documentation)
 
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 add_compile_definitions(CRYPTOPP_ENABLE_NAMESPACE_WEAK)
