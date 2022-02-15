@@ -9,6 +9,7 @@
 
 #include <external/fmt/all.h>
 #include <own/db/base/details.h>
+#include <own/db/columns.h>
 #include <own/db/values.h>
 #include <own/generic/types.h>
 #include <own/logging/logging.h>
@@ -53,9 +54,6 @@ class Database
      */
     explicit Database(const std::string_view name) : m_logger{name} {}
 
-    /// The Values
-    using Values = own::db::Values;
-
     /** Execute statement
      *
      * @tparam Args are the types of arguments
@@ -94,8 +92,8 @@ class Database
      * @param columns are the columns to insert
      * @param values are the values to insert
      */
-    void executeInsertInto(const std::string_view tableName,
-                           const std::vector<std::string>& columns, const Values& values)
+    void executeInsertInto(const std::string_view tableName, const Columns& columns,
+                           const Values& values)
     {
         /// Represents the INSERT INTO statement
         static constexpr std::string_view k_InsertInto{"INSERT INTO {} ({}) VALUES ({});"};
@@ -131,7 +129,7 @@ class Database
      * @param tableName is the table name
      * @returns the query result
      */
-    [[nodiscard]] std::vector<Values> executeSelectFrom(const std::vector<std::string>& columns,
+    [[nodiscard]] std::vector<Values> executeSelectFrom(const Columns& columns,
                                                         const std::string_view tableName)
     {
         /// Represents the SELECT statement
@@ -149,7 +147,7 @@ class Database
      * @param condition is the condition
      * @returns the query result
      */
-    [[nodiscard]] std::vector<Values> executeSelectFrom(const std::vector<std::string>& columns,
+    [[nodiscard]] std::vector<Values> executeSelectFrom(const Columns& columns,
                                                         const std::string_view tableName,
                                                         const std::string_view condition)
     {
