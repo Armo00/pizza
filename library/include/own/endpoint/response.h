@@ -42,7 +42,7 @@ namespace own::endpoint
          * @param args are the arguments
          */
         template <typename... Args>
-        void send(const Code code, const std::string_view body, const Args&... args)
+        void send(const Code code, const std::string_view body, const Args&... args) noexcept
         {
             if (m_sent)
             {
@@ -54,6 +54,7 @@ namespace own::endpoint
             case Code::Ok:
                 m_response.send(Pistache::Http::Code::Ok,
                                 fmt::vformat(body, fmt::make_format_args(args...)));
+                m_sent = true;
                 return;
 
             case Code::BadRequest:
@@ -67,9 +68,6 @@ namespace own::endpoint
                                 fmt::vformat(body, fmt::make_format_args(args...)));
                 m_sent = true;
                 return;
-
-            default:
-                throw std::logic_error { "That's not possible!" };
             }
         }
 

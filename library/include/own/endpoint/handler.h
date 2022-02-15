@@ -71,7 +71,7 @@ namespace own::endpoint
          * @param response is the @c Pistache::Http::ResponseWriter object
          */
         void handleRequest(const Pistache::Rest::Request& request,
-                           Pistache::Http::ResponseWriter response)
+                           Pistache::Http::ResponseWriter response) noexcept
         {
             const Request requestWrapper { request };
             Response responseWrapper { response };

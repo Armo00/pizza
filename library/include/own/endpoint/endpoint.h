@@ -61,7 +61,7 @@ namespace own::endpoint
          * @param port is the port on which the server listens on
          * @param threads means how many threads to open
          */
-        void serveOn(const std::string_view ip, const uint16_t port, const int threads)
+        void serveOn(const std::string_view ip, const uint16_t port, const int threads) noexcept
         {
             const Pistache::Address address { ip.data(), port };
             m_self = std::make_unique<Pistache::Http::Endpoint>(address);
@@ -106,7 +106,7 @@ namespace own::endpoint
      * @param port is the port on which the server listens on
      * @param threads means how many threads to open
      */
-    inline void serveOn(const std::string_view ip, const uint16_t port, const int threads)
+    inline void serveOn(const std::string_view ip, const uint16_t port, const int threads) noexcept
     {
         auto& endpoint = Endpoint::getEndpoint();
         endpoint.serveOn(ip, port, threads);
