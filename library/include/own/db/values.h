@@ -24,6 +24,7 @@ class Values final
      *
      * @tparam Args are the types of arguments
      * @param args are the data to bind
+     * @warning Behaviour of constructing Values into an `object` is NOT defined.
      */
     template <typename... Args>
     explicit Values(const Args&... args) noexcept : m_self{args...}
@@ -37,10 +38,9 @@ class Values final
      * @returns the value at @c index of values
      */
     template <typename Value>
-    [[nodiscard]] const Value& at(const size_t index) const
+    [[nodiscard]] const Value& at(const size_t index) const noexcept
     {
-        const auto& value = m_self.at(index);
-        return std::any_cast<const Value&>(value);
+        return m_self.at(index).get_ref<const Value&>();
     }
 
     /** Get begin const-iterator
@@ -56,7 +56,8 @@ class Values final
     [[nodiscard]] auto end() const noexcept { return m_self.end(); }
 
    private:
-    const std::vector<std::any> m_self;
+    /// The Values itself
+    const nlohmann::json m_self;
 };
 
 }  // namespace own::db

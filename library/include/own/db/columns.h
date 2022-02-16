@@ -43,6 +43,7 @@ class Columns final
     [[nodiscard]] auto end() const noexcept { return m_self.end(); }
 
    private:
+    /// The Columns itself
     const std::vector<std::string_view> m_self;
 };
 

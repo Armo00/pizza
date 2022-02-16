@@ -25,7 +25,7 @@ class Database final : public base::Database
      * @param name is the name of database
      * @param path is the path to the database file
      */
-    explicit Database(const std::string_view name, const std::string_view path)
+    explicit Database(const std::string_view name, const std::string_view path) noexcept
         : base::Database{name}, m_connection{path.data(), SQLite::OPEN_READWRITE}
     {
     }
@@ -35,7 +35,7 @@ class Database final : public base::Database
      *
      * @param statement is the statement to execute
      */
-    void doStatementExecution(const std::string_view statement) final
+    void doStatementExecution(const std::string_view statement) noexcept final
     {
         SQLite::Statement query{m_connection, statement.data()};
         query.exec();
@@ -46,13 +46,13 @@ class Database final : public base::Database
      * @param result is passed in to store the query result
      * @param statement is the statement to execute
      */
-    void doStatementExecution(std::vector<Values>& result, const std::string_view statement) final
+    void doStatementExecution(std::vector<Values>& result,
+                              const std::string_view statement) noexcept final
     {
         SQLite::Statement query{m_connection, statement.data()};
         while (query.executeStep())
         {
-            std::vector<std::any> resultStep;
-            resultStep.reserve(query.getColumnCount());
+            auto resultStep = nlohmann::json::array();
             for (int index = 0; index < query.getColumnCount(); ++index)
             {
                 resultStep.emplace_back(details::getColumn(query, index));

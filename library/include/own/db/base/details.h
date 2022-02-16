@@ -17,85 +17,60 @@ namespace own::db::base::details
  * @param obj is the @c any object
  * @returns the "SQL-encoded" string
  */
-[[nodiscard]] inline std::string toSqlEncodedString(const std::any& obj)
+[[nodiscard]] inline std::string toSqlEncodedString(const nlohmann::json& obj) noexcept
 {
     /// Represents the @c NULL value
-    static constexpr std::string_view k_NullValue{"NULL"};
+    static constexpr std::string_view k_Null{"NULL"};
 
     /// Represents a quoted string
     static constexpr std::string_view k_Quoted{"\'{}\'"};
 
-    if (obj.type() == typeid(void))
+    /// Represents a boolean false
+    /// @note Since there's no such type as boolean in SQL, 0 means false
+    static constexpr std::string_view k_False{"0"};
+
+    /// Represents a boolean true
+    /// @note Since there's no such type as boolean in SQL, 1 means true
+    static constexpr std::string_view k_True{"1"};
+
+    if (obj.is_null())
     {
-        return k_NullValue.data();
+        return k_Null.data();
     }
 
-    if (obj.type() == typeid(int8_t))
+    if (obj.is_string())
     {
-        return std::to_string(std::any_cast<int8_t>(obj));
+        // SQL statement requires strings to be quoted, so there we go..
+        return fmt::vformat(k_Quoted, fmt::make_format_args(obj.get_ref<const std::string&>()));
     }
 
-    if (obj.type() == typeid(int16_t))
+    if (obj.is_boolean())
     {
-        return std::to_string(std::any_cast<int16_t>(obj));
+        return (obj.get<bool>() ? k_True.data() : k_False.data());
     }
 
-    if (obj.type() == typeid(int32_t))
+    if (obj.is_number_float())
     {
-        return std::to_string(std::any_cast<int32_t>(obj));
+        // By default, nlohmann::json uses double to represent float numbers
+        return std::to_string(obj.get<double_t>());
     }
 
-    if (obj.type() == typeid(int64_t))
+    if (obj.is_number_integer())
     {
-        return std::to_string(std::any_cast<int64_t>(obj));
+        // By default, nlohmann::json uses int64 to represent signed integers
+        return std::to_string(obj.get<intmax_t>());
     }
 
-    if (obj.type() == typeid(uint8_t))
+    if (obj.is_number_unsigned())
     {
-        return std::to_string(std::any_cast<uint8_t>(obj));
+        // By default, nlohmann::json uses uint64 to represent unsigned integers
+        return std::to_string(obj.get<uintmax_t>());
     }
 
-    if (obj.type() == typeid(uint16_t))
-    {
-        return std::to_string(std::any_cast<uint16_t>(obj));
-    }
-
-    if (obj.type() == typeid(uint32_t))
-    {
-        return std::to_string(std::any_cast<uint32_t>(obj));
-    }
-
-    if (obj.type() == typeid(uint64_t))
-    {
-        return std::to_string(std::any_cast<uint64_t>(obj));
-    }
-
-    if (obj.type() == typeid(float))
-    {
-        return std::to_string(std::any_cast<float>(obj));
-    }
-
-    if (obj.type() == typeid(double))
-    {
-        return std::to_string(std::any_cast<double>(obj));
-    }
-
-    if (obj.type() == typeid(std::string))
-    {
-        return fmt::format(k_Quoted, std::any_cast<const std::string&>(obj));
-    }
-
-    if (obj.type() == typeid(std::string_view))
-    {
-        return fmt::format(k_Quoted, std::any_cast<std::string_view>(obj));
-    }
-
-    if (obj.type() == typeid(const char*))
-    {
-        return fmt::format(k_Quoted, std::any_cast<const char*>(obj));
-    }
-
-    throw std::runtime_error{"`obj' cannot be SQL encoded."};
+    // `obj` is not primitive and therefore cannot be SQL-encoded, but we struggle to try dumping it
+    // anyway, and if even dumping fails, it suggests that the application is ill-formed enough to
+    // get terminated immediately
+    return obj.dump();
 }
 
 }  // namespace own::db::base::details

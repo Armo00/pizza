@@ -31,7 +31,7 @@ class Database
      *
      * @param statement is the statement to execute
      */
-    virtual void doStatementExecution([[maybe_unused]] const std::string_view statement)
+    virtual void doStatementExecution([[maybe_unused]] const std::string_view statement) noexcept
     {
         m_logger.warn("`doStatementExecution' is not implemented!");
     }
@@ -42,7 +42,7 @@ class Database
      * @param statement is the statement to execute
      */
     virtual void doStatementExecution([[maybe_unused]] std::vector<Values>& result,
-                                      [[maybe_unused]] const std::string_view statement)
+                                      [[maybe_unused]] const std::string_view statement) noexcept
     {
         m_logger.warn("`doStatementExecution' is not implemented!");
     }
@@ -52,7 +52,7 @@ class Database
      *
      * @param name is the name of database
      */
-    explicit Database(const std::string_view name) : m_logger{name} {}
+    explicit Database(const std::string_view name) noexcept : m_logger{name} {}
 
     /** Execute statement
      *
@@ -61,7 +61,7 @@ class Database
      * @param args are the data to bind
      */
     template <typename... Args>
-    void executeStatement(const std::string_view statement, const Args&... args)
+    void executeStatement(const std::string_view statement, const Args&... args) noexcept
     {
         m_logger.debug(statement, args...);
 
@@ -78,7 +78,7 @@ class Database
      */
     template <typename... Args>
     void executeStatement(std::vector<Values>& result, const std::string_view statement,
-                          const Args&... args)
+                          const Args&... args) noexcept
     {
         m_logger.debug(statement, args...);
 
@@ -93,7 +93,7 @@ class Database
      * @param values are the values to insert
      */
     void executeInsertInto(const std::string_view tableName, const Columns& columns,
-                           const Values& values)
+                           const Values& values) noexcept
     {
         /// Represents the INSERT INTO statement
         static constexpr std::string_view k_InsertInto{"INSERT INTO {} ({}) VALUES ({});"};
@@ -111,7 +111,7 @@ class Database
      * @param tableName is the table name
      * @param values are the values to insert
      */
-    void executeInsertInto(const std::string_view tableName, const Values& values)
+    void executeInsertInto(const std::string_view tableName, const Values& values) noexcept
     {
         /// Represents the INSERT INTO statement
         static constexpr std::string_view k_InsertInto{"INSERT INTO {} VALUES ({});"};
@@ -125,12 +125,12 @@ class Database
 
     /** Execute SELECT statement
      *
-     * @param columns are the columns to select from
      * @param tableName is the table name
+     * @param columns are the columns to select from
      * @returns the query result
      */
-    [[nodiscard]] std::vector<Values> executeSelectFrom(const Columns& columns,
-                                                        const std::string_view tableName)
+    [[nodiscard]] std::vector<Values> executeSelectFrom(const std::string_view tableName,
+                                                        const Columns& columns) noexcept
     {
         /// Represents the SELECT statement
         static constexpr std::string_view k_SelectFrom{"SELECT {} FROM {};"};
@@ -142,20 +142,26 @@ class Database
 
     /** Execute SELECT statement
      *
-     * @param columns are the columns to select from
+     * @tparam Args are the types of arguments
      * @param tableName is the table name
-     * @param condition is the condition
+     * @param columns are the columns to select from
+     * @param condition is the condition expression
+     * @param args are the values for plugging-in to the condition
+     *
      * @returns the query result
      */
-    [[nodiscard]] std::vector<Values> executeSelectFrom(const Columns& columns,
-                                                        const std::string_view tableName,
-                                                        const std::string_view condition)
+    template <typename... Args>
+    [[nodiscard]] std::vector<Values> executeSelectFrom(const std::string_view tableName,
+                                                        const Columns& columns,
+                                                        const std::string_view condition,
+                                                        const Args&... args) noexcept
     {
         /// Represents the SELECT statement
         static constexpr std::string_view k_SelectFrom{"SELECT {} FROM {} WHERE {};"};
 
         std::vector<Values> result{};
-        executeStatement(result, k_SelectFrom, fmt::join(columns, ", "), tableName, condition);
+        executeStatement(result, k_SelectFrom, fmt::join(columns, ", "), tableName,
+                         fmt::vformat(condition, fmt::make_format_args(args...)));
         return result;
     }
 

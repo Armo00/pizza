@@ -63,16 +63,10 @@ class HelloHandler : public own::endpoint::Handler
 
     void sendResponse(const Cake& cake, Response& response) const override
     {
+        response.send(Response::Code::Ok, cake);
+
         const auto& downloadPath = cake.at<std::string>("download_path");
-        if (not downloadPath.empty())
-        {
-            response.send(Response::Code::Ok, cake);
-            m_logger.info("File successfully stored to {} on server", downloadPath);
-        }
-        else
-        {
-            throw std::runtime_error{"The cake is a lie."};
-        }
+        m_logger.info("File successfully stored to {} on server", downloadPath);
     }
 
    private:
