@@ -11,7 +11,7 @@
 #include <own/db/base/details.h>
 #include <own/db/columns.h>
 #include <own/db/values.h>
-#include <own/generic/types.h>
+#include <own/generic/support.h>
 #include <own/logging/logging.h>
 
 namespace own::db::base
@@ -24,7 +24,7 @@ namespace own::db::base
  */
 class Database
 {
-    DEFAULT_DESTRUCTIBLE_BASE_CLASS(Database)
+    DESTRUCTIBLE_BASE_CLASS(Database)
 
    private:
     /** Do statement execution

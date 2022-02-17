@@ -10,7 +10,7 @@
 #include <external/fmt/all.h>
 #include <external/pistache/all.h>
 #include <own/endpoint/cake.h>
-#include <own/generic/types.h>
+#include <own/generic/support.h>
 
 namespace own::endpoint
 {
@@ -20,7 +20,7 @@ namespace own::endpoint
  */
 class Response final
 {
-    DEFAULT_DESTRUCTIBLE_FINAL_CLASS(Response)
+    DESTRUCTIBLE_FINAL_CLASS(Response)
 
    public:
     /** Constructor

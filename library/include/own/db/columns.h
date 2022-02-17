@@ -7,7 +7,7 @@
 #ifndef OWN_DB_COLUMNS_INCLUDED
 #define OWN_DB_COLUMNS_INCLUDED
 
-#include <own/generic/types.h>
+#include <own/generic/support.h>
 
 namespace own::db
 {

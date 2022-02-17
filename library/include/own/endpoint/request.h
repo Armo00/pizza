@@ -9,7 +9,7 @@
 
 #include <external/cpr/all.h>
 #include <external/pistache/all.h>
-#include <own/generic/types.h>
+#include <own/generic/support.h>
 
 namespace own::endpoint
 {
@@ -19,7 +19,7 @@ namespace own::endpoint
  */
 class Request final
 {
-    DEFAULT_DESTRUCTIBLE_FINAL_CLASS(Request)
+    DESTRUCTIBLE_FINAL_CLASS(Request)
 
    public:
     /// Request methods

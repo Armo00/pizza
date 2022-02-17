@@ -1,11 +1,11 @@
 /**
- * @file own/generic/types.h
- * @brief Enable types defined under namespace std
+ * @file own/generic/support.h
+ * @brief Generic supports for creative coding.
  * @copyright Copyleft 2021-2022 "unrealinsanity". All rights reversed.
  */
 
-#ifndef GENERIC_TYPES_INCLUDED
-#define GENERIC_TYPES_INCLUDED
+#ifndef GENERIC_SUPPORT_INCLUDED
+#define GENERIC_SUPPORT_INCLUDED
 
 #include <external/cppitertools/all.h>
 #include <external/frozen/all.h>
@@ -35,19 +35,19 @@
     IMMOVEABLE_CLASS(ClassName)
 #endif
 
-#ifndef DEFAULT_DESTRUCTIBLE_BASE_CLASS
-#define DEFAULT_DESTRUCTIBLE_BASE_CLASS(ClassName) \
-   public:                                         \
-    NOT_COPYABLE_AND_IMMOVEABLE_CLASS(ClassName)   \
-   public:                                         \
+#ifndef DESTRUCTIBLE_BASE_CLASS
+#define DESTRUCTIBLE_BASE_CLASS(ClassName)       \
+   public:                                       \
+    NOT_COPYABLE_AND_IMMOVEABLE_CLASS(ClassName) \
+   public:                                       \
     virtual ~ClassName() noexcept = default;
 #endif
 
-#ifndef DEFAULT_DESTRUCTIBLE_FINAL_CLASS
-#define DEFAULT_DESTRUCTIBLE_FINAL_CLASS(ClassName) \
-   public:                                          \
-    NOT_COPYABLE_AND_IMMOVEABLE_CLASS(ClassName)    \
-   public:                                          \
+#ifndef DESTRUCTIBLE_FINAL_CLASS
+#define DESTRUCTIBLE_FINAL_CLASS(ClassName)      \
+   public:                                       \
+    NOT_COPYABLE_AND_IMMOVEABLE_CLASS(ClassName) \
+   public:                                       \
     ~ClassName() noexcept = default;
 #endif
 
@@ -65,6 +65,21 @@
    private:                                                   \
     explicit ClassName() noexcept = default;                  \
     ~ClassName() noexcept = default;
+#endif
+
+#ifndef STATIC_CLASS
+#define STATIC_CLASS(ClassName)                  \
+   public:                                       \
+    NOT_COPYABLE_AND_IMMOVEABLE_CLASS(ClassName) \
+   private:                                      \
+    explicit ClassName() noexcept = default;     \
+    ~ClassName() noexcept = default;
+#endif
+
+#ifndef RUNTIME_ASSERT
+#define RUNTIME_ASSERT(Statement)                                                                  \
+    /* NOLINTNEXTLINE(hicpp-no-array-decay,cppcoreguidelines-pro-bounds-array-to-pointer-decay) */ \
+    assert(Statement);
 #endif
 
 #endif

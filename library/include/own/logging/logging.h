@@ -87,7 +87,7 @@ void fatal(const std::string_view where, const std::string_view what, const Args
  */
 class Logger final
 {
-    DEFAULT_DESTRUCTIBLE_FINAL_CLASS(Logger)
+    DESTRUCTIBLE_FINAL_CLASS(Logger)
 
    public:
     /** Constructor

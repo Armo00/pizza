@@ -9,7 +9,7 @@
 
 #include <external/pistache/all.h>
 #include <own/endpoint/handler.h>
-#include <own/generic/types.h>
+#include <own/generic/support.h>
 #include <own/logging/logging.h>
 
 /**

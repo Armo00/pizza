@@ -10,7 +10,7 @@
 #include <own/endpoint/cake.h>
 #include <own/endpoint/request.h>
 #include <own/endpoint/response.h>
-#include <own/generic/types.h>
+#include <own/generic/support.h>
 #include <own/logging/logging.h>
 
 /**
@@ -25,7 +25,7 @@ namespace own::endpoint
  */
 class Handler
 {
-    DEFAULT_DESTRUCTIBLE_BASE_CLASS(Handler)
+    DESTRUCTIBLE_BASE_CLASS(Handler)
 
    private:
     /** Prepare the handler

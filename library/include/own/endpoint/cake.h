@@ -7,7 +7,7 @@
 #ifndef OWN_ENDPOINT_CAKE_INCLUDED
 #define OWN_ENDPOINT_CAKE_INCLUDED
 
-#include <own/generic/types.h>
+#include <own/generic/support.h>
 
 #include <utility>
 
@@ -25,11 +25,14 @@ namespace own::endpoint
  */
 class Cake final
 {
-    DEFAULT_DESTRUCTIBLE_FINAL_CLASS(Cake)
+    DESTRUCTIBLE_FINAL_CLASS(Cake)
 
    public:
     /// Constructor
-    explicit Cake() noexcept : m_self{nlohmann::json::object()} {}
+    explicit Cake() noexcept : m_self{nlohmann::json::object()}
+    {
+        RUNTIME_ASSERT(m_self.is_object() && "Cake is not an object")
+    }
 
     /** The @c emplace method
      *

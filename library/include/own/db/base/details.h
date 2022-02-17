@@ -8,7 +8,7 @@
 #define OWN_DB_BASE_DETAILS_INCLUDED
 
 #include <external/fmt/all.h>
-#include <own/generic/types.h>
+#include <own/generic/support.h>
 
 namespace own::db::base::details
 {

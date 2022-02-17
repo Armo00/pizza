@@ -7,7 +7,7 @@
 #ifndef OWN_DB_VALUES_INCLUDED
 #define OWN_DB_VALUES_INCLUDED
 
-#include <own/generic/types.h>
+#include <own/generic/support.h>
 
 namespace own::db
 {
@@ -24,11 +24,11 @@ class Values final
      *
      * @tparam Args are the types of arguments
      * @param args are the data to bind
-     * @warning Behaviour of constructing Values into an `object` is NOT defined.
      */
     template <typename... Args>
     explicit Values(const Args&... args) noexcept : m_self{args...}
     {
+        RUNTIME_ASSERT(m_self.is_array() && "Values is not an array")
     }
 
     /** The read-only @c at method

@@ -8,7 +8,7 @@
 #define OWN_DB_SQLITE3_DETAILS_INCLUDED
 
 #include <external/sqlitecpp/all.h>
-#include <own/generic/types.h>
+#include <own/generic/support.h>
 
 namespace own::db::sqlite::details
 {

@@ -6,7 +6,7 @@
 
 #include <external/fmt/all.h>
 #include <own/endpoint/endpoint.h>
-#include <own/generic/types.h>
+#include <own/generic/support.h>
 
 int main(const int argc, const char** argv)
 {

@@ -10,7 +10,7 @@
 #include <external/cxxopts/all.h>
 #include <own/endpoint/details.h>
 #include <own/endpoint/handler.h>
-#include <own/generic/types.h>
+#include <own/generic/support.h>
 #include <own/logging/logging.h>
 #include <pistache/endpoint.h>
 #include <pistache/http.h>
@@ -142,13 +142,13 @@ inline void serveOn(const std::string_view ip, const uint16_t port, const int th
             return result;
         }
         fmt::print(stdout, "\n{}\n", options.help());
-        std::exit(0);  // NOLINT(concurrency-mt-unsafe)
+        std::exit(0);  // NOLINT
     }
     catch (const cxxopts::option_not_exists_exception& e)
     {
         own::logging::fatal("endpoint", e.what());
         fmt::print(stdout, "\n{}\n", options.help());
-        std::exit(1);  // NOLINT(concurrency-mt-unsafe)
+        std::exit(1);  // NOLINT
     }
 }
 

@@ -7,7 +7,7 @@
 #include <external/cpr/all.h>
 #include <own/endpoint/endpoint.h>
 #include <own/endpoint/handler.h>
-#include <own/generic/types.h>
+#include <own/generic/support.h>
 
 namespace
 {

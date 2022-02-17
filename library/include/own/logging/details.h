@@ -8,7 +8,7 @@
 #define LOGGING_DETAILS_INCLUDED
 
 #include <external/fmt/all.h>
-#include <own/generic/types.h>
+#include <own/generic/support.h>
 
 /**
  * Namespace where all logging related implementations gathered
