@@ -8,6 +8,7 @@
 
 #include <own/db/base/details.h>
 #include <own/db/columns.h>
+#include <own/db/condition.h>
 #include <own/db/values.h>
 #include <own/generic/support.h>
 #include <own/logging/logging.h>
@@ -141,27 +142,22 @@ class Database
 
     /** Execute SELECT statement
      *
-     * @tparam Args are the types of arguments
      * @param tableName is the table name
      * @param columns are the columns to select from
      * @param condition is the condition expression
-     * @param args are the values for plugging-in to the condition
      *
      * @returns the query result
      */
-    template <typename... Args>
     [[nodiscard]] std::vector<Values> executeSelectFrom(const std::string_view tableName,
                                                         const Columns& columns,
-                                                        const std::string_view condition,
-                                                        const Args&... args) noexcept
+                                                        const Condition& condition) noexcept
     {
         /// Represents the SELECT statement
         static constexpr std::string_view k_SelectFrom{"SELECT {} FROM {} WHERE {};"};
         const auto joinedColumns = fmt::join(columns, ", ");
 
         std::vector<Values> result{};
-        executeStatement(result, k_SelectFrom, joinedColumns, tableName,
-                         fmt::vformat(condition, fmt::make_format_args(args...)));
+        executeStatement(result, k_SelectFrom, joinedColumns, tableName, *condition);
         return result;
     }
 
