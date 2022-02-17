@@ -4,8 +4,7 @@
  * @copyright Copyleft 2022 "unrealinsanity". All rights reversed.
  */
 
-#ifndef OWN_DB_COLUMNS_INCLUDED
-#define OWN_DB_COLUMNS_INCLUDED
+#pragma once
 
 #include <own/generic/support.h>
 
@@ -15,10 +14,12 @@ namespace own::db
 /**
  * Immutable data bindings for iterating table columns
  *
- * We call it column because sqlitecpp call it columns as well.
+ * We call it Columns because sqlitecpp call it Column as well.
  */
 class Columns final
 {
+    DEFAULT_DESTRUCTIBLE_FINAL_CLASS(Columns)
+
    public:
     /** Constructor
      *
@@ -48,5 +49,3 @@ class Columns final
 };
 
 }  // namespace own::db
-
-#endif

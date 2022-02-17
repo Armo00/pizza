@@ -4,10 +4,8 @@
  * @copyright Copyleft 2022 "unrealinsanity". All rights reversed.
  */
 
-#ifndef OWN_ENDPOINT_PISTACHE_RESPONSE_INCLUDED
-#define OWN_ENDPOINT_PISTACHE_RESPONSE_INCLUDED
+#pragma once
 
-#include <external/fmt/all.h>
 #include <external/pistache/all.h>
 #include <own/endpoint/cake.h>
 #include <own/generic/support.h>
@@ -20,7 +18,7 @@ namespace own::endpoint
  */
 class Response final
 {
-    DESTRUCTIBLE_FINAL_CLASS(Response)
+    DEFAULT_DESTRUCTIBLE_FINAL_CLASS(Response)
 
    public:
     /** Constructor
@@ -99,5 +97,3 @@ class Response final
 };
 
 }  // namespace own::endpoint
-
-#endif

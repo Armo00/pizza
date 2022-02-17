@@ -4,8 +4,7 @@
  * @copyright Copyleft 2022 "unrealinsanity". All rights reversed.
  */
 
-#ifndef OWN_DB_SQLITE_DB_INCLUDED
-#define OWN_DB_SQLITE_DB_INCLUDED
+#pragma once
 
 #include <external/sqlitecpp/all.h>
 #include <own/db/base/db.h>
@@ -65,5 +64,3 @@ class Database final : public base::Database
     SQLite::Database m_connection;
 };
 }  // namespace own::db::sqlite
-
-#endif

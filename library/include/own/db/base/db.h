@@ -4,10 +4,8 @@
  * @copyright Copyleft 2022 "unrealinsanity". All rights reversed.
  */
 
-#ifndef OWN_DB_BASE_DB_INCLUDED
-#define OWN_DB_BASE_DB_INCLUDED
+#pragma once
 
-#include <external/fmt/all.h>
 #include <own/db/base/details.h>
 #include <own/db/columns.h>
 #include <own/db/values.h>
@@ -24,7 +22,7 @@ namespace own::db::base
  */
 class Database
 {
-    DESTRUCTIBLE_BASE_CLASS(Database)
+    DEFAULT_DESTRUCTIBLE_BASE_CLASS(Database)
 
    private:
     /** Do statement execution
@@ -134,9 +132,10 @@ class Database
     {
         /// Represents the SELECT statement
         static constexpr std::string_view k_SelectFrom{"SELECT {} FROM {};"};
+        const auto joinedColumns = fmt::join(columns, ", ");
 
         std::vector<Values> result{};
-        executeStatement(result, k_SelectFrom, fmt::join(columns, ", "), tableName);
+        executeStatement(result, k_SelectFrom, joinedColumns, tableName);
         return result;
     }
 
@@ -158,9 +157,10 @@ class Database
     {
         /// Represents the SELECT statement
         static constexpr std::string_view k_SelectFrom{"SELECT {} FROM {} WHERE {};"};
+        const auto joinedColumns = fmt::join(columns, ", ");
 
         std::vector<Values> result{};
-        executeStatement(result, k_SelectFrom, fmt::join(columns, ", "), tableName,
+        executeStatement(result, k_SelectFrom, joinedColumns, tableName,
                          fmt::vformat(condition, fmt::make_format_args(args...)));
         return result;
     }
@@ -171,5 +171,3 @@ class Database
 };
 
 }  // namespace own::db::base
-
-#endif

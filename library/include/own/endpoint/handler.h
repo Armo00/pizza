@@ -4,8 +4,7 @@
  * @copyright Copyleft 2022 "unrealinsanity". All rights reversed.
  */
 
-#ifndef OWN_ENDPOINT_PISTACHE_HANDLER_INCLUDED
-#define OWN_ENDPOINT_PISTACHE_HANDLER_INCLUDED
+#pragma once
 
 #include <own/endpoint/cake.h>
 #include <own/endpoint/request.h>
@@ -25,7 +24,7 @@ namespace own::endpoint
  */
 class Handler
 {
-    DESTRUCTIBLE_BASE_CLASS(Handler)
+    DEFAULT_DESTRUCTIBLE_BASE_CLASS(Handler)
 
    private:
     /** Prepare the handler
@@ -147,5 +146,3 @@ class Handler
 };
 
 }  // namespace own::endpoint
-
-#endif

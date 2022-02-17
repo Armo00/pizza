@@ -4,10 +4,7 @@
  * @copyright Copyleft 2022 "unrealinsanity". All rights reversed.
  */
 
-#ifndef EXTERNAL_STDUUID_ALL_INCLUDED
-#define EXTERNAL_STDUUID_ALL_INCLUDED
+#pragma once
 
 #include <uuid.h>
 #include <uuid/uuid.h>
-
-#endif

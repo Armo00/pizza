@@ -4,9 +4,6 @@
  * @copyright Copyleft 2021-2022 "unrealinsanity". All rights reversed.
  */
 
-#ifndef EXTERNAL_ITERTOOLS_SUPPORT_INCLUDED
-#define EXTERNAL_ITERTOOLS_SUPPORT_INCLUDED
+#pragma once
 
 #include <cppitertools/itertools.hpp>
-
-#endif

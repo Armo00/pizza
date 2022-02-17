@@ -18,7 +18,7 @@ class HelloHandler : public own::endpoint::Handler
     static constexpr std::string_view k_Name = "hello";
 
     static constexpr auto k_Api = std::to_array<ApiDesc>({
-        { Request::Method::Get, "/hello"},
+        {Request::Method::Get,  "/hello"},
         {Request::Method::Post, "/hello"},
     });
 

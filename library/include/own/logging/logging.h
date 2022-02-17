@@ -4,8 +4,7 @@
  * @copyright Copyleft 2021-2022 "unrealinsanity". All rights reversed.
  */
 
-#ifndef LOGGING_LOGGING_INCLUDED
-#define LOGGING_LOGGING_INCLUDED
+#pragma once
 
 #include "details.h"
 
@@ -87,7 +86,7 @@ void fatal(const std::string_view where, const std::string_view what, const Args
  */
 class Logger final
 {
-    DESTRUCTIBLE_FINAL_CLASS(Logger)
+    DEFAULT_DESTRUCTIBLE_FINAL_CLASS(Logger)
 
    public:
     /** Constructor
@@ -166,5 +165,3 @@ class Logger final
 };
 
 }  // namespace own::logging
-
-#endif

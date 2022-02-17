@@ -4,11 +4,8 @@
  * @copyright Copyleft 2021-2022 "unrealinsanity". All rights reversed.
  */
 
-#ifndef EXTERNAL_SQLITECPP_SUPPORT_INCLUDED
-#define EXTERNAL_SQLITECPP_SUPPORT_INCLUDED
+#pragma once
 
 #include <SQLiteCpp/Database.h>
 #include <SQLiteCpp/SQLiteCpp.h>
 #include <SQLiteCpp/Statement.h>
-
-#endif

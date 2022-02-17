@@ -4,9 +4,6 @@
  * @copyright Copyleft "unrealinsanity". All rights reversed.
  */
 
-#ifndef EXTERNAL_CXXOPTS_ALL_INCLUDED
-#define EXTERNAL_CXXOPTS_ALL_INCLUDED
+#pragma once
 
 #include <cxxopts.hpp>
-
-#endif

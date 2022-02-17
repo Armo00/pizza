@@ -4,9 +4,6 @@
  * @copyright Copyleft 2021-2022 "unrealinsanity". All rights reversed.
  */
 
-#ifndef EXTERNAL_LIBPQXX_SUPPORT_INCLUDED
-#define EXTERNAL_LIBPQXX_SUPPORT_INCLUDED
+#pragma once
 
 #include <pqxx/pqxx>
-
-#endif

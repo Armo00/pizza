@@ -4,10 +4,8 @@
  * @copyright Copyleft 2022 "unrealinsanity". All rights reversed.
  */
 
-#ifndef OWN_DB_BASE_DETAILS_INCLUDED
-#define OWN_DB_BASE_DETAILS_INCLUDED
+#pragma once
 
-#include <external/fmt/all.h>
 #include <own/generic/support.h>
 
 namespace own::db::base::details
@@ -74,5 +72,3 @@ namespace own::db::base::details
 }
 
 }  // namespace own::db::base::details
-
-#endif

@@ -4,7 +4,6 @@
  * @copyright Copyleft 2022 "unrealinsanity". All rights reversed.
  */
 
-#include <external/fmt/all.h>
 #include <own/endpoint/endpoint.h>
 #include <own/generic/support.h>
 

@@ -4,8 +4,7 @@
  * @copyright Copyleft 2022 "unrealinsanity". All rights reversed.
  */
 
-#ifndef OWN_GENERIC_COMPUTE_HASH_INCLUDED
-#define OWN_GENERIC_COMPUTE_HASH_INCLUDED
+#pragma once
 
 #include <external/openssl/hash.h>
 #include <own/generic/support.h>
@@ -32,8 +31,8 @@ class Hash final
      * @param needLower indicates if the output should be lower cased
      * @returns the printable hash
      */
-    [[nodiscard]] static inline auto makePrintableHash(const std::span<const u_char> rawHash,
-                                                       const Hash::NeedLowerCase needLower)
+    [[nodiscard]] static auto makePrintableHash(const std::span<const u_char> rawHash,
+                                                const Hash::NeedLowerCase needLower)
     {
         std::string result;
         result.resize(rawHash.size() * 2);
@@ -53,8 +52,8 @@ class Hash final
      * @param needLower indicates if the output should be lower cased
      * @returns the hashed message
      */
-    [[nodiscard]] static inline auto computeMd5Hash(const std::string_view message,
-                                                    const Hash::NeedLowerCase needLower) noexcept
+    [[nodiscard]] static auto computeMd5Hash(const std::string_view message,
+                                             const Hash::NeedLowerCase needLower) noexcept
     {
         std::vector<u_char> result;
         result.resize(MD5_DIGEST_LENGTH);
@@ -76,8 +75,8 @@ class Hash final
      * @param needLower indicates if the output should be lower cased
      * @returns the hashed message
      */
-    [[nodiscard]] static inline auto computeSha256Hash(const std::string_view message,
-                                                       const Hash::NeedLowerCase needLower) noexcept
+    [[nodiscard]] static auto computeSha256Hash(const std::string_view message,
+                                                const Hash::NeedLowerCase needLower) noexcept
     {
         std::vector<u_char> result;
         result.resize(SHA256_DIGEST_LENGTH);
@@ -117,5 +116,3 @@ class Hash final
 }
 
 }  // namespace own::hash
-
-#endif

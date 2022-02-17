@@ -4,12 +4,9 @@
  * @copyright Copyleft 2022 "unrealinsanity". All rights reversed.
  */
 
-#ifndef OWN_ENDPOINT_CAKE_INCLUDED
-#define OWN_ENDPOINT_CAKE_INCLUDED
+#pragma once
 
 #include <own/generic/support.h>
-
-#include <utility>
 
 namespace own::endpoint
 {
@@ -25,7 +22,7 @@ namespace own::endpoint
  */
 class Cake final
 {
-    DESTRUCTIBLE_FINAL_CLASS(Cake)
+    DEFAULT_DESTRUCTIBLE_FINAL_CLASS(Cake)
 
    public:
     /// Constructor
@@ -78,5 +75,3 @@ class Cake final
 };
 
 }  // namespace own::endpoint
-
-#endif

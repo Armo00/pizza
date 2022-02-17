@@ -4,15 +4,15 @@
  * @copyright Copyleft 2021-2022 "unrealinsanity". All rights reversed.
  */
 
-#ifndef EXTERNAL_STD_ALL_INCLUDED
-#define EXTERNAL_STD_ALL_INCLUDED
-
 /*
  * Don't ask me about why std is considered as external.
  */
 
+#pragma once
+
 #include <algorithm>
 #include <any>
+#include <cassert>
 #include <chrono>
 #include <concepts>
 #include <cstdint>
@@ -31,6 +31,5 @@
 #include <string_view>
 #include <tuple>
 #include <unordered_map>
+#include <utility>
 #include <vector>
-
-#endif

@@ -4,8 +4,7 @@
  * @copyright Copyleft 2022 "unrealinsanity". All rights reversed.
  */
 
-#ifndef OWN_ENDPOINT_PISTACHE_DETAILS_INCLUDED
-#define OWN_ENDPOINT_PISTACHE_DETAILS_INCLUDED
+#pragma once
 
 #include <external/pistache/all.h>
 #include <own/endpoint/handler.h>
@@ -58,5 +57,3 @@ inline void addHandler(Pistache::Rest::Router& router, Handler& handler,
 }
 
 }  // namespace own::endpoint::details
-
-#endif

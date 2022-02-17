@@ -4,8 +4,7 @@
  * @copyright Copyleft 2022 "unrealinsanity". All rights reversed.
  */
 
-#ifndef OWN_ENDPOINT_PISTACHE_INCLUDED
-#define OWN_ENDPOINT_PISTACHE_INCLUDED
+#pragma once
 
 #include <external/cxxopts/all.h>
 #include <own/endpoint/details.h>
@@ -154,5 +153,3 @@ inline void serveOn(const std::string_view ip, const uint16_t port, const int th
 }
 
 }  // namespace own::endpoint
-
-#endif

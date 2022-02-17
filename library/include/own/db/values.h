@@ -4,8 +4,7 @@
  * @copyright Copyleft 2022 "unrealinsanity". All rights reversed.
  */
 
-#ifndef OWN_DB_VALUES_INCLUDED
-#define OWN_DB_VALUES_INCLUDED
+#pragma once
 
 #include <own/generic/support.h>
 
@@ -13,12 +12,14 @@ namespace own::db
 {
 
 /**
- * Immutable data bindings for database query
+ * Immutable and moveable data bindings for database query
  *
  * We call it @c Values because of the `INSERT INTO table VALUES (val1, val2,...)`
  */
 class Values final
 {
+    DEFAULT_MOVEABLE_FINAL_CLASS(Values)
+
    public:
     /** Constructor
      *
@@ -57,9 +58,8 @@ class Values final
 
    private:
     /// The Values itself
-    const nlohmann::json m_self;
+    /// @note Non-const because so that it can be moved.
+    nlohmann::json m_self;
 };
 
 }  // namespace own::db
-
-#endif

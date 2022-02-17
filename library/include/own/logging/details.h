@@ -4,10 +4,8 @@
  * @copyright Copyleft 2021-2022 "unrealinsanity". All rights reversed.
  */
 
-#ifndef LOGGING_DETAILS_INCLUDED
-#define LOGGING_DETAILS_INCLUDED
+#pragma once
 
-#include <external/fmt/all.h>
 #include <own/generic/support.h>
 
 /**
@@ -64,5 +62,3 @@ void writeStderr(const Level level, const std::string_view where, const std::str
 }
 
 }  // namespace own::logging::details
-
-#endif

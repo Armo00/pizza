@@ -4,8 +4,7 @@
  * @copyright Copyleft 2022 "unrealinsanity". All rights reversed.
  */
 
-#ifndef OWN_DB_SQLITE3_DETAILS_INCLUDED
-#define OWN_DB_SQLITE3_DETAILS_INCLUDED
+#pragma once
 
 #include <external/sqlitecpp/all.h>
 #include <own/generic/support.h>
@@ -36,5 +35,3 @@ namespace own::db::sqlite::details
     return column.getString();
 }
 }  // namespace own::db::sqlite::details
-
-#endif

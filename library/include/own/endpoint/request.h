@@ -4,8 +4,7 @@
  * @copyright Copyleft 2022 "unrealinsanity". All rights reversed.
  */
 
-#ifndef OWN_ENDPOINT_PISTACHE_REQUEST_INCLUDED
-#define OWN_ENDPOINT_PISTACHE_REQUEST_INCLUDED
+#pragma once
 
 #include <external/cpr/all.h>
 #include <external/pistache/all.h>
@@ -19,7 +18,7 @@ namespace own::endpoint
  */
 class Request final
 {
-    DESTRUCTIBLE_FINAL_CLASS(Request)
+    DEFAULT_DESTRUCTIBLE_FINAL_CLASS(Request)
 
    public:
     /// Request methods
@@ -127,5 +126,3 @@ class Request final
 };
 
 }  // namespace own::endpoint
-
-#endif
