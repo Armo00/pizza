@@ -10,9 +10,8 @@
 
 int main(const int argc, const char** argv)
 {
-    const auto result =
+    const auto [address, port, threads] =
         own::endpoint::parseOptions("hello_world", "Serves the endpoint", argc, argv);
 
-    own::endpoint::serveOn(result["address"].as<std::string>(), result["port"].as<uint16_t>(),
-                           result["threads"].as<int>());
+    own::endpoint::serveOn(address, port, threads);
 }

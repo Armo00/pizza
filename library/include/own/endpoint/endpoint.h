@@ -114,18 +114,18 @@ inline void serveOn(const std::string_view ip, const uint16_t port, const int th
 
 /** Parse command-line options
  *
- * @param programName is the name of the executable
- * @param helpString is the description of the executable
- * @param argc is the arguments count passed from main
- * @param argv is the arguments vector passed from main
+ * @param endpointName is the name of the endpoint
+ * @param endpointDescription is the description of the endpoint
+ * @param mainArgc is the arguments count passed from main
+ * @param mainArgv is the arguments vector passed from main
  *
  * @returns the parsed options
  */
-[[nodiscard]] inline auto parseOptions(const std::string_view programName,
-                                       const std::string_view helpString, const int argc,
-                                       const char** argv) noexcept
+[[nodiscard]] inline auto parseOptions(const std::string_view endpointName,
+                                       const std::string_view endpointDescription,
+                                       const int mainArgc, const char** mainArgv) noexcept
 {
-    cxxopts::Options options{programName.data(), helpString.data()};
+    cxxopts::Options options{endpointName.data(), endpointDescription.data()};
     options.add_options()("address", "Address to listen",
                           cxxopts::value<std::string>()->default_value("127.0.0.1"));
     options.add_options()("port", "Port to listen",
@@ -136,19 +136,20 @@ inline void serveOn(const std::string_view ip, const uint16_t port, const int th
 
     try
     {
-        const auto result = options.parse(argc, argv);
+        const auto result = options.parse(mainArgc, mainArgv);
         if (result.count("help") == 0)
         {
-            return result;
+            return std::make_tuple(result["address"].as<std::string>(),
+                                   result["port"].as<uint16_t>(), result["threads"].as<int>());
         }
         fmt::print(stdout, "\n{}\n", options.help());
-        std::exit(0);  // NOLINT
+        std::exit(0);  // NOLINT(concurrency-mt-unsafe)
     }
     catch (const cxxopts::option_not_exists_exception& e)
     {
         own::logging::fatal("endpoint", e.what());
         fmt::print(stdout, "\n{}\n", options.help());
-        std::exit(1);  // NOLINT
+        std::exit(1);  // NOLINT(concurrency-mt-unsafe)
     }
 }
 
