@@ -27,9 +27,10 @@ class Values final
      * @param args are the data to bind
      */
     template <typename... Args>
-    explicit Values(const Args&... args) noexcept : m_self{args...}
+    explicit Values(const Args&... args) noexcept
+        : m_self{std::make_unique<const nlohmann::json>(nlohmann::json{args...})}
     {
-        RUNTIME_ASSERT(m_self.is_array() && "Values is not an array")
+        RUNTIME_ASSERT(m_self->is_array() && "Values is not an array")
     }
 
     /** The read-only @c at method
@@ -41,31 +42,34 @@ class Values final
     template <typename Value>
     [[nodiscard]] const Value& at(const size_t index) const noexcept
     {
-        return m_self.at(index).get_ref<const Value&>();
+        return m_self->at(index).get_ref<const Value&>();
     }
 
     /** Get begin const-iterator
      *
      * @returns the begin const-iterator
      */
-    [[nodiscard]] auto begin() const noexcept { return m_self.begin(); }
+    [[nodiscard]] auto begin() const noexcept { return m_self->begin(); }
 
     /** Get end const-iterator
      *
      * @returns the end const-iterator
      */
-    [[nodiscard]] auto end() const noexcept { return m_self.end(); }
+    [[nodiscard]] auto end() const noexcept { return m_self->end(); }
 
     /** Dump values into JSON-serialized string
      *
      * @returns the JSON-serialized string
      */
-    [[nodiscard]] std::string dump() const noexcept { return m_self.dump(); }
+    [[nodiscard]] std::string dump() const noexcept { return m_self->dump(); }
 
    private:
-    /// The Values itself
-    /// @note Non-const because so that it can be moved.
-    nlohmann::json m_self;
+    /** The Values itself
+     *
+     * @note Wrap it around unique_ptr so that the immutability can be guaranteed, but objects of
+     * Values are still movable (aka ownership is still transferable)
+     */
+    std::unique_ptr<const nlohmann::json> m_self;
 };
 
 }  // namespace own::db
