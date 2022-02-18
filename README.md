@@ -17,9 +17,14 @@ Basic concepts of this framework include `Endpoint` and `Handler`.
 
 ## How To Build?
 
-After cloning this project to somewhere on your build machine, you need to install `conan` first.
+Currently only Linux machines are required to build this project. If you don't have one, please consider setting up a virtual machine.
+
+After cloning this project to somewhere on your Linux machine, you first need to have `cmake` and `ninja`, as well as the latest version of `clang` and `g++`. You will also need `python3` to install `conan`.
+
+Assuming you are using Debian, you may do this to have the required packages installed:
 
 ```
+ # apt-get install build-essentials cmake ninja clang-13 g++-11 python3 python3-pip
  $ pip install --user conan
 ```
 
