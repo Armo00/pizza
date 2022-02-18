@@ -34,9 +34,9 @@ class Condition final
     {
     }
 
-    /** Get the actual condition string
+    /** Get a view of the actual condition string
      *
-     * @returns the condition string
+     * @returns a view of the actual condition string
      */
     [[nodiscard]] std::string_view operator*() const noexcept { return m_self; }
 

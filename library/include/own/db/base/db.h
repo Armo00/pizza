@@ -16,10 +16,11 @@
 namespace own::db::base
 {
 
-/** The base @c Database class
+/**
+ * The base @c Database class
  *
  * @note This is a redesign
- * @todo Make each query async and returns @c promise (?)
+ * @todo Make each query async and returns promise (?)
  */
 class Database
 {
@@ -30,7 +31,8 @@ class Database
      *
      * @param statement is the statement to execute
      */
-    virtual void doStatementExecution([[maybe_unused]] const std::string_view statement) noexcept
+    virtual void doStatementExecution(
+        [[maybe_unused]] const std::string_view statement) const noexcept
     {
         m_logger.warn("`doStatementExecution' is not implemented!");
     }
@@ -40,11 +42,15 @@ class Database
      * @param result is passed in to store the query result
      * @param statement is the statement to execute
      */
-    virtual void doStatementExecution([[maybe_unused]] std::vector<Values>& result,
-                                      [[maybe_unused]] const std::string_view statement) noexcept
+    virtual void doStatementExecution(
+        [[maybe_unused]] std::vector<Values>& result,
+        [[maybe_unused]] const std::string_view statement) const noexcept
     {
         m_logger.warn("`doStatementExecution' is not implemented!");
     }
+
+    /// Represents a separator
+    static constexpr std::string_view k_Separator{", "};
 
    public:
     /** Constructor
@@ -60,7 +66,7 @@ class Database
      * @param args are the data to bind
      */
     template <typename... Args>
-    void executeStatement(const std::string_view statement, const Args&... args) noexcept
+    void executeStatement(const std::string_view statement, const Args&... args) const noexcept
     {
         m_logger.debug(statement, args...);
 
@@ -77,7 +83,7 @@ class Database
      */
     template <typename... Args>
     void executeStatement(std::vector<Values>& result, const std::string_view statement,
-                          const Args&... args) noexcept
+                          const Args&... args) const noexcept
     {
         m_logger.debug(statement, args...);
 
@@ -92,17 +98,18 @@ class Database
      * @param values are the values to insert
      */
     void executeInsertInto(const std::string_view tableName, const Columns& columns,
-                           const Values& values) noexcept
+                           const Values& values) const noexcept
     {
         /// Represents the INSERT INTO statement
         static constexpr std::string_view k_InsertInto{"INSERT INTO {} ({}) VALUES ({});"};
+        const auto joinedColumns = fmt::join(columns, k_Separator);
 
         std::vector<std::string> encodedValues;
         std::transform(values.begin(), values.end(), std::back_inserter(encodedValues),
                        details::toSqlEncodedString);
 
-        executeStatement(k_InsertInto, tableName, fmt::join(columns, ", "),
-                         fmt::join(encodedValues, ", "));
+        const auto joinedValues = fmt::join(encodedValues, k_Separator);
+        executeStatement(k_InsertInto, tableName, joinedColumns, joinedValues);
     }
 
     /** Execute INSERT INTO statement
@@ -110,7 +117,7 @@ class Database
      * @param tableName is the table name
      * @param values are the values to insert
      */
-    void executeInsertInto(const std::string_view tableName, const Values& values) noexcept
+    void executeInsertInto(const std::string_view tableName, const Values& values) const noexcept
     {
         /// Represents the INSERT INTO statement
         static constexpr std::string_view k_InsertInto{"INSERT INTO {} VALUES ({});"};
@@ -119,7 +126,8 @@ class Database
         std::transform(values.begin(), values.end(), std::back_inserter(encodedValues),
                        details::toSqlEncodedString);
 
-        executeStatement(k_InsertInto, tableName, fmt::join(encodedValues, ", "));
+        const auto joinedValues = fmt::join(encodedValues, k_Separator);
+        executeStatement(k_InsertInto, tableName, joinedValues);
     }
 
     /** Execute SELECT statement
@@ -129,11 +137,11 @@ class Database
      * @returns the query result
      */
     [[nodiscard]] std::vector<Values> executeSelectFrom(const std::string_view tableName,
-                                                        const Columns& columns) noexcept
+                                                        const Columns& columns) const noexcept
     {
         /// Represents the SELECT statement
         static constexpr std::string_view k_SelectFrom{"SELECT {} FROM {};"};
-        const auto joinedColumns = fmt::join(columns, ", ");
+        const auto joinedColumns = fmt::join(columns, k_Separator);
 
         std::vector<Values> result{};
         executeStatement(result, k_SelectFrom, joinedColumns, tableName);
@@ -150,11 +158,11 @@ class Database
      */
     [[nodiscard]] std::vector<Values> executeSelectFrom(const std::string_view tableName,
                                                         const Columns& columns,
-                                                        const Condition& condition) noexcept
+                                                        const Condition& condition) const noexcept
     {
         /// Represents the SELECT statement
         static constexpr std::string_view k_SelectFrom{"SELECT {} FROM {} WHERE {};"};
-        const auto joinedColumns = fmt::join(columns, ", ");
+        const auto joinedColumns = fmt::join(columns, k_Separator);
 
         std::vector<Values> result{};
         executeStatement(result, k_SelectFrom, joinedColumns, tableName, *condition);

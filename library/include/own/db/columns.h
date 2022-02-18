@@ -43,6 +43,12 @@ class Columns final
      */
     [[nodiscard]] auto end() const noexcept { return m_self.end(); }
 
+    /** Get a view of the columns
+     *
+     * @returns a view of the columns
+     */
+    [[nodiscard]] std::span<const std::string_view> operator*() const noexcept { return m_self; }
+
    private:
     /// The Columns itself
     const std::vector<std::string_view> m_self;

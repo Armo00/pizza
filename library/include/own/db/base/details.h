@@ -10,6 +10,7 @@
 
 namespace own::db::base::details
 {
+
 /** Deduce the type of an @c any object and return its SQL expression
  *
  * @param obj is the @c any object

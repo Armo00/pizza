@@ -56,6 +56,12 @@ class Values final
      */
     [[nodiscard]] auto end() const noexcept { return m_self.end(); }
 
+    /** Dump values into JSON-serialized string
+     *
+     * @returns the JSON-serialized string
+     */
+    [[nodiscard]] std::string dump() const noexcept { return m_self.dump(); }
+
    private:
     /// The Values itself
     /// @note Non-const because so that it can be moved.

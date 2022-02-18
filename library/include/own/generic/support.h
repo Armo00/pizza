@@ -48,45 +48,45 @@
 
 #ifndef DEFAULT_COPYABLE_FINAL_CLASS
 #define DEFAULT_COPYABLE_FINAL_CLASS(ClassName) \
-   public:                                      \
     DEFAULT_COPYABLE_CLASS(ClassName)           \
     IMMOVEABLE_CLASS(ClassName)                 \
+                                                \
    public:                                      \
     ~ClassName() noexcept = default;
 #endif
 
 #ifndef DEFAULT_MOVEABLE_FINAL_CLASS
 #define DEFAULT_MOVEABLE_FINAL_CLASS(ClassName) \
-   public:                                      \
     NOT_COPYABLE_CLASS(ClassName)               \
     DEFAULT_MOVEABLE_CLASS(ClassName)           \
+                                                \
    public:                                      \
     ~ClassName() noexcept = default;
 #endif
 
 #ifndef DEFAULT_DESTRUCTIBLE_FINAL_CLASS
 #define DEFAULT_DESTRUCTIBLE_FINAL_CLASS(ClassName) \
-   public:                                          \
     NOT_COPYABLE_CLASS(ClassName)                   \
     IMMOVEABLE_CLASS(ClassName)                     \
+                                                    \
    public:                                          \
     ~ClassName() noexcept = default;
 #endif
 
 #ifndef DEFAULT_DESTRUCTIBLE_BASE_CLASS
 #define DEFAULT_DESTRUCTIBLE_BASE_CLASS(ClassName) \
-   public:                                         \
     NOT_COPYABLE_CLASS(ClassName)                  \
     IMMOVEABLE_CLASS(ClassName)                    \
+                                                   \
    public:                                         \
     virtual ~ClassName() noexcept = default;
 #endif
 
 #ifndef SINGLETON_CLASS
 #define SINGLETON_CLASS(ClassName)                            \
-   public:                                                    \
     NOT_COPYABLE_CLASS(ClassName)                             \
     IMMOVEABLE_CLASS(ClassName)                               \
+                                                              \
    public:                                                    \
     [[nodiscard]] static ClassName& get##ClassName() noexcept \
     {                                                         \
@@ -101,9 +101,9 @@
 
 #ifndef STATIC_CLASS
 #define STATIC_CLASS(ClassName)              \
-   public:                                   \
     NOT_COPYABLE_CLASS(ClassName)            \
     IMMOVEABLE_CLASS(ClassName)              \
+                                             \
    private:                                  \
     explicit ClassName() noexcept = default; \
     ~ClassName() noexcept = default;
