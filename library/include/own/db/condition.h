@@ -12,7 +12,7 @@ namespace own::db
 {
 
 /**
- * Represents a WHERE condition in a more natural manner
+ * Immutable data bindings represents a WHERE condition
  *
  * @note We've got Columns and Values; why not for just one more Condition? :)
  * @note If your condition is based on a string test, don't forget to quote it.
@@ -22,7 +22,7 @@ class Condition final
     DEFAULT_DESTRUCTIBLE_FINAL_CLASS(Condition)
 
    public:
-    /** Begins the first condition
+    /** Constructor
      *
      * @tparam Args are the types of arguments
      * @param condition is the condition expression
