@@ -122,14 +122,15 @@ inline void serveOn(const std::string_view ip, const uint16_t port, const int th
                                        const int mainArgc, const char** mainArgv) noexcept
 {
     cxxopts::Options options{endpointName.data(), endpointDescription.data()};
-    options.add_options()("address", "Address to listen",
-                          cxxopts::value<std::string>()->default_value("127.0.0.1"));
-    options.add_options()("port", "Port to listen",
-                          cxxopts::value<uint16_t>()->default_value("8080"));
-    options.add_options()("threads", "Threads to serve",
-                          cxxopts::value<int>()->default_value("32"));
-    options.add_options()("help", "Print usage");
-
+    {
+        // clang-format off
+        options.add_options()
+            ("address", "Address to listen", cxxopts::value<std::string>()->default_value("127.0.0.1"))
+            ("port", "Port to listen", cxxopts::value<uint16_t>()->default_value("8080"))
+            ("threads", "Threads to serve", cxxopts::value<int>()->default_value("32"))
+            ("help", "Print usage");
+        // clang-format on
+    }
     try
     {
         const auto result = options.parse(mainArgc, mainArgv);
