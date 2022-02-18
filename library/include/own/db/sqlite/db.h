@@ -18,6 +18,11 @@ namespace own::db::sqlite
  *
  * @tparam Desc is the description of database connection
  * @note Database connections shall not be shared by multiple threads; keep them threads local
+ *
+ * @note
+ * In Desc, two fields are mandatory: k_Name, k_FileName.
+ * Desc::k_Name is the name of database to be registered to the database hub.
+ * Desc::k_FileName is the filename of the database file.
  */
 template <typename Desc>
 class Database final : public base::Database
