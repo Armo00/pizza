@@ -26,6 +26,9 @@ class Database final : public base::Database
     /// Constructor
     explicit Database() noexcept : base::Database{Desc::k_Name} {}
 
+    /// The Name
+    static constexpr std::string_view k_Name = Desc::k_Name;
+
    private:
     /** Do statement execution
      *

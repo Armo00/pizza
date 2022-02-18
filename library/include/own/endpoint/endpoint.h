@@ -23,9 +23,11 @@ namespace own::endpoint
 /**
  * The Endpoint
  *
+ * @brief
  * The Endpoint is where all endpoints get stored and registered, and sets up REST path for getting
  * invoked with HTTP requests
  *
+ * @note
  * This class also manages the Pistache HTTP endpoint object which runs the HTTP server
  */
 class Endpoint final
