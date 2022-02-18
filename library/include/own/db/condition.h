@@ -1,6 +1,6 @@
 /**
  * @file own/db/condition.h
- * @brief Represents a WHERE condition in a more natural manner
+ * @brief Immutable data bindings represents a WHERE condition
  * @copyright Copyleft 2022 "unrealinsanity". All rights reversed.
  */
 

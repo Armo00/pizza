@@ -1,5 +1,7 @@
 /**
  * @file own/db/hub.h
+ * @brief The Database Hub
+ * @copyright Copyleft 2022 "unrealinsanity". All rights reversed.
  */
 
 #pragma once

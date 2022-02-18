@@ -12,7 +12,7 @@ namespace own::db
 {
 
 /**
- * Immutable and moveable data bindings for database query
+ * Immutable data bindings for database query
  *
  * We call it @c Values because of the `INSERT INTO table VALUES (val1, val2,...)`
  */

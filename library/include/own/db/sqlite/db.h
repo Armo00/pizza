@@ -1,6 +1,6 @@
 /**
  * @file own/db/sqlite/db.h
- * @brief The @c Database class for SQLite
+ * @brief The Database class for SQLite
  * @copyright Copyleft 2022 "unrealinsanity". All rights reversed.
  */
 
