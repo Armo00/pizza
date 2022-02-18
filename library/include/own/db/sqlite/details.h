@@ -11,7 +11,7 @@
 
 namespace own::db::sqlite::details
 {
-/** Get column -> @c any
+/** Get column value
  *
  * @param query is the executing query
  * @param index is the column index
