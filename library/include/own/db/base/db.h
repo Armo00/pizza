@@ -106,7 +106,7 @@ class Database
 
         std::vector<std::string> encodedValues;
         std::transform(values.begin(), values.end(), std::back_inserter(encodedValues),
-                       details::toSqlEncodedString);
+                       details::makeSqlEncodedString);
 
         const auto joinedValues = fmt::join(encodedValues, k_Separator);
         executeStatement(k_InsertInto, tableName, joinedColumns, joinedValues);
@@ -124,7 +124,7 @@ class Database
 
         std::vector<std::string> encodedValues;
         std::transform(values.begin(), values.end(), std::back_inserter(encodedValues),
-                       details::toSqlEncodedString);
+                       details::makeSqlEncodedString);
 
         const auto joinedValues = fmt::join(encodedValues, k_Separator);
         executeStatement(k_InsertInto, tableName, joinedValues);

@@ -16,7 +16,7 @@ namespace own::db::base::details
  * @param obj is the @c any object
  * @returns the "SQL-encoded" string
  */
-[[nodiscard]] inline std::string toSqlEncodedString(const nlohmann::json& obj) noexcept
+[[nodiscard]] inline std::string makeSqlEncodedString(const nlohmann::json& obj) noexcept
 {
     /// Represents the @c NULL value
     static constexpr std::string_view k_Null{"NULL"};
