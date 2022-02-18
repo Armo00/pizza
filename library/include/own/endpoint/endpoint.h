@@ -23,10 +23,10 @@ namespace own::endpoint
 /**
  * The Endpoint
  *
- * This singleton instance class is where all endpoints get stored and registered, and
- * set up REST path for getting invoked with HTTP requests
+ * The Endpoint is where all endpoints get stored and registered, and sets up REST path for getting
+ * invoked with HTTP requests
  *
- * This class also manages the HTTP endpoint object which runs the HTTP server
+ * This class also manages the Pistache HTTP endpoint object which runs the HTTP server
  */
 class Endpoint final
 {
@@ -35,23 +35,23 @@ class Endpoint final
    public:
     /** Add handler to endpoint
      *
-     * @tparam MyHandler is the handler class
+     * @tparam Handler is the handler class
      * @returns the name of the handler added
      */
-    template <typename MyHandler>
+    template <typename Handler>
     [[nodiscard]] std::string_view addHandler() noexcept
     {
-        auto handler = std::make_unique<MyHandler>();
-        for (const auto& [method, path] : MyHandler::k_Api)
+        auto handler = std::make_unique<Handler>();
+        for (const auto& [method, path] : Handler::k_Api)
         {
-            m_logger.debug("Registering {} on {} {}", MyHandler::k_Name,
+            m_logger.debug("Registering {} on {} {}", Handler::k_Name,
                            magic_enum::enum_name(method), path);
 
             details::addHandler(m_router, *handler, method, path);
         }
 
-        m_registry.emplace_back(std::move(handler));
-        return MyHandler::k_Name;
+        m_self.emplace_back(std::move(handler));
+        return Handler::k_Name;
     }
 
     /** Serve the endpoint
@@ -63,40 +63,37 @@ class Endpoint final
     void serveOn(const std::string_view ip, const uint16_t port, const int threads) noexcept
     {
         const Pistache::Address address{ip.data(), port};
-        m_self = std::make_unique<Pistache::Http::Endpoint>(address);
+        Pistache::Http::Endpoint endpoint{address};
 
         const auto options = Pistache::Http::Endpoint::options().threads(threads);
-        m_self->init(options);
-        m_self->setHandler(m_router.handler());
+        endpoint.init(options);
+        endpoint.setHandler(m_router.handler());
 
         m_logger.info("Serving on {}:{} with {} threads", ip, port, threads);
-        m_self->serve();
+        endpoint.serve();
     }
 
    private:
     /// The Logger
     own::logging::Logger m_logger{"endpoint"};
 
-    /// The Registry for Handlers
-    std::vector<std::unique_ptr<Handler>> m_registry;
+    /// The Endpoint itself
+    std::vector<std::unique_ptr<Handler>> m_self;
 
     /// The Pistache REST Router
     Pistache::Rest::Router m_router;
-
-    /// The Pistache HTTP Endpoint
-    std::unique_ptr<Pistache::Http::Endpoint> m_self;
 };
 
 /** Add handler to endpoint
  *
- * @tparam MyHandler is the handler class
+ * @tparam Handler is the handler class
  * @returns the name of the handler added
  */
-template <typename MyHandler>
+template <typename Handler>
 [[nodiscard]] std::string_view addHandler() noexcept
 {
     auto& endpoint = Endpoint::getEndpoint();
-    return endpoint.addHandler<MyHandler>();
+    return endpoint.addHandler<Handler>();
 }
 
 /** Serve the endpoint
@@ -147,7 +144,7 @@ inline void serveOn(const std::string_view ip, const uint16_t port, const int th
     catch (const cxxopts::option_not_exists_exception& e)
     {
         own::logging::fatal("endpoint", e.what());
-        fmt::print(stdout, "\n{}\n", options.help());
+        fmt::print(stderr, "\n{}\n", options.help());
         std::exit(1);  // NOLINT(concurrency-mt-unsafe)
     }
 }
