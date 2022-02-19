@@ -1,10 +1,10 @@
-# API-LP - A Less Painful Framework
+# The Pizza Project 🍕 - an appetite C++ REST Framework 😋
 
-It's just yet another C++ REST Framework, but it's aiming at making "write RESTful APIs with C++" a less painful journey full of pleasure. 😊
+Nothing special here - it's just yet another C++ REST Framework, but it's aiming at making "write RESTful APIs with C++" a less painful journey full of pleasure. 😊
 
 ## What you've got?
 
-Internally using Pistache, with API-LP you may just focus on your own business logic, yet still deliver a performant server application with safety and strong robustness. 🍻
+Internally using Pistache, with Pizza you may just focus on your own business logic, yet still deliver a performant server application with safety and strong robustness. 🍻
 
 Tired of the writing Python applications, but find writing REST APIs in C++ very painful? You are coming to the right place. 🤫
 
@@ -51,10 +51,10 @@ After `conan install` is complete, use `cmake` and `ninja` to build.
 
  1. Currently, under `library/include` you should only put header files there, the `#include <foo/bar.h>` path would be strictly following the directory structure. Your `namespace` definitions should also follow the directory structure. We recommend you to put your supporting code and details under `library/include`.
 
- 2. The `hello_world` endpoint is not technically a `Hello, World`, it's rather an example showing you how to use this framework to serve something.
+ 2. The `hello_world` endpoint is not technically a `Hello, World`, it's rather an example application showing you how to make the best utilization of this framework, in order to serve something.
 
- 3. You may receive updates by (for now) merging "the latest commit from me" into "your local branch".
+ 3. You may receive updates by (for now) merging "the latest commit from me" into "your local branch". (aka It's under construction... sorry)
 
- 4. This project would not be possible without the existence of Pistache. Do not forget to pay them a visit as well. 😊
+ 4. This project would not be possible without the existence of [Pistache](https://github.com/pistacheio/pistache). Do not forget to pay them a visit as well. 😊
 
  5. Since I'm currently the only person working on this project... If you used my framework and made changes under `library/include/own` and `library/include/external`, PR this change back to me, please! That would be appreciated. 😖
