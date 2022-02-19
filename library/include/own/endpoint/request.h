@@ -14,7 +14,7 @@ namespace own::endpoint
 {
 /** Request
  *
- * This class is an interface to @c Pistache::Http::Request
+ * This class is an interface to Pistache::Http::Request
  */
 class Request final
 {
@@ -22,19 +22,11 @@ class Request final
 
    public:
     /// Request methods
-    enum class Method
-    {
-        Get,    ///< Represents a GET request
-        Post,   ///< Represents a POST request
-        Put,    ///< Represents a PUT request
-        Patch,  ///< Represents a PATCH request
-        Delete  ///< Represents a DELETE request
-    };
+    using Method = Pistache::Http::Method;
 
     /** Constructor
      *
-     * @param request is a reference to @c Pistache::Http::Request object
-     * @note intentionally implicit
+     * @param request is a reference to Pistache::Http::Request object
      */
     explicit Request(const Pistache::Http::Request& request) noexcept : m_request{request} {}
 
@@ -44,27 +36,8 @@ class Request final
      */
     [[nodiscard]] Method getMethod() const noexcept
     {
-        switch (m_request.method())
-        {
-            case Pistache::Http::Method::Get:
-                return Method::Get;
-
-            case Pistache::Http::Method::Post:
-                return Method::Post;
-
-            case Pistache::Http::Method::Put:
-                return Method::Put;
-
-            case Pistache::Http::Method::Patch:
-                return Method::Patch;
-
-            case Pistache::Http::Method::Delete:
-                return Method::Delete;
-
-            default:
-                // Other methods treated as GET. Raise exceptions?
-                return Method::Get;
-        }
+        const auto method = m_request.method();
+        return method;
     }
 
     /** Get request path
@@ -80,7 +53,7 @@ class Request final
     /** Has request query?
      *
      * @param key is the query key
-     * @returns @c true if query has the given key, otherwise @c false
+     * @returns true if query has the given key, otherwise false
      */
     [[nodiscard]] bool hasQuery(const std::string_view key) const noexcept
     {
@@ -90,8 +63,9 @@ class Request final
 
     /** Get request query
      *
-     * @param key is the query key, can be @c {}
-     * @returns the query value if key is not @c {} , otherwise the whole query string
+     * @param key is the query key, can be an empty string (default: {})
+     * @returns the query value if the query has the key, otherwise the whole query string if key is
+     * empty, otherwise an empty string
      */
     [[nodiscard]] std::string getQuery(const std::string_view key = {}) const noexcept
     {

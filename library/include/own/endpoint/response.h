@@ -14,7 +14,7 @@ namespace own::endpoint
 {
 /** Response
  *
- * This class is an interface to @c Pistache::Http::ResponseWriter
+ * This class is an interface to Pistache::Http::ResponseWriter
  */
 class Response final
 {
@@ -23,7 +23,7 @@ class Response final
    public:
     /** Constructor
      *
-     * @param response is a reference to @c Pistache::Http::ResponseWriter object
+     * @param response is a reference to Pistache::Http::ResponseWriter object
      */
     explicit Response(Pistache::Http::ResponseWriter& response) noexcept
         : m_response{response}, m_sent{false}
@@ -31,12 +31,7 @@ class Response final
     }
 
     /// Response codes
-    enum class Code
-    {
-        Ok,          ///< Represents response code 200 OK
-        BadRequest,  ///< Represents response code 400 Bad Request
-        ServerError  ///< Represents response code 500 Server Error
-    };
+    using Code = Pistache::Http::Code;
 
     /** Send response
      *
@@ -48,30 +43,10 @@ class Response final
     template <typename... Args>
     void send(const Code code, const std::string_view body, const Args&... args) noexcept
     {
-        if (m_sent)
+        if (!m_sent)
         {
-            return;
-        }
-
-        switch (code)
-        {
-            case Code::Ok:
-                m_response.send(Pistache::Http::Code::Ok,
-                                fmt::vformat(body, fmt::make_format_args(args...)));
-                m_sent = true;
-                return;
-
-            case Code::BadRequest:
-                m_response.send(Pistache::Http::Code::Bad_Request,
-                                fmt::vformat(body, fmt::make_format_args(args...)));
-                m_sent = true;
-                return;
-
-            case Code::ServerError:
-                m_response.send(Pistache::Http::Code::Internal_Server_Error,
-                                fmt::vformat(body, fmt::make_format_args(args...)));
-                m_sent = true;
-                return;
+            m_response.send(code, fmt::vformat(body, fmt::make_format_args(args...)));
+            m_sent = true;
         }
     }
 
@@ -82,7 +57,7 @@ class Response final
      */
     void send(const Code code, const Cake& cake) noexcept
     {
-        if (not m_sent)
+        if (!m_sent)
         {
             return send(code, "{}", cake.dump());
         }

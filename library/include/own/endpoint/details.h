@@ -29,13 +29,13 @@ inline void addHandler(Pistache::Rest::Router& router, Handler& handler,
 {
     switch (method)
     {
-        case Request::Method::Post:
-            return Pistache::Rest::Routes::Post(
+        case Request::Method::Get:
+            return Pistache::Rest::Routes::Get(
                 router, path.data(),
                 Pistache::Rest::Routes::bind(&Handler::handleRequest, &handler));
 
-        case Request::Method::Get:
-            return Pistache::Rest::Routes::Get(
+        case Request::Method::Post:
+            return Pistache::Rest::Routes::Post(
                 router, path.data(),
                 Pistache::Rest::Routes::bind(&Handler::handleRequest, &handler));
 
@@ -53,6 +53,10 @@ inline void addHandler(Pistache::Rest::Router& router, Handler& handler,
             return Pistache::Rest::Routes::Delete(
                 router, path.data(),
                 Pistache::Rest::Routes::bind(&Handler::handleRequest, &handler));
+
+        default:
+            // NOLINTNEXTLINE(misc-static-assert,hicpp-static-assert,cert-dcl03-c)
+            RUNTIME_ASSERT(false && "Use of unsupported request method")
     }
 }
 

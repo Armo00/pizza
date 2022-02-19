@@ -22,43 +22,43 @@ class HelloHandler : public own::endpoint::Handler
         {Request::Method::Post, "/hello"},
     });
 
-    explicit HelloHandler() : own::endpoint::Handler{k_Name} {}
+    explicit HelloHandler() : Handler{k_Name} {}
 
-    void validateRequest(const Request& request) const override
+    void validateRequest(const Request& request, Cake& cake) const override
     {
-        if (request.getMethod() == Request::Method::Get)
+        switch (request.getMethod())
         {
-            m_logger.info("It works!");
-        }
-        else if (request.getMethod() == Request::Method::Post)
-        {
-            m_logger.info(request.getBody());
-        }
-        else
-        {
-            throw std::runtime_error{"Invalid request method."};
+            case Request::Method::Get:
+            {
+                m_logger.info("It works!");
+                return;
+            }
+            case Request::Method::Post:
+            {
+                m_logger.info(request.getBody());
+                cake.emplace("message", "Handler for POST requests is not implemented!");
+                throw ErrorResponse{Response::Code::Method_Not_Allowed, cake};
+            }
+            default:
+            {
+                throw ErrorResponse{Response::Code::Bad_Request, "Invalid request method."};
+            }
         }
     }
 
-    void processRequest(const Request& request, Cake& cake) const override
+    void processRequest(const Request& /* unused */, Cake& cake) const override
     {
-        if (request.getMethod() == Request::Method::Get)
+        static constexpr std::string_view k_Destination{"/data/result.html"};
         {
-            static constexpr std::string_view k_Destination = "/data/result.html";
-
-            auto responseText = downloadSomething();
+            const auto responseText = downloadSomething();
             std::ofstream fileStream{k_Destination.data()};
             fileStream << responseText;
+        }
 
-            /// Use @c cake to pass states to the next phase
-            cake.emplace("download_path", k_Destination);
-            cake.emplace("time_stamp", std::time(nullptr));
-            m_logger.debug("Content of cake is {}", cake.dump());
-        }
-        else
-        {
-            throw std::runtime_error{"Invalid request method."};
-        }
+        // Use cake to pass states to the next phase
+        cake.emplace("download_path", k_Destination);
+        cake.emplace("time_stamp", std::time(nullptr));
+        m_logger.debug("Content of cake is {}", cake.dump());
     }
 
     void sendResponse(const Cake& cake, Response& response) const override

@@ -14,11 +14,11 @@ namespace own::endpoint
 /** The Cake
  *
  * @details
- * This is a wrapper to @c json with restricted set of operations.
+ * This is a wrapper to json with restricted set of operations.
  * This is a binding. This is not a lie. :P
  *
  * @note
- * Objects of @c Cake are used to pass states between different phases of request processing.
+ * Objects of Cake are used to pass states between different phases of request processing.
  */
 class Cake final
 {
@@ -31,7 +31,7 @@ class Cake final
         RUNTIME_ASSERT(m_self.is_object() && "Cake is not an object")
     }
 
-    /** The @c emplace method
+    /** The emplace method
      *
      * @tparam Value is the value type to cast (default: json)
      * @param key is the key
@@ -43,7 +43,7 @@ class Cake final
         m_self.emplace(key.data(), value);
     }
 
-    /** The read-only @c at const-method
+    /** The read-only at const-method
      *
      * @tparam Value is the value type to cast (default: json)
      * @param key is the key (intolerant if the key does not exist)
@@ -53,7 +53,7 @@ class Cake final
     [[nodiscard]] const Value& at(const std::string_view key) const noexcept
     {
         const auto& value = m_self.at(key.data());
-        if constexpr (std::is_same<Value, nlohmann::json>::value)
+        if constexpr (std::is_same_v<Value, nlohmann::json>)
         {
             return value;
         }
@@ -68,6 +68,12 @@ class Cake final
      * @returns the JSON-serialized string
      */
     [[nodiscard]] std::string dump() const noexcept { return m_self.dump(); }
+
+    /** Get a const-reference of the cake
+     *
+     * @returns a const-reference of the cake
+     */
+    [[nodiscard]] const nlohmann::json& operator*() const noexcept { return m_self; }
 
    private:
     /// The Cake itself
