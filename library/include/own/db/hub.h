@@ -36,7 +36,8 @@ class Hub final
      * @returns the name of database added
      */
     template <typename Database>
-    [[nodiscard]] std::string_view addDatabase() noexcept
+    requires(std::is_same_v<decltype(Database::k_Name), const std::string_view>)
+        [[nodiscard]] std::string_view addDatabase() noexcept
     {
         m_logger.info("Registering {} to the database hub", Database::k_Name);
 

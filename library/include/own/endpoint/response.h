@@ -12,7 +12,9 @@
 
 namespace own::endpoint
 {
-/** Response
+
+/**
+ * Represents a response
  *
  * This class is an interface to Pistache::Http::ResponseWriter
  */

@@ -12,6 +12,11 @@
 namespace own::hash
 {
 
+/**
+ * Packages together the hash functions
+ *
+ * This class is not meant to be constructed, but to hide some details
+ */
 class Hash final
 {
     STATIC_CLASS(Hash)
@@ -38,7 +43,7 @@ class Hash final
         result.resize(rawHash.size() * 2);
         for (size_t index = 0; index < rawHash.size(); ++index)
         {
-            // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg, hicpp-vararg)
+            // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg,hicpp-vararg)
             sprintf(&result.at(index * 2), "%x", rawHash[index]);
         }
         return (needLower == NeedLowerCase::Yes) ? pystring::lower(result)
@@ -61,9 +66,8 @@ class Hash final
 /// @todo Take other compiler extension into account
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        MD5(
-            // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
-            reinterpret_cast<const u_char* const>(message.data()), message.size(), result.data());
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+        MD5(reinterpret_cast<const u_char* const>(message.data()), message.size(), result.data());
 #pragma clang diagnostic pop
 
         return makePrintableHash(result, needLower);
@@ -81,9 +85,9 @@ class Hash final
         std::vector<u_char> result;
         result.resize(SHA256_DIGEST_LENGTH);
 
-        SHA256(
-            // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
-            reinterpret_cast<const u_char* const>(message.data()), message.size(), result.data());
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+        SHA256(reinterpret_cast<const u_char* const>(message.data()), message.size(),
+               result.data());
 
         return makePrintableHash(result, needLower);
     }

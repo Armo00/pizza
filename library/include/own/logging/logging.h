@@ -8,11 +8,6 @@
 
 #include "details.h"
 
-/**
- * Namespace where all logging related interfaces gathered
- *
- * To utilize logging capability, use anything listed here
- */
 namespace own::logging
 {
 

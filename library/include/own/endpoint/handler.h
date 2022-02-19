@@ -13,13 +13,11 @@
 #include <own/generic/support.h>
 #include <own/logging/logging.h>
 
-/**
- * @namespace own::endpoint
- */
 namespace own::endpoint
 {
 
-/** The base class of all handlers
+/**
+ * The base class of all handlers
  *
  * @note Remember, this is a multithreaded class - Mark everything as const!
  */
@@ -82,73 +80,73 @@ class Handler
     void handleRequest(const Pistache::Rest::Request& request,
                        Pistache::Http::ResponseWriter response) noexcept
     {
-        const Request requestWrapper{request};
-        Response responseWrapper{response};
+        const Request request_{request};
+        Response response_{response};
         Cake cake;
 
         try
         {
-            validateRequest(requestWrapper, cake);
+            validateRequest(request_, cake);
         }
         catch (const ErrorResponse& e)
         {
-            responseWrapper.send(e.getCode(), e.getCake());
+            response_.send(e.getCode(), e.getCake());
             m_logger.error("ErrorResponse caught: {}", e.what());
             return;
         }
         catch (const std::runtime_error& e)
         {
-            responseWrapper.send(Response::Code::Bad_Request, "Bad Request");
+            response_.send(Response::Code::Bad_Request, "Bad Request");
             m_logger.error("std::runtime_error caught: {}", e.what());
             return;
         }
         catch (const std::invalid_argument& e)
         {
-            responseWrapper.send(Response::Code::Bad_Request, "Bad Request");
+            response_.send(Response::Code::Bad_Request, "Bad Request");
             m_logger.error("std::invalid_argument caught: {}", e.what());
             return;
         }
         catch (const std::logic_error& e)
         {
-            responseWrapper.send(Response::Code::Bad_Request, "Bad Request");
+            response_.send(Response::Code::Bad_Request, "Bad Request");
             m_logger.error("std::logic_error caught: {}", e.what());
             return;
         }
         catch (const std::exception& e)
         {
-            responseWrapper.send(Response::Code::Bad_Request, "Bad Request");
+            response_.send(Response::Code::Bad_Request, "Bad Request");
             m_logger.error("std::exception caught: {}", e.what());
             return;
         }
 
         try
         {
-            processRequest(requestWrapper, cake);
-            sendResponse(cake, responseWrapper);
+            processRequest(request_, cake);
+            sendResponse(cake, response_);
         }
         catch (const ErrorResponse& e)
         {
-            responseWrapper.send(e.getCode(), e.getCake());
+            response_.send(e.getCode(), e.getCake());
             m_logger.error("ErrorResponse caught: {}", e.what());
         }
         catch (const std::runtime_error& e)
         {
-            responseWrapper.send(Response::Code::Internal_Server_Error, "Server Error");
+            response_.send(Response::Code::Internal_Server_Error, "Server Error");
             m_logger.error("std::runtime_error caught: {}", e.what());
         }
         catch (const std::invalid_argument& e)
         {
-            responseWrapper.send(Response::Code::Internal_Server_Error, "Server Error");
+            response_.send(Response::Code::Internal_Server_Error, "Server Error");
             m_logger.error("std::invalid_argument caught: {}", e.what());
         }
         catch (const std::logic_error& e)
         {
-            responseWrapper.send(Response::Code::Internal_Server_Error, "Server Error");
+            response_.send(Response::Code::Internal_Server_Error, "Server Error");
             m_logger.error("std::logic_error caught: {}", e.what());
         }
         catch (const std::exception& e)
         {
-            responseWrapper.send(Response::Code::Internal_Server_Error, "Server Error");
+            response_.send(Response::Code::Internal_Server_Error, "Server Error");
             m_logger.error("std::exception caught: {}", e.what());
         }
     }
@@ -161,6 +159,7 @@ class Handler
     explicit Handler(const std::string_view name) noexcept : m_logger{name} {}
 
     /// The Logger
+    // NOLINTNEXTLINE(cppcoreguidelines-non-private-member-variables-in-classes)
     const own::logging::Logger m_logger;
 };
 

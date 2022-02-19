@@ -12,7 +12,9 @@
 
 namespace own::endpoint
 {
-/** Request
+
+/**
+ * Represents a request
  *
  * This class is an interface to Pistache::Http::Request
  */

@@ -7,10 +7,16 @@
 #include <own/endpoint/endpoint.h>
 #include <own/generic/support.h>
 
-int main(const int argc, const char** argv)
+int main(const int argc, const char** argv) noexcept
 {
-    const auto [address, port, threads] =
-        own::endpoint::parseOptions("hello_world", "Serves the endpoint", argc, argv);
+    try
+    {
+        const auto [address, port, threads] =
+            own::endpoint::parseOptions("hello_world", "Serves the endpoint", argc, argv);
 
-    own::endpoint::serveOn(address, port, threads);
+        own::endpoint::serveOn(address, port, threads);
+    }
+    catch (const std::exception& e)
+    {
+    }
 }

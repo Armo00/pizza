@@ -11,7 +11,8 @@
 namespace own::endpoint
 {
 
-/** The Cake
+/**
+ * The Cake
  *
  * @details
  * This is a wrapper to json with restricted set of operations.

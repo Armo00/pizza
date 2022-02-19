@@ -13,7 +13,11 @@
 namespace own::endpoint
 {
 
-/// Represents an Error Response
+/**
+ * Represents an error response
+ *
+ * This class is an exception that meant to be thrown
+ */
 class ErrorResponse final : public std::runtime_error
 {
    public:

@@ -14,9 +14,6 @@
 #include <pistache/endpoint.h>
 #include <pistache/http.h>
 
-/**
- * @namespace own::endpoint
- */
 namespace own::endpoint
 {
 
@@ -41,7 +38,10 @@ class Endpoint final
      * @returns the name of the handler added
      */
     template <typename Handler>
-    [[nodiscard]] std::string_view addHandler() noexcept
+    requires(std::is_same_v<decltype(Handler::k_Name), const std::string_view>&&
+                 std::is_same_v<typename decltype(Handler::k_Api)::value_type,
+                                std::pair<Pistache::Http::Method, const std::string_view>>)
+        [[nodiscard]] std::string_view addHandler() noexcept
     {
         auto handler = std::make_unique<Handler>();
         for (const auto& [method, path] : Handler::k_Api)

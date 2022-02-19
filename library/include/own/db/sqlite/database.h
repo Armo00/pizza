@@ -25,7 +25,9 @@ namespace own::db::sqlite
  * Desc::k_FileName is the filename of the database file.
  */
 template <typename Desc>
-class Database final : public base::Database
+requires(std::is_same_v<decltype(Desc::k_Name), const std::string_view>&& std::is_same_v<
+         decltype(Desc::k_FileName), const std::string_view>) class Database final
+    : public base::Database
 {
    public:
     /// Constructor

@@ -11,11 +11,14 @@
 
 namespace own::db::sqlite::details
 {
+
 /** Get column value
  *
  * @param query is the executing query
  * @param index is the column index
  * @returns the value from column
+ *
+ * @private
  */
 [[nodiscard]] inline nlohmann::json getColumn(SQLite::Statement& query, const int index) noexcept
 {
@@ -34,4 +37,5 @@ namespace own::db::sqlite::details
     }
     return column.getString();
 }
+
 }  // namespace own::db::sqlite::details

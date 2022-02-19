@@ -11,9 +11,6 @@
 #include <own/generic/support.h>
 #include <own/logging/logging.h>
 
-/**
- * @namespace own::endpoint::details
- */
 namespace own::endpoint::details
 {
 
@@ -23,6 +20,8 @@ namespace own::endpoint::details
  * @param handler is the handler object
  * @param method is the request method
  * @param path is the request path
+ *
+ * @private
  */
 inline void addHandler(Pistache::Rest::Router& router, Handler& handler,
                        const Request::Method method, const std::string_view path) noexcept
@@ -55,7 +54,6 @@ inline void addHandler(Pistache::Rest::Router& router, Handler& handler,
                 Pistache::Rest::Routes::bind(&Handler::handleRequest, &handler));
 
         default:
-            // NOLINTNEXTLINE(misc-static-assert,hicpp-static-assert,cert-dcl03-c)
             RUNTIME_ASSERT(false && "Use of unsupported request method")
     }
 }

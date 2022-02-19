@@ -15,6 +15,8 @@ namespace own::db::base::details
  *
  * @param obj is the json object
  * @returns the "SQL-encoded" string
+ *
+ * @private
  */
 [[nodiscard]] inline std::string makeSqlEncodedString(const nlohmann::json& obj) noexcept
 {

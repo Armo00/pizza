@@ -8,15 +8,11 @@
 
 #include <own/generic/support.h>
 
-/**
- * Namespace where all logging related implementations gathered
- *
- * Everything under this namespace shouldn't be used outside this module
- */
 namespace own::logging::details
 {
 
 /// Logging level
+/// @private
 enum class Level
 {
     Debug,  ///< Represents Debug logging level
@@ -27,6 +23,7 @@ enum class Level
 };
 
 /// Represents the format of each log
+/// @private
 static constexpr std::string_view k_Log = "{}:{}:{}:{}\n";
 
 /** Write log to stdout
@@ -36,6 +33,8 @@ static constexpr std::string_view k_Log = "{}:{}:{}:{}\n";
  * @param where is where this log occurs
  * @param what is the message to print
  * @param args are the arguments
+ *
+ * @private
  */
 template <typename... Args>
 void writeStdout(const Level level, const std::string_view where, const std::string_view what,
@@ -52,6 +51,8 @@ void writeStdout(const Level level, const std::string_view where, const std::str
  * @param where is where this log occurs
  * @param what is the message to print
  * @param args are the arguments
+ *
+ * @private
  */
 template <typename... Args>
 void writeStderr(const Level level, const std::string_view where, const std::string_view what,

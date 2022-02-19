@@ -25,6 +25,7 @@
 #include <map>
 #include <memory>
 #include <optional>
+#include <random>
 #include <span>
 #include <stdexcept>
 #include <string>
