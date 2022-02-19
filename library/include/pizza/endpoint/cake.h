@@ -1,14 +1,14 @@
 /**
- * @file own/endpoint/cake.h
+ * @file pizza/endpoint/cake.h
  * @brief Data bindings for request processing
  * @copyright Copyleft 2022 "unrealinsanity". All rights reversed.
  */
 
 #pragma once
 
-#include <own/generic/support.h>
+#include <pizza/generic/support.h>
 
-namespace own::endpoint
+namespace pizza::endpoint
 {
 
 /**
@@ -81,4 +81,4 @@ class Cake final
     nlohmann::json m_self;
 };
 
-}  // namespace own::endpoint
+}  // namespace pizza::endpoint

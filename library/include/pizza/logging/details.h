@@ -1,14 +1,14 @@
 /**
- * @file own/logging/details.h
+ * @file pizza/logging/details.h
  * @brief Unit where all logging related implementations gathered
  * @copyright Copyleft 2021-2022 "unrealinsanity". All rights reversed.
  */
 
 #pragma once
 
-#include <own/generic/support.h>
+#include <pizza/generic/support.h>
 
-namespace own::logging::details
+namespace pizza::logging::details
 {
 
 /// Logging level
@@ -62,4 +62,4 @@ void writeStderr(const Level level, const std::string_view where, const std::str
                fmt::vformat(what, fmt::make_format_args(args...)));
 }
 
-}  // namespace own::logging::details
+}  // namespace pizza::logging::details

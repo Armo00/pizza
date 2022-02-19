@@ -1,14 +1,14 @@
 /**
- * @file own/db/condition.h
+ * @file pizza/db/condition.h
  * @brief Immutable data bindings represents a WHERE condition
  * @copyright Copyleft 2022 "unrealinsanity". All rights reversed.
  */
 
 #pragma once
 
-#include <own/generic/support.h>
+#include <pizza/generic/support.h>
 
-namespace own::db
+namespace pizza::db
 {
 
 /**
@@ -45,4 +45,4 @@ class Condition final
     const std::string m_self;
 };
 
-}  // namespace own::db
+}  // namespace pizza::db

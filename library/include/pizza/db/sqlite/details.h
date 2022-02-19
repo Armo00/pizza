@@ -1,5 +1,5 @@
 /**
- * @file own/db/sqlite/details.h
+ * @file pizza/db/sqlite/details.h
  * @brief Implementation details.
  * @copyright Copyleft 2022 "unrealinsanity". All rights reversed.
  */
@@ -7,9 +7,9 @@
 #pragma once
 
 #include <external/sqlitecpp/all.h>
-#include <own/generic/support.h>
+#include <pizza/generic/support.h>
 
-namespace own::db::sqlite::details
+namespace pizza::db::sqlite::details
 {
 
 /** Get column value
@@ -38,4 +38,4 @@ namespace own::db::sqlite::details
     return column.getString();
 }
 
-}  // namespace own::db::sqlite::details
+}  // namespace pizza::db::sqlite::details

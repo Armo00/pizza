@@ -1,5 +1,5 @@
 /**
- * @file own/endpoint/details.h
+ * @file pizza/endpoint/details.h
  * @brief Implementation details of endpoint
  * @copyright Copyleft 2022 "unrealinsanity". All rights reversed.
  */
@@ -7,11 +7,11 @@
 #pragma once
 
 #include <external/pistache/all.h>
-#include <own/endpoint/handler.h>
-#include <own/generic/support.h>
-#include <own/logging/logging.h>
+#include <pizza/endpoint/handler.h>
+#include <pizza/generic/support.h>
+#include <pizza/logging/logging.h>
 
-namespace own::endpoint::details
+namespace pizza::endpoint::details
 {
 
 /** Append a new router record
@@ -58,4 +58,4 @@ inline void addHandler(Pistache::Rest::Router& router, Handler& handler,
     }
 }
 
-}  // namespace own::endpoint::details
+}  // namespace pizza::endpoint::details

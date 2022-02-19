@@ -5,14 +5,14 @@
  */
 
 #include <external/cpr/all.h>
-#include <own/endpoint/endpoint.h>
-#include <own/endpoint/handler.h>
-#include <own/generic/support.h>
+#include <pizza/endpoint/endpoint.h>
+#include <pizza/endpoint/handler.h>
+#include <pizza/generic/support.h>
 
 namespace
 {
 
-class HelloHandler : public own::endpoint::Handler
+class HelloHandler : public pizza::endpoint::Handler
 {
    public:
     static constexpr std::string_view k_Name = "hello";
@@ -79,6 +79,6 @@ class HelloHandler : public own::endpoint::Handler
 
 // Let the endpoint be aware of the existence of this handler, and
 // thereby be able to serve it
-const auto handlerName = own::endpoint::addHandler<HelloHandler>();
+const auto handlerName = pizza::endpoint::addHandler<HelloHandler>();
 
 }  // namespace

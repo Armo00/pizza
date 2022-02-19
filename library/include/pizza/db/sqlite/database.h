@@ -1,5 +1,5 @@
 /**
- * @file own/db/sqlite/database.h
+ * @file pizza/db/sqlite/database.h
  * @brief The Database class for SQLite
  * @copyright Copyleft 2022 "unrealinsanity". All rights reversed.
  */
@@ -7,10 +7,10 @@
 #pragma once
 
 #include <external/sqlitecpp/all.h>
-#include <own/db/base/database.h>
-#include <own/db/sqlite/details.h>
+#include <pizza/db/base/database.h>
+#include <pizza/db/sqlite/details.h>
 
-namespace own::db::sqlite
+namespace pizza::db::sqlite
 {
 
 /**
@@ -20,14 +20,15 @@ namespace own::db::sqlite
  * @note Database connections shall not be shared by multiple threads; keep them threads local
  *
  * @details
- * In Desc, two fields are mandatory: k_Name, k_FileName.
- * Desc::k_Name is the name of database to be registered to the database hub.
- * Desc::k_FileName is the filename of the database file.
+ *  In Desc, two fields are mandatory: k_Name, k_FileName.
+ *  Desc::k_Name is the name of database to be registered to the database hub.
+ *  Desc::k_FileName is the filename of the database file.
  */
 template <typename Desc>
-requires(std::is_same_v<decltype(Desc::k_Name), const std::string_view>&& std::is_same_v<
-         decltype(Desc::k_FileName), const std::string_view>) class Database final
-    : public base::Database
+requires(std::is_same_v<decltype(Desc::k_Name), const std::string_view>&&
+             std::is_same_v<decltype(Desc::k_FileName), const std::string_view>)
+
+    class Database final : public base::Database
 {
    public:
     /// Constructor
@@ -72,4 +73,4 @@ requires(std::is_same_v<decltype(Desc::k_Name), const std::string_view>&& std::i
     }
 };
 
-}  // namespace own::db::sqlite
+}  // namespace pizza::db::sqlite

@@ -1,19 +1,19 @@
 /**
- * @file own/endpoint/handler.h
+ * @file pizza/endpoint/handler.h
  * @brief The Handler
  * @copyright Copyleft 2022 "unrealinsanity". All rights reversed.
  */
 
 #pragma once
 
-#include <own/endpoint/cake.h>
-#include <own/endpoint/error_response.h>
-#include <own/endpoint/request.h>
-#include <own/endpoint/response.h>
-#include <own/generic/support.h>
-#include <own/logging/logging.h>
+#include <pizza/endpoint/cake.h>
+#include <pizza/endpoint/error_response.h>
+#include <pizza/endpoint/request.h>
+#include <pizza/endpoint/response.h>
+#include <pizza/generic/support.h>
+#include <pizza/logging/logging.h>
 
-namespace own::endpoint
+namespace pizza::endpoint
 {
 
 /**
@@ -57,17 +57,17 @@ class Handler
     }
 
    public:
-    /// Allow Handler::Request alias to own::endpoint::Request
-    using Request = own::endpoint::Request;
+    /// Allow Handler::Request alias to pizza::endpoint::Request
+    using Request = pizza::endpoint::Request;
 
-    /// Allow Handler::Request alias to own::endpoint::Response
-    using Response = own::endpoint::Response;
+    /// Allow Handler::Request alias to pizza::endpoint::Response
+    using Response = pizza::endpoint::Response;
 
-    /// Allow Handler::ErrorResponse alias to own::endpoint::ErrorResponse
-    using ErrorResponse = own::endpoint::ErrorResponse;
+    /// Allow Handler::ErrorResponse alias to pizza::endpoint::ErrorResponse
+    using ErrorResponse = pizza::endpoint::ErrorResponse;
 
-    /// Allow Handler::Cake alias to own::endpoint::Cake
-    using Cake = own::endpoint::Cake;
+    /// Allow Handler::Cake alias to pizza::endpoint::Cake
+    using Cake = pizza::endpoint::Cake;
 
     /// The API description
     using ApiDesc = std::pair<Request::Method, const std::string_view>;
@@ -160,7 +160,7 @@ class Handler
 
     /// The Logger
     // NOLINTNEXTLINE(cppcoreguidelines-non-private-member-variables-in-classes)
-    const own::logging::Logger m_logger;
+    const pizza::logging::Logger m_logger;
 };
 
-}  // namespace own::endpoint
+}  // namespace pizza::endpoint

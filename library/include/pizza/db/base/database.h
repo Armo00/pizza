@@ -1,19 +1,19 @@
 /**
- * @file own/db/base/database.h
+ * @file pizza/db/base/database.h
  * @brief The base Database class.
  * @copyright Copyleft 2022 "unrealinsanity". All rights reversed.
  */
 
 #pragma once
 
-#include <own/db/base/details.h>
-#include <own/db/columns.h>
-#include <own/db/condition.h>
-#include <own/db/values.h>
-#include <own/generic/support.h>
-#include <own/logging/logging.h>
+#include <pizza/db/base/details.h>
+#include <pizza/db/columns.h>
+#include <pizza/db/condition.h>
+#include <pizza/db/values.h>
+#include <pizza/generic/support.h>
+#include <pizza/logging/logging.h>
 
-namespace own::db::base
+namespace pizza::db::base
 {
 
 /**
@@ -175,4 +175,4 @@ class Database
     const logging::Logger m_logger;
 };
 
-}  // namespace own::db::base
+}  // namespace pizza::db::base

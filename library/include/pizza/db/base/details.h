@@ -1,14 +1,14 @@
 /**
- * @file own/db/base/details.h
+ * @file pizza/db/base/details.h
  * @brief Implementation details.
  * @copyright Copyleft 2022 "unrealinsanity". All rights reversed.
  */
 
 #pragma once
 
-#include <own/generic/support.h>
+#include <pizza/generic/support.h>
 
-namespace own::db::base::details
+namespace pizza::db::base::details
 {
 
 /** Deduce the type of an json object and return its SQL expression
@@ -74,4 +74,4 @@ namespace own::db::base::details
     return obj.dump();
 }
 
-}  // namespace own::db::base::details
+}  // namespace pizza::db::base::details

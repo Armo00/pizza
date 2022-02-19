@@ -1,14 +1,14 @@
 /**
- * @file own/db/base/values.h
+ * @file pizza/db/base/values.h
  * @brief Immutable data bindings for database query
  * @copyright Copyleft 2022 "unrealinsanity". All rights reversed.
  */
 
 #pragma once
 
-#include <own/generic/support.h>
+#include <pizza/generic/support.h>
 
-namespace own::db
+namespace pizza::db
 {
 
 /**
@@ -72,4 +72,4 @@ class Values final
     std::unique_ptr<const nlohmann::json> m_self;
 };
 
-}  // namespace own::db
+}  // namespace pizza::db

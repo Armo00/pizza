@@ -1,16 +1,16 @@
 /**
- * @file own/db/hub.h
+ * @file pizza/db/hub.h
  * @brief The Database Hub
  * @copyright Copyleft 2022 "unrealinsanity". All rights reversed.
  */
 
 #pragma once
 
-#include <own/db/base/database.h>
-#include <own/generic/support.h>
-#include <own/logging/logging.h>
+#include <pizza/db/base/database.h>
+#include <pizza/generic/support.h>
+#include <pizza/logging/logging.h>
 
-namespace own::db
+namespace pizza::db
 {
 
 /**
@@ -61,7 +61,7 @@ class Hub final
     std::unordered_map<std::string_view, std::unique_ptr<base::Database>> m_self;
 
     /// The Logger
-    const own::logging::Logger m_logger{"db:hub"};
+    const pizza::logging::Logger m_logger{"db:hub"};
 };
 
 /** Add database instance to the hub
@@ -85,4 +85,4 @@ template <typename Database>
     return Hub::getHub().getDatabase(name);
 }
 
-}  // namespace own::db
+}  // namespace pizza::db

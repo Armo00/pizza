@@ -1,14 +1,14 @@
 /**
- * @file own/db/base/columns.h
+ * @file pizza/db/base/columns.h
  * @brief Immutable data container for storing database columns
  * @copyright Copyleft 2022 "unrealinsanity". All rights reversed.
  */
 
 #pragma once
 
-#include <own/generic/support.h>
+#include <pizza/generic/support.h>
 
-namespace own::db
+namespace pizza::db
 {
 
 /**
@@ -54,4 +54,4 @@ class Columns final
     const std::vector<std::string_view> m_self;
 };
 
-}  // namespace own::db
+}  // namespace pizza::db

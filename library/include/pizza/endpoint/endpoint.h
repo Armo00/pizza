@@ -1,5 +1,5 @@
 /**
- * @file own/endpoint/endpoint.h
+ * @file pizza/endpoint/endpoint.h
  * @brief The Endpoint
  * @copyright Copyleft 2022 "unrealinsanity". All rights reversed.
  */
@@ -7,14 +7,14 @@
 #pragma once
 
 #include <external/cxxopts/all.h>
-#include <own/endpoint/details.h>
-#include <own/endpoint/handler.h>
-#include <own/generic/support.h>
-#include <own/logging/logging.h>
 #include <pistache/endpoint.h>
 #include <pistache/http.h>
+#include <pizza/endpoint/details.h>
+#include <pizza/endpoint/handler.h>
+#include <pizza/generic/support.h>
+#include <pizza/logging/logging.h>
 
-namespace own::endpoint
+namespace pizza::endpoint
 {
 
 /**
@@ -77,7 +77,7 @@ class Endpoint final
 
    private:
     /// The Logger
-    own::logging::Logger m_logger{"endpoint"};
+    pizza::logging::Logger m_logger{"endpoint"};
 
     /// The Endpoint itself
     std::vector<std::unique_ptr<Handler>> m_self;
@@ -146,10 +146,10 @@ inline void serveOn(const std::string_view ip, const uint16_t port, const int th
     }
     catch (const cxxopts::option_not_exists_exception& e)
     {
-        own::logging::fatal("endpoint", e.what());
+        pizza::logging::fatal("endpoint", e.what());
         fmt::print(stderr, "\n{}\n", options.help());
         std::exit(1);  // NOLINT(concurrency-mt-unsafe)
     }
 }
 
-}  // namespace own::endpoint
+}  // namespace pizza::endpoint

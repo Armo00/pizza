@@ -1,5 +1,5 @@
 /**
- * @file own/endpoint/request.h
+ * @file pizza/endpoint/request.h
  * @brief The Request wrapper
  * @copyright Copyleft 2022 "unrealinsanity". All rights reversed.
  */
@@ -8,9 +8,9 @@
 
 #include <external/cpr/all.h>
 #include <external/pistache/all.h>
-#include <own/generic/support.h>
+#include <pizza/generic/support.h>
 
-namespace own::endpoint
+namespace pizza::endpoint
 {
 
 /**
@@ -101,4 +101,4 @@ class Request final
     const Pistache::Http::Request& m_request;
 };
 
-}  // namespace own::endpoint
+}  // namespace pizza::endpoint

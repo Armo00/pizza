@@ -1,5 +1,5 @@
 /**
- * @file own/endpoint/response.h
+ * @file pizza/endpoint/response.h
  * @brief The Response wrapper
  * @copyright Copyleft 2022 "unrealinsanity". All rights reversed.
  */
@@ -7,10 +7,10 @@
 #pragma once
 
 #include <external/pistache/all.h>
-#include <own/endpoint/cake.h>
-#include <own/generic/support.h>
+#include <pizza/endpoint/cake.h>
+#include <pizza/generic/support.h>
 
-namespace own::endpoint
+namespace pizza::endpoint
 {
 
 /**
@@ -73,4 +73,4 @@ class Response final
     bool m_sent;
 };
 
-}  // namespace own::endpoint
+}  // namespace pizza::endpoint

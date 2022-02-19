@@ -1,16 +1,16 @@
 /**
- * @file own/endpoint/error_response.h
+ * @file pizza/endpoint/error_response.h
  * @brief Represents an Error Response
  * @copyright Copyleft 2022 "unrealinsanity". All rights reversed.
  */
 
 #pragma once
 
-#include <own/endpoint/cake.h>
-#include <own/endpoint/response.h>
-#include <own/generic/support.h>
+#include <pizza/endpoint/cake.h>
+#include <pizza/endpoint/response.h>
+#include <pizza/generic/support.h>
 
-namespace own::endpoint
+namespace pizza::endpoint
 {
 
 /**
@@ -68,4 +68,4 @@ class ErrorResponse final : public std::runtime_error
     Cake m_cake;
 };
 
-}  // namespace own::endpoint
+}  // namespace pizza::endpoint
