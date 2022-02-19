@@ -11,14 +11,14 @@
 namespace own::db::base::details
 {
 
-/** Deduce the type of an @c any object and return its SQL expression
+/** Deduce the type of an json object and return its SQL expression
  *
- * @param obj is the @c any object
+ * @param obj is the json object
  * @returns the "SQL-encoded" string
  */
 [[nodiscard]] inline std::string makeSqlEncodedString(const nlohmann::json& obj) noexcept
 {
-    /// Represents the @c NULL value
+    /// Represents the NULL value
     static constexpr std::string_view k_Null{"NULL"};
 
     /// Represents a quoted string

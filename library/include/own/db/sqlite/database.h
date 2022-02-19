@@ -1,5 +1,5 @@
 /**
- * @file own/db/sqlite/db.h
+ * @file own/db/sqlite/database.h
  * @brief The Database class for SQLite
  * @copyright Copyleft 2022 "unrealinsanity". All rights reversed.
  */
@@ -7,7 +7,7 @@
 #pragma once
 
 #include <external/sqlitecpp/all.h>
-#include <own/db/base/db.h>
+#include <own/db/base/database.h>
 #include <own/db/sqlite/details.h>
 
 namespace own::db::sqlite
@@ -19,7 +19,7 @@ namespace own::db::sqlite
  * @tparam Desc is the description of database connection
  * @note Database connections shall not be shared by multiple threads; keep them threads local
  *
- * @note
+ * @details
  * In Desc, two fields are mandatory: k_Name, k_FileName.
  * Desc::k_Name is the name of database to be registered to the database hub.
  * Desc::k_FileName is the filename of the database file.
@@ -32,7 +32,7 @@ class Database final : public base::Database
     explicit Database() noexcept : base::Database{Desc::k_Name} {}
 
     /// The Name
-    static constexpr std::string_view k_Name = Desc::k_Name;
+    static constexpr std::string_view k_Name{Desc::k_Name};
 
    private:
     /** Do statement execution

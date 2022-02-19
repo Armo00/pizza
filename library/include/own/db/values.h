@@ -14,7 +14,7 @@ namespace own::db
 /**
  * Immutable data bindings for database query
  *
- * We call it @c Values because of the `INSERT INTO table VALUES (val1, val2,...)`
+ * We call it Values because of the `INSERT INTO table VALUES (val1, val2,...)`
  */
 class Values final
 {
@@ -33,11 +33,11 @@ class Values final
         RUNTIME_ASSERT(m_self->is_array() && "Values is not an array")
     }
 
-    /** The read-only @c at method
+    /** The read-only at method
      *
      * @tparam Value is the value type to cast
      * @param index is the index of values
-     * @returns the value at @c index of values
+     * @returns the value at index of values
      */
     template <typename Value>
     [[nodiscard]] const Value& at(const size_t index) const noexcept

@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include <own/db/base/db.h>
+#include <own/db/base/database.h>
 #include <own/generic/support.h>
 #include <own/logging/logging.h>
 

@@ -1,6 +1,6 @@
 /**
- * @file own/db/base/db.h
- * @brief The base @c Database class.
+ * @file own/db/base/database.h
+ * @brief The base Database class.
  * @copyright Copyleft 2022 "unrealinsanity". All rights reversed.
  */
 
@@ -17,7 +17,7 @@ namespace own::db::base
 {
 
 /**
- * The base @c Database class
+ * The base Database class
  *
  * @note This is a redesign
  * @todo Make each query async and returns promise (?)
