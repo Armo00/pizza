@@ -9,6 +9,7 @@
 #include <external/cxxopts/all.h>
 #include <pistache/endpoint.h>
 #include <pistache/http.h>
+#include <pizza/endpoint/concepts.h>
 #include <pizza/endpoint/details.h>
 #include <pizza/endpoint/handler.h>
 #include <pizza/generic/support.h>
@@ -37,11 +38,8 @@ class Endpoint final
      * @tparam Handler is the handler class
      * @returns the name of the handler added
      */
-    template <typename Handler>
-    requires(std::is_same_v<decltype(Handler::k_Name), const std::string_view>&&
-                 std::is_same_v<typename decltype(Handler::k_Api)::value_type,
-                                std::pair<Pistache::Http::Method, const std::string_view>>)
-        [[nodiscard]] std::string_view addHandler() noexcept
+    template <PizzaHandler Handler>
+    [[nodiscard]] std::string_view addHandler() noexcept
     {
         auto handler = std::make_unique<Handler>();
         for (const auto& [method, path] : Handler::k_Api)
@@ -58,20 +56,20 @@ class Endpoint final
 
     /** Serve the endpoint
      *
-     * @param ip is the IP address on which the server listens on
+     * @param address is the IP address on which the server listens on
      * @param port is the port on which the server listens on
      * @param threads means how many threads to open
      */
-    void serveOn(const std::string_view ip, const uint16_t port, const int threads) noexcept
+    void serveOn(const std::string_view address, const uint16_t port, const int threads) noexcept
     {
-        const Pistache::Address address{ip.data(), port};
-        Pistache::Http::Endpoint endpoint{address};
+        const Pistache::Address pistacheAddress{address.data(), port};
+        Pistache::Http::Endpoint endpoint{pistacheAddress};
 
         const auto options = Pistache::Http::Endpoint::options().threads(threads);
         endpoint.init(options);
         endpoint.setHandler(m_router.handler());
 
-        m_logger.info("Serving on {}:{} with {} threads", ip, port, threads);
+        m_logger.info("Serving on {}:{} with {} threads", address, port, threads);
         endpoint.serve();
     }
 
@@ -91,7 +89,7 @@ class Endpoint final
  * @tparam Handler is the handler class
  * @returns the name of the handler added
  */
-template <typename Handler>
+template <PizzaHandler Handler>
 [[nodiscard]] std::string_view addHandler() noexcept
 {
     auto& endpoint = Endpoint::getEndpoint();
@@ -100,14 +98,14 @@ template <typename Handler>
 
 /** Serve the endpoint
  *
- * @param ip is the IP address on which the server listens on
+ * @param address is the IP address on which the server listens on
  * @param port is the port on which the server listens on
  * @param threads means how many threads to open
  */
-inline void serveOn(const std::string_view ip, const uint16_t port, const int threads) noexcept
+inline void serveOn(const std::string_view address, const uint16_t port, const int threads) noexcept
 {
     auto& endpoint = Endpoint::getEndpoint();
-    endpoint.serveOn(ip, port, threads);
+    endpoint.serveOn(address, port, threads);
 }
 
 /** Parse command-line options

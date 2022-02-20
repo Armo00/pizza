@@ -8,6 +8,7 @@
 
 #include <external/sqlitecpp/all.h>
 #include <pizza/db/base/database.h>
+#include <pizza/db/sqlite/concepts.h>
 #include <pizza/db/sqlite/details.h>
 
 namespace pizza::db::sqlite
@@ -18,17 +19,9 @@ namespace pizza::db::sqlite
  *
  * @tparam Desc is the description of database connection
  * @note Database connections shall not be shared by multiple threads; keep them threads local
- *
- * @details
- *  In Desc, two fields are mandatory: k_Name, k_FileName.
- *  Desc::k_Name is the name of database to be registered to the database hub.
- *  Desc::k_FileName is the filename of the database file.
  */
-template <typename Desc>
-requires(std::is_same_v<decltype(Desc::k_Name), const std::string_view>&&
-             std::is_same_v<decltype(Desc::k_FileName), const std::string_view>)
-
-    class Database final : public base::Database
+template <Description Desc>
+class Database final : public base::Database
 {
    public:
     /// Constructor

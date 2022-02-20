@@ -34,7 +34,7 @@ class Database
     virtual void doStatementExecution(
         [[maybe_unused]] const std::string_view statement) const noexcept
     {
-        m_logger.warn("`doStatementExecution' is not implemented!");
+        m_logger.warn("`doStatementExecution` is not implemented!");
     }
 
     /** Do statement execution
@@ -46,7 +46,7 @@ class Database
         [[maybe_unused]] std::vector<Values>& result,
         [[maybe_unused]] const std::string_view statement) const noexcept
     {
-        m_logger.warn("`doStatementExecution' is not implemented!");
+        m_logger.warn("`doStatementExecution` is not implemented!");
     }
 
     /// Represents a separator

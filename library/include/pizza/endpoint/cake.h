@@ -34,6 +34,20 @@ class Cake final
 
     /** The emplace method
      *
+     * @tparam Args are the types of arguments
+     * @param key is the key
+     * @param value is the value
+     * @param args are the arguments
+     */
+    template <typename... Args>
+    void emplace(const std::string_view key, const std::string_view value,
+                 const Args&... args) noexcept
+    {
+        m_self.emplace(key.data(), fmt::vformat(value, fmt::make_format_args(args...)));
+    }
+
+    /** The emplace method
+     *
      * @tparam Value is the value type to cast (default: json)
      * @param key is the key
      * @param value is the value

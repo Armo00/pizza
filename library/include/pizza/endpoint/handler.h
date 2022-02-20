@@ -34,6 +34,7 @@ class Handler
     virtual void validateRequest([[maybe_unused]] const Request& request,
                                  [[maybe_unused]] Cake& cake) const
     {
+        m_logger.warn("`validateRequest` is not implemented!");
     }
 
     /** Process the request, prepare for the response
@@ -44,6 +45,7 @@ class Handler
     virtual void processRequest([[maybe_unused]] const Request& request,
                                 [[maybe_unused]] Cake& cake) const
     {
+        m_logger.warn("`processRequest` is not implemented!");
     }
 
     /** Send the response
@@ -54,6 +56,7 @@ class Handler
     virtual void sendResponse([[maybe_unused]] const Cake& cake,
                               [[maybe_unused]] Response& response) const
     {
+        m_logger.warn("`sendResponse` is not implemented!");
     }
 
    public:

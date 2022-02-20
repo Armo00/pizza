@@ -7,6 +7,7 @@
 #pragma once
 
 #include <pizza/db/base/database.h>
+#include <pizza/db/concepts.h>
 #include <pizza/generic/support.h>
 #include <pizza/logging/logging.h>
 
@@ -35,9 +36,8 @@ class Hub final
      * @tparam Database is the database class
      * @returns the name of database added
      */
-    template <typename Database>
-    requires(std::is_same_v<decltype(Database::k_Name), const std::string_view>)
-        [[nodiscard]] std::string_view addDatabase() noexcept
+    template <PizzaDatabase Database>
+    [[nodiscard]] std::string_view addDatabase() noexcept
     {
         m_logger.info("Registering {} to the database hub", Database::k_Name);
 
@@ -69,7 +69,7 @@ class Hub final
  * @tparam Database is the database class
  * @returns the name of database added
  */
-template <typename Database>
+template <PizzaDatabase Database>
 [[nodiscard]] std::string_view addDatabase() noexcept
 {
     return Hub::getHub().addDatabase<Database>();
