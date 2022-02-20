@@ -162,7 +162,6 @@ class Handler
     explicit Handler(const std::string_view name) noexcept : m_logger{name} {}
 
     /// The Logger
-    // NOLINTNEXTLINE(cppcoreguidelines-non-private-member-variables-in-classes)
     const pizza::logging::Logger m_logger;
 };
 

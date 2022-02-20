@@ -108,7 +108,5 @@
 /// Represents the good-old runtime assert
 /// At least it tries not to piss off the linter
 #ifndef RUNTIME_ASSERT
-#define RUNTIME_ASSERT(statement)                                                                  \
-    /* NOLINTNEXTLINE(hicpp-no-array-decay,cppcoreguidelines-pro-bounds-array-to-pointer-decay) */ \
-    assert(static_cast<bool>(statement)); /* NOLINT(cert-dcl03-c,hicpp-static-assert) */
+#define RUNTIME_ASSERT(statement) assert(static_cast<bool>(statement));  // NOLINT(cert-dcl03-c)
 #endif

@@ -171,7 +171,6 @@ class Database
 
    protected:
     /// The Logger
-    // NOLINTNEXTLINE(cppcoreguidelines-non-private-member-variables-in-classes)
     const logging::Logger m_logger;
 };
 
