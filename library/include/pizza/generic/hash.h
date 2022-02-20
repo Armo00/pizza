@@ -44,7 +44,7 @@ class Hash final
         for (size_t index = 0; index < rawHash.size(); ++index)
         {
             // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg,hicpp-vararg)
-            sprintf(&result.at(index * 2), "%x", rawHash[index]);
+            sprintf(&result.at(index * 2), "%02x", rawHash[index]);
         }
         return (needLower == NeedLowerCase::Yes) ? pystring::lower(result)
                                                  : pystring::upper(result);
