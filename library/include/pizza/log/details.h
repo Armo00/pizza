@@ -8,7 +8,7 @@
 
 #include <pizza/generic/support.h>
 
-namespace pizza::logging::details
+namespace pizza::log::details
 {
 
 /// Logging level
@@ -62,4 +62,4 @@ void writeStderr(const Level level, const std::string_view where, const std::str
                fmt::vformat(what, fmt::make_format_args(args...)));
 }
 
-}  // namespace pizza::logging::details
+}  // namespace pizza::log::details

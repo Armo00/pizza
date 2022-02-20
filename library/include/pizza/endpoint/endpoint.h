@@ -13,7 +13,7 @@
 #include <pizza/endpoint/details.h>
 #include <pizza/endpoint/handler.h>
 #include <pizza/generic/support.h>
-#include <pizza/logging/logging.h>
+#include <pizza/log/logger.h>
 
 namespace pizza::endpoint
 {
@@ -44,8 +44,8 @@ class Endpoint final
         auto handler = std::make_unique<Handler>();
         for (const auto& [method, path] : Handler::k_Api)
         {
-            m_logger.debug("Registering {} on {} {}", Handler::k_Name,
-                           magic_enum::enum_name(method), path);
+            m_log.debug("Registering {} on {} {}", Handler::k_Name, magic_enum::enum_name(method),
+                        path);
 
             details::addHandler(m_router, *handler, method, path);
         }
@@ -69,13 +69,13 @@ class Endpoint final
         endpoint.init(options);
         endpoint.setHandler(m_router.handler());
 
-        m_logger.info("Serving on {}:{} with {} threads", address, port, threads);
+        m_log.info("Serving on {}:{} with {} threads", address, port, threads);
         endpoint.serve();
     }
 
    private:
     /// The Logger
-    pizza::logging::Logger m_logger{"endpoint"};
+    const pizza::log::Logger m_log{"endpoint"};
 
     /// The Endpoint itself
     std::vector<std::unique_ptr<Handler>> m_self;
@@ -144,7 +144,7 @@ inline void serveOn(const std::string_view address, const uint16_t port, const i
     }
     catch (const cxxopts::option_not_exists_exception& e)
     {
-        pizza::logging::fatal("endpoint", e.what());
+        pizza::log::fatal("endpoint", e.what());
         fmt::print(stderr, "\n{}\n", options.help());
         std::exit(1);  // NOLINT(concurrency-mt-unsafe)
     }

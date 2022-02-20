@@ -1,5 +1,5 @@
 /**
- * @file pizza/logging/logging.h
+ * @file pizza/log/logger.h
  * @brief Unit where all logging related interfaces gathered
  * @copyright Copyleft 2021-2022 "unrealinsanity". All rights reversed.
  */
@@ -8,7 +8,7 @@
 
 #include "details.h"
 
-namespace pizza::logging
+namespace pizza::log
 {
 
 /** Write debug message to stdout
@@ -99,7 +99,7 @@ class Logger final
     template <typename... Args>
     void debug(const std::string_view what, const Args&... args) const noexcept
     {
-        pizza::logging::debug(m_where, what, args...);
+        pizza::log::debug(m_where, what, args...);
     }
 
     /** Write info message to stdout
@@ -111,7 +111,7 @@ class Logger final
     template <typename... Args>
     void info(const std::string_view what, const Args&... args) const noexcept
     {
-        pizza::logging::info(m_where, what, args...);
+        pizza::log::info(m_where, what, args...);
     }
 
     /** Write warn message to stderr
@@ -123,7 +123,7 @@ class Logger final
     template <typename... Args>
     void warn(const std::string_view what, const Args&... args) const noexcept
     {
-        pizza::logging::warn(m_where, what, args...);
+        pizza::log::warn(m_where, what, args...);
     }
 
     /** Write error message to stderr
@@ -135,7 +135,7 @@ class Logger final
     template <typename... Args>
     void error(const std::string_view what, const Args&... args) const noexcept
     {
-        pizza::logging::error(m_where, what, args...);
+        pizza::log::error(m_where, what, args...);
     }
 
     /** Write fatal message to stderr
@@ -147,7 +147,7 @@ class Logger final
     template <typename... Args>
     void fatal(const std::string_view what, const Args&... args) const noexcept
     {
-        pizza::logging::fatal(m_where, what, args...);
+        pizza::log::fatal(m_where, what, args...);
     }
 
     /**
@@ -159,4 +159,4 @@ class Logger final
     const std::string_view m_where;
 };
 
-}  // namespace pizza::logging
+}  // namespace pizza::log

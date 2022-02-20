@@ -9,7 +9,7 @@
 #include <pizza/db/base/database.h>
 #include <pizza/db/concepts.h>
 #include <pizza/generic/support.h>
-#include <pizza/logging/logging.h>
+#include <pizza/log/logger.h>
 
 namespace pizza::db
 {
@@ -39,7 +39,7 @@ class Hub final
     template <PizzaDatabase Database>
     [[nodiscard]] std::string_view addDatabase() noexcept
     {
-        m_logger.info("Registering {} to the database hub", Database::k_Name);
+        m_log.info("Registering {} to the database hub", Database::k_Name);
 
         const auto [_, inserted] = m_self.emplace(Database::k_Name, std::make_unique<Database>());
         RUNTIME_ASSERT(inserted && "Name of database is overlapping with another instance")
@@ -61,7 +61,7 @@ class Hub final
     std::unordered_map<std::string_view, std::unique_ptr<base::Database>> m_self;
 
     /// The Logger
-    const pizza::logging::Logger m_logger{"db:hub"};
+    const pizza::log::Logger m_log{"db:hub"};
 };
 
 /** Add database instance to the hub

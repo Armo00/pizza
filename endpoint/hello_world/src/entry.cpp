@@ -9,14 +9,8 @@
 
 int main(const int argc, const char** argv) noexcept
 {
-    try
-    {
-        const auto [address, port, threads] =
-            pizza::endpoint::parseOptions("hello_world", "Serves the endpoint", argc, argv);
+    const auto [address, port, threads] =
+        pizza::endpoint::parseOptions("hello_world", "Serves the endpoint", argc, argv);
 
-        pizza::endpoint::serveOn(address, port, threads);
-    }
-    catch (const std::exception& e)
-    {
-    }
+    pizza::endpoint::serveOn(address, port, threads);
 }

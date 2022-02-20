@@ -11,7 +11,7 @@
 #include <pizza/db/condition.h>
 #include <pizza/db/values.h>
 #include <pizza/generic/support.h>
-#include <pizza/logging/logging.h>
+#include <pizza/log/logger.h>
 
 namespace pizza::db::base
 {
@@ -34,7 +34,7 @@ class Database
     virtual void doStatementExecution(
         [[maybe_unused]] const std::string_view statement) const noexcept
     {
-        m_logger.warn("`doStatementExecution` is not implemented!");
+        m_log.warn("`doStatementExecution` is not implemented!");
     }
 
     /** Do statement execution
@@ -46,7 +46,7 @@ class Database
         [[maybe_unused]] std::vector<Values>& result,
         [[maybe_unused]] const std::string_view statement) const noexcept
     {
-        m_logger.warn("`doStatementExecution` is not implemented!");
+        m_log.warn("`doStatementExecution` is not implemented!");
     }
 
     /// Represents a separator
@@ -57,7 +57,7 @@ class Database
      *
      * @param name is the name of database
      */
-    explicit Database(const std::string_view name) noexcept : m_logger{name} {}
+    explicit Database(const std::string_view name) noexcept : m_log{name} {}
 
     /** Execute statement
      *
@@ -68,7 +68,7 @@ class Database
     template <typename... Args>
     void executeStatement(const std::string_view statement, const Args&... args) const noexcept
     {
-        m_logger.debug(statement, args...);
+        m_log.debug(statement, args...);
 
         // Must be overridden or it won't do anything.
         doStatementExecution(fmt::vformat(statement, fmt::make_format_args(args...)));
@@ -85,7 +85,7 @@ class Database
     void executeStatement(std::vector<Values>& result, const std::string_view statement,
                           const Args&... args) const noexcept
     {
-        m_logger.debug(statement, args...);
+        m_log.debug(statement, args...);
 
         // Must be overridden or it won't do anything.
         doStatementExecution(result, fmt::vformat(statement, fmt::make_format_args(args...)));
@@ -171,7 +171,7 @@ class Database
 
    protected:
     /// The Logger
-    const logging::Logger m_logger;
+    const pizza::log::Logger m_log;
 };
 
 }  // namespace pizza::db::base

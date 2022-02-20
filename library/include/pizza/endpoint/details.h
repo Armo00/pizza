@@ -9,7 +9,7 @@
 #include <external/pistache/all.h>
 #include <pizza/endpoint/handler.h>
 #include <pizza/generic/support.h>
-#include <pizza/logging/logging.h>
+#include <pizza/log/logger.h>
 
 namespace pizza::endpoint::details
 {

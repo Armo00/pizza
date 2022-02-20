@@ -11,7 +11,7 @@
 #include <pizza/endpoint/request.h>
 #include <pizza/endpoint/response.h>
 #include <pizza/generic/support.h>
-#include <pizza/logging/logging.h>
+#include <pizza/log/logger.h>
 
 namespace pizza::endpoint
 {
@@ -34,7 +34,7 @@ class Handler
     virtual void validateRequest([[maybe_unused]] const Request& request,
                                  [[maybe_unused]] Cake& cake) const
     {
-        m_logger.warn("`validateRequest` is not implemented!");
+        m_log.warn("`validateRequest` is not implemented!");
     }
 
     /** Process the request, prepare for the response
@@ -45,7 +45,7 @@ class Handler
     virtual void processRequest([[maybe_unused]] const Request& request,
                                 [[maybe_unused]] Cake& cake) const
     {
-        m_logger.warn("`processRequest` is not implemented!");
+        m_log.warn("`processRequest` is not implemented!");
     }
 
     /** Send the response
@@ -56,7 +56,7 @@ class Handler
     virtual void sendResponse([[maybe_unused]] const Cake& cake,
                               [[maybe_unused]] Response& response) const
     {
-        m_logger.warn("`sendResponse` is not implemented!");
+        m_log.warn("`sendResponse` is not implemented!");
     }
 
    public:
@@ -94,31 +94,31 @@ class Handler
         catch (const ErrorResponse& e)
         {
             response_.send(e.getCode(), e.getCake());
-            m_logger.error("ErrorResponse caught: {}", e.what());
+            m_log.error("ErrorResponse caught: {}", e.what());
             return;
         }
         catch (const std::runtime_error& e)
         {
             response_.send(Response::Code::Bad_Request, "Bad Request");
-            m_logger.error("std::runtime_error caught: {}", e.what());
+            m_log.error("std::runtime_error caught: {}", e.what());
             return;
         }
         catch (const std::invalid_argument& e)
         {
             response_.send(Response::Code::Bad_Request, "Bad Request");
-            m_logger.error("std::invalid_argument caught: {}", e.what());
+            m_log.error("std::invalid_argument caught: {}", e.what());
             return;
         }
         catch (const std::logic_error& e)
         {
             response_.send(Response::Code::Bad_Request, "Bad Request");
-            m_logger.error("std::logic_error caught: {}", e.what());
+            m_log.error("std::logic_error caught: {}", e.what());
             return;
         }
         catch (const std::exception& e)
         {
             response_.send(Response::Code::Bad_Request, "Bad Request");
-            m_logger.error("std::exception caught: {}", e.what());
+            m_log.error("std::exception caught: {}", e.what());
             return;
         }
 
@@ -130,27 +130,27 @@ class Handler
         catch (const ErrorResponse& e)
         {
             response_.send(e.getCode(), e.getCake());
-            m_logger.error("ErrorResponse caught: {}", e.what());
+            m_log.error("ErrorResponse caught: {}", e.what());
         }
         catch (const std::runtime_error& e)
         {
             response_.send(Response::Code::Internal_Server_Error, "Server Error");
-            m_logger.error("std::runtime_error caught: {}", e.what());
+            m_log.error("std::runtime_error caught: {}", e.what());
         }
         catch (const std::invalid_argument& e)
         {
             response_.send(Response::Code::Internal_Server_Error, "Server Error");
-            m_logger.error("std::invalid_argument caught: {}", e.what());
+            m_log.error("std::invalid_argument caught: {}", e.what());
         }
         catch (const std::logic_error& e)
         {
             response_.send(Response::Code::Internal_Server_Error, "Server Error");
-            m_logger.error("std::logic_error caught: {}", e.what());
+            m_log.error("std::logic_error caught: {}", e.what());
         }
         catch (const std::exception& e)
         {
             response_.send(Response::Code::Internal_Server_Error, "Server Error");
-            m_logger.error("std::exception caught: {}", e.what());
+            m_log.error("std::exception caught: {}", e.what());
         }
     }
 
@@ -159,10 +159,10 @@ class Handler
      *
      * @param name is the name of this handler
      */
-    explicit Handler(const std::string_view name) noexcept : m_logger{name} {}
+    explicit Handler(const std::string_view name) noexcept : m_log{name} {}
 
     /// The Logger
-    const pizza::logging::Logger m_logger;
+    const pizza::log::Logger m_log;
 };
 
 }  // namespace pizza::endpoint

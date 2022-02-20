@@ -30,12 +30,12 @@ class HelloHandler : public pizza::endpoint::Handler
         {
             case Request::Method::Get:
             {
-                m_logger.info("It works!");
+                m_log.info("It works!");
                 return;
             }
             case Request::Method::Post:
             {
-                m_logger.info(request.getBody());
+                m_log.info(request.getBody());
                 cake.emplace("message", "Handler for POST requests is not implemented!");
                 throw ErrorResponse{Response::Code::Method_Not_Allowed, cake};
             }
@@ -58,7 +58,7 @@ class HelloHandler : public pizza::endpoint::Handler
         // Use cake to pass states to the next phase
         cake.emplace("download_path", k_Destination);
         cake.emplace("time_stamp", std::time(nullptr));
-        m_logger.debug("Content of cake is {}", cake.dump());
+        m_log.debug("Content of cake is {}", cake.dump());
     }
 
     void sendResponse(const Cake& cake, Response& response) const override
@@ -66,7 +66,7 @@ class HelloHandler : public pizza::endpoint::Handler
         response.send(Response::Code::Ok, cake);
 
         const auto& downloadPath = cake.at<std::string>("download_path");
-        m_logger.info("File successfully stored to {} on server", downloadPath);
+        m_log.info("File successfully stored to {} on server", downloadPath);
     }
 
    private:
