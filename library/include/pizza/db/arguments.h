@@ -17,22 +17,22 @@ namespace pizza::db
 /// Represents the table name
 struct Table final
 {
-    const std::string_view tableName{};  ///< Represents the table name
+    const std::string_view tableName;  ///< Represents the table name
 };
 
 /// Represents Arguments for executing INSERT INTO statements
 struct InsertIntoArguments final
 {
-    const Table insertInto{};                      ///< Represents the INSERT INTO word
+    const Table insertInto;                        ///< Represents the INSERT INTO word
     const std::optional<const Columns> columns{};  ///< Represents (col1, col2, ...)
-    const Values values{};                         ///< Represents the VALUES word
+    const Values values;                           ///< Represents the VALUES word
 };
 
 /// Represents Arguments for executing SELECT statements
 struct SelectFromArguments final
 {
-    const Columns select{};                        ///< Represents the SELECT word
-    const Table from{};                            ///< Represents the FROM word
+    const Columns select;                          ///< Represents the SELECT word
+    const Table from;                              ///< Represents the FROM word
     const std::optional<const Condition> where{};  ///< Represents the WHERE word
 };
 

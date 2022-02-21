@@ -1,6 +1,6 @@
 /**
- * @file hello_world.cpp
- * @brief Hello, World
+ * @file hash_demo.cpp
+ * @brief Illustrates how to utilize Pizza's hash functions
  * @copyright Copyleft 2021-2022 "unrealinsanity". All rights reversed.
  */
 
