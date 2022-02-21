@@ -8,7 +8,7 @@
 
 #include <pizza/support.h>
 
-namespace pizza::db
+namespace pizza::db::concepts
 {
 
 /**
@@ -20,4 +20,4 @@ namespace pizza::db
 template <typename Database>
 concept PizzaDatabase = std::is_same_v<decltype(Database::k_Name), const std::string_view>;
 
-}  // namespace pizza::db
+}  // namespace pizza::db::concepts

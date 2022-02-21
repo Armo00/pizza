@@ -9,7 +9,7 @@
 #include <pizza/endpoint/handler.h>
 #include <pizza/support.h>
 
-namespace pizza::endpoint
+namespace pizza::endpoint::concepts
 {
 
 /**
@@ -25,4 +25,4 @@ concept PizzaHandler = std::is_same_v<decltype(Handler::k_Name), const std::stri
     std::is_same_v<typename decltype(Handler::k_Api)::value_type,
                    std::pair<Request::Method, const std::string_view>>;
 
-}  // namespace pizza::endpoint
+}  // namespace pizza::endpoint::concepts

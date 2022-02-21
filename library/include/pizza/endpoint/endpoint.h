@@ -38,7 +38,7 @@ class Endpoint final
      * @tparam Handler is the handler class
      * @returns the name of the handler added
      */
-    template <PizzaHandler Handler>
+    template <concepts::PizzaHandler Handler>
     [[nodiscard]] std::string_view addHandler() noexcept
     {
         auto handler = std::make_unique<Handler>();
@@ -89,7 +89,7 @@ class Endpoint final
  * @tparam Handler is the handler class
  * @returns the name of the handler added
  */
-template <PizzaHandler Handler>
+template <concepts::PizzaHandler Handler>
 [[nodiscard]] std::string_view addHandler() noexcept
 {
     auto& endpoint = Endpoint::getEndpoint();

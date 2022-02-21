@@ -36,7 +36,7 @@ class Hub final
      * @tparam Database is the database class
      * @returns the name of database added
      */
-    template <PizzaDatabase Database>
+    template <concepts::PizzaDatabase Database>
     [[nodiscard]] std::string_view addDatabase() noexcept
     {
         m_log.info("Registering {} to the database hub", Database::k_Name);
@@ -69,7 +69,7 @@ class Hub final
  * @tparam Database is the database class
  * @returns the name of database added
  */
-template <PizzaDatabase Database>
+template <concepts::PizzaDatabase Database>
 [[nodiscard]] std::string_view addDatabase() noexcept
 {
     return Hub::getHub().addDatabase<Database>();

@@ -20,7 +20,7 @@ namespace pizza::db::sqlite
  * @tparam Desc is the description of database connection
  * @note Database connections shall not be shared by multiple threads; keep them threads local
  */
-template <Description Desc>
+template <concepts::Description Desc>
 class Database final : public base::Database
 {
    public:

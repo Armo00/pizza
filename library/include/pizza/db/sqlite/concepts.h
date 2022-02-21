@@ -8,7 +8,7 @@
 
 #include <pizza/hash.h>
 
-namespace pizza::db::sqlite
+namespace pizza::db::sqlite::concepts
 {
 
 /**
@@ -23,4 +23,4 @@ template <typename Desc>
 concept Description = std::is_same_v<decltype(Desc::k_Name), const std::string_view> &&
     std::is_same_v<decltype(Desc::k_FileName), const std::string_view>;
 
-}  // namespace pizza::db::sqlite
+}  // namespace pizza::db::sqlite::concepts
