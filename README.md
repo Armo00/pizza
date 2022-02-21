@@ -58,3 +58,5 @@ After `conan install` is complete, use `cmake` and `ninja` to build.
  4. This project would not be possible without the existence of [Pistache](https://github.com/pistacheio/pistache). Do not forget to pay them a visit as well. 😊
 
  5. Since I'm currently the only person working on this project... If you used my framework and made changes under `library/include/pizza` and `library/include/external`, PR this change back to me, please! That would be appreciated. 😖
+
+ 6. The GNU General Public License permits making a modified version and letting the public access it on a server without ever releasing its source code to the public. So don't you be worrying about having to make your website open source. 🤫
