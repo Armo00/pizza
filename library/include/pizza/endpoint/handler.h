@@ -10,8 +10,8 @@
 #include <pizza/endpoint/error_response.h>
 #include <pizza/endpoint/request.h>
 #include <pizza/endpoint/response.h>
-#include <pizza/generic/support.h>
 #include <pizza/log/logger.h>
+#include <pizza/support.h>
 
 namespace pizza::endpoint
 {

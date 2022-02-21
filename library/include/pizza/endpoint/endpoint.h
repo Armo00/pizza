@@ -12,8 +12,8 @@
 #include <pizza/endpoint/concepts.h>
 #include <pizza/endpoint/details.h>
 #include <pizza/endpoint/handler.h>
-#include <pizza/generic/support.h>
 #include <pizza/log/logger.h>
+#include <pizza/support.h>
 
 namespace pizza::endpoint
 {

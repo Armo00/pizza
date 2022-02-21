@@ -5,7 +5,7 @@
  */
 
 #include <pizza/endpoint/endpoint.h>
-#include <pizza/generic/support.h>
+#include <pizza/support.h>
 
 int main(const int argc, const char** argv) noexcept
 {

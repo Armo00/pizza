@@ -7,7 +7,7 @@
 #include <external/cpr/all.h>
 #include <pizza/endpoint/endpoint.h>
 #include <pizza/endpoint/handler.h>
-#include <pizza/generic/support.h>
+#include <pizza/support.h>
 
 namespace
 {

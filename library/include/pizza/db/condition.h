@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include <pizza/generic/support.h>
+#include <pizza/support.h>
 
 namespace pizza::db
 {

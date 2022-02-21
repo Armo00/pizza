@@ -1,5 +1,5 @@
 /**
- * @file pizza/generic/hash.h
+ * @file pizza/hash.h
  * @brief Hashing with ease.
  * @copyright Copyleft 2022 "unrealinsanity". All rights reversed.
  */
@@ -7,7 +7,7 @@
 #pragma once
 
 #include <external/openssl/hash.h>
-#include <pizza/generic/support.h>
+#include <pizza/support.h>
 
 namespace pizza::hash
 {

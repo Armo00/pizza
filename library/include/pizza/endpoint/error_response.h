@@ -8,7 +8,7 @@
 
 #include <pizza/endpoint/cake.h>
 #include <pizza/endpoint/response.h>
-#include <pizza/generic/support.h>
+#include <pizza/support.h>
 
 namespace pizza::endpoint
 {

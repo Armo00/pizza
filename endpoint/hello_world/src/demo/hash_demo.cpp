@@ -4,7 +4,7 @@
  * @copyright Copyleft 2021-2022 "unrealinsanity". All rights reversed.
  */
 
-#include <pizza/generic/hash.h>
+#include <pizza/hash.h>
 #include <pizza/log/logger.h>
 
 int main() noexcept

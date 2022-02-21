@@ -8,7 +8,7 @@
 
 #include <external/cpr/all.h>
 #include <external/pistache/all.h>
-#include <pizza/generic/support.h>
+#include <pizza/support.h>
 
 namespace pizza::endpoint
 {

@@ -7,7 +7,7 @@
 #pragma once
 
 #include <pizza/endpoint/handler.h>
-#include <pizza/generic/support.h>
+#include <pizza/support.h>
 
 namespace pizza::endpoint
 {

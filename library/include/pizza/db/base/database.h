@@ -10,8 +10,8 @@
 #include <pizza/db/columns.h>
 #include <pizza/db/condition.h>
 #include <pizza/db/values.h>
-#include <pizza/generic/support.h>
 #include <pizza/log/logger.h>
+#include <pizza/support.h>
 
 namespace pizza::db::base
 {

@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include <pizza/generic/hash.h>
+#include <pizza/hash.h>
 
 namespace pizza::db::sqlite
 {

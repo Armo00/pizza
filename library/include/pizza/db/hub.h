@@ -8,8 +8,8 @@
 
 #include <pizza/db/base/database.h>
 #include <pizza/db/concepts.h>
-#include <pizza/generic/support.h>
 #include <pizza/log/logger.h>
+#include <pizza/support.h>
 
 namespace pizza::db
 {

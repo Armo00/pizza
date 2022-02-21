@@ -1,5 +1,5 @@
 /**
- * @file pizza/generic/support.h
+ * @file pizza/support.h
  * @brief Generic supports for creative coding.
  * @copyright Copyleft 2021-2022 "unrealinsanity". All rights reversed.
  */

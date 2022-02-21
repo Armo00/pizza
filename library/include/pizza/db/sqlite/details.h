@@ -7,7 +7,7 @@
 #pragma once
 
 #include <external/sqlitecpp/all.h>
-#include <pizza/generic/support.h>
+#include <pizza/support.h>
 
 namespace pizza::db::sqlite::details
 {
