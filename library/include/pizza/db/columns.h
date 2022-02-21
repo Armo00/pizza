@@ -18,7 +18,7 @@ namespace pizza::db
  */
 class Columns final
 {
-    DEFAULT_DESTRUCTIBLE_FINAL_CLASS(Columns)
+    DEFAULT_MOVEABLE_FINAL_CLASS(Columns)
 
    public:
     /** Constructor
@@ -27,7 +27,9 @@ class Columns final
      * @param args are the data to bind
      */
     template <typename... Args>
-    explicit Columns(const Args&... args) noexcept : m_self{args...}
+    [[nodiscard]] explicit Columns(const Args&... args) noexcept
+        : m_self{std::make_unique<const std::vector<std::string_view>>(
+              std::vector<std::string_view>{args...})}
     {
     }
 
@@ -35,23 +37,27 @@ class Columns final
      *
      * @returns the begin const-iterator
      */
-    [[nodiscard]] auto begin() const noexcept { return m_self.begin(); }
+    [[nodiscard]] auto begin() const noexcept { return m_self->begin(); }
 
     /** Get end const-iterator
      *
      * @returns the end const-iterator
      */
-    [[nodiscard]] auto end() const noexcept { return m_self.end(); }
+    [[nodiscard]] auto end() const noexcept { return m_self->end(); }
 
     /** Get a view of the columns
      *
      * @returns a view of the columns
      */
-    [[nodiscard]] std::span<const std::string_view> operator*() const noexcept { return m_self; }
+    [[nodiscard]] std::span<const std::string_view> operator*() const noexcept { return *m_self; }
 
    private:
-    /// The Columns itself
-    const std::vector<std::string_view> m_self;
+    /** The Columns itself
+     *
+     * @note Warp it with unique_ptr so that the immutability can be guaranteed, but objects of
+     * Values are still movable (aka ownership is still transferable)
+     */
+    std::unique_ptr<const std::vector<std::string_view>> m_self;
 };
 
 }  // namespace pizza::db

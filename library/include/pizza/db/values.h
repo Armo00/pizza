@@ -27,7 +27,7 @@ class Values final
      * @param args are the data to bind
      */
     template <typename... Args>
-    explicit Values(const Args&... args) noexcept
+    [[nodiscard]] explicit Values(const Args&... args) noexcept
         : m_self{std::make_unique<const nlohmann::json>(nlohmann::json{args...})}
     {
         RUNTIME_ASSERT(m_self->is_array() && "Values is not an array")
@@ -66,7 +66,7 @@ class Values final
    private:
     /** The Values itself
      *
-     * @note Wrap it around unique_ptr so that the immutability can be guaranteed, but objects of
+     * @note Warp it with unique_ptr so that the immutability can be guaranteed, but objects of
      * Values are still movable (aka ownership is still transferable)
      */
     std::unique_ptr<const nlohmann::json> m_self;

@@ -6,10 +6,8 @@
 
 #pragma once
 
+#include <pizza/db/arguments.h>
 #include <pizza/db/base/details.h>
-#include <pizza/db/columns.h>
-#include <pizza/db/condition.h>
-#include <pizza/db/values.h>
 #include <pizza/log/logger.h>
 #include <pizza/support.h>
 
@@ -27,7 +25,7 @@ class Database
     DEFAULT_DESTRUCTIBLE_BASE_CLASS(Database)
 
    private:
-    /** Do statement execution
+    /** Do statement execution that doesn't have result
      *
      * @param statement is the statement to execute
      */
@@ -37,7 +35,7 @@ class Database
         m_log.warn("`doStatementExecution` is not implemented!");
     }
 
-    /** Do statement execution
+    /** Do statement execution that has result
      *
      * @param result is passed in to store the query result
      * @param statement is the statement to execute
@@ -59,14 +57,14 @@ class Database
      */
     explicit Database(const std::string_view name) noexcept : m_log{name} {}
 
-    /** Execute statement
+    /** Execute statement that doesn't have result
      *
      * @tparam Args are the types of arguments
      * @param statement is the statement to execute
      * @param args are the data to bind
      */
     template <typename... Args>
-    void executeStatement(const std::string_view statement, const Args&... args) const noexcept
+    void execute(const std::string_view statement, const Args&... args) const noexcept
     {
         m_log.debug(statement, args...);
 
@@ -74,7 +72,7 @@ class Database
         doStatementExecution(fmt::vformat(statement, fmt::make_format_args(args...)));
     }
 
-    /** Execute statement
+    /** Execute statement that has result
      *
      * @tparam Args are the types of arguments
      * @param result is passed in to store the query result
@@ -82,8 +80,8 @@ class Database
      * @param args are the data to bind
      */
     template <typename... Args>
-    void executeStatement(std::vector<Values>& result, const std::string_view statement,
-                          const Args&... args) const noexcept
+    void execute(std::vector<Values>& result, const std::string_view statement,
+                 const Args&... args) const noexcept
     {
         m_log.debug(statement, args...);
 
@@ -93,84 +91,50 @@ class Database
 
     /** Execute INSERT INTO statement
      *
-     * @param tableName is the table name
-     * @param columns are the columns to insert
-     * @param values are the values to insert
+     * @param args contains the information needed to perform an execution
      */
-    void executeInsertInto(const std::string_view tableName, const Columns& columns,
-                           const Values& values) const noexcept
+    void execute(const InsertIntoArguments& args) const noexcept
     {
-        /// Represents the INSERT INTO statement
-        static constexpr std::string_view k_InsertInto{"INSERT INTO {} ({}) VALUES ({});"};
-        const auto joinedColumns = fmt::join(columns, k_Separator);
-
         std::vector<std::string> encodedValues;
-        std::transform(values.begin(), values.end(), std::back_inserter(encodedValues),
+        std::transform(args.values.begin(), args.values.end(), std::back_inserter(encodedValues),
                        details::makeSqlEncodedString);
 
         const auto joinedValues = fmt::join(encodedValues, k_Separator);
-        executeStatement(k_InsertInto, tableName, joinedColumns, joinedValues);
-    }
-
-    /** Execute INSERT INTO statement
-     *
-     * @param tableName is the table name
-     * @param values are the values to insert
-     */
-    void executeInsertInto(const std::string_view tableName, const Values& values) const noexcept
-    {
-        /// Represents the INSERT INTO statement
-        static constexpr std::string_view k_InsertInto{"INSERT INTO {} VALUES ({});"};
-
-        std::vector<std::string> encodedValues;
-        std::transform(values.begin(), values.end(), std::back_inserter(encodedValues),
-                       details::makeSqlEncodedString);
-
-        const auto joinedValues = fmt::join(encodedValues, k_Separator);
-        executeStatement(k_InsertInto, tableName, joinedValues);
+        if (args.columns)
+        {
+            static constexpr std::string_view k_Sql{"INSERT INTO {} ({}) VALUES ({});"};
+            const auto joinedColumns = fmt::join(*args.columns, k_Separator);
+            execute(k_Sql, args.insertInto.tableName, joinedColumns, joinedValues);
+        }
+        else
+        {
+            static constexpr std::string_view k_Sql{"INSERT INTO {} VALUES ({});"};
+            execute(k_Sql, args.insertInto.tableName, joinedValues);
+        }
     }
 
     /** Execute SELECT statement
      *
-     * @param tableName is the table name
-     * @param columns are the columns to select from
-     * @returns the query result
+     * @param args contains the information needed to perform an execution
      */
-    [[nodiscard]] std::vector<Values> executeSelectFrom(const std::string_view tableName,
-                                                        const Columns& columns) const noexcept
+    [[nodiscard]] std::vector<Values> execute(const SelectFromArguments& args) const noexcept
     {
-        /// Represents the SELECT statement
-        static constexpr std::string_view k_SelectFrom{"SELECT {} FROM {};"};
-        const auto joinedColumns = fmt::join(columns, k_Separator);
-
         std::vector<Values> result{};
-        executeStatement(result, k_SelectFrom, joinedColumns, tableName);
-        return result;
-    }
-
-    /** Execute SELECT statement
-     *
-     * @param tableName is the table name
-     * @param columns are the columns to select from
-     * @param condition is the condition expression
-     *
-     * @returns the query result
-     */
-    [[nodiscard]] std::vector<Values> executeSelectFrom(const std::string_view tableName,
-                                                        const Columns& columns,
-                                                        const Condition& condition) const noexcept
-    {
-        /// Represents the SELECT statement
-        static constexpr std::string_view k_SelectFrom{"SELECT {} FROM {} WHERE {};"};
-        const auto joinedColumns = fmt::join(columns, k_Separator);
-
-        std::vector<Values> result{};
-        executeStatement(result, k_SelectFrom, joinedColumns, tableName, *condition);
+        const auto joinedColumns = fmt::join(args.select, k_Separator);
+        if (args.where)
+        {
+            static constexpr std::string_view k_Sql{"SELECT {} FROM {} WHERE {};"};
+            execute(result, k_Sql, joinedColumns, args.from.tableName, **args.where);
+        }
+        else
+        {
+            static constexpr std::string_view k_Sql{"SELECT {} FROM {};"};
+            execute(result, k_Sql, joinedColumns, args.from.tableName);
+        }
         return result;
     }
 
    protected:
-    /// The Logger
     const pizza::log::Logger m_log;
 };
 

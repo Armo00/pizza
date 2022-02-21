@@ -31,11 +31,13 @@ int main() noexcept
 
     constexpr std::string_view k_unrealInsanity{"UnrealInsanity"};
     constexpr std::string_view k_is_a_dev{"is a dev"};
-    db1.executeInsertInto("test_table", pizza::db::Columns{"name", "desc"},
-                          pizza::db::Values{k_unrealInsanity, k_is_a_dev});
+    db1.execute({.insertInto = pizza::db::Table{"test_table"},
+                 .columns = pizza::db::Columns{"name", "desc"},
+                 .values = pizza::db::Values{k_unrealInsanity, k_is_a_dev}});
 
-    const auto result = db1.executeSelectFrom("test_table", pizza::db::Columns{"name", "desc"},
-                                              pizza::db::Condition{"name='{}'", k_unrealInsanity});
+    const auto result = db1.execute({.select = pizza::db::Columns{"name", "desc"},
+                                     .from = pizza::db::Table{"test_table"},
+                                     .where = pizza::db::Condition{"name='{}'", k_unrealInsanity}});
 
     const pizza::db::Columns columns{"name", "desc"};
     logger.info("{}", fmt::join(*columns, ", "));

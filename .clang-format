@@ -1,5 +1,4 @@
 ---
-AlignArrayOfStructures: Left
 BasedOnStyle: Google
 BreakBeforeBraces: Allman
 ColumnLimit: 100
