@@ -1,6 +1,6 @@
 /**
  * @file external/std/all.h
- * @brief Enable types defined under namespace std
+ * @brief Enable namespace std
  * @copyright Copyleft 2021-2022 "unrealinsanity". All rights reversed.
  */
 

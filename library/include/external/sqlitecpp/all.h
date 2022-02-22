@@ -1,6 +1,6 @@
 /**
  * @file external/sqlitecpp/all.h
- * @brief Unified header for enabling sqlitecpp library
+ * @brief Enable sqlitecpp
  * @copyright Copyleft 2021-2022 "unrealinsanity". All rights reversed.
  */
 

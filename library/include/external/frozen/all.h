@@ -1,6 +1,6 @@
 /**
  * @file external/frozen/all.h
- * @brief Enable immutable types from frozen library
+ * @brief Enable frozen library
  * @copyright Copyleft 2021-2022 "unrealinsanity". All rights reversed.
  */
 

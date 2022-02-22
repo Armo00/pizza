@@ -1,6 +1,6 @@
 /**
  * @file external/cppitertools/all.h
- * @brief Unified header for enabling libpqxx library
+ * @brief Enable cppitertools
  * @copyright Copyleft 2021-2022 "unrealinsanity". All rights reversed.
  */
 

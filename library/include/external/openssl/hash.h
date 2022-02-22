@@ -1,6 +1,6 @@
 /**
  * @file external/openssl/hash.h
- * @brief Enable OpenSSL hash functions.
+ * @brief Enable hash functions from OpenSSL
  * @copyright Copyleft 2022 "unrealinsanity". All rights reversed.
  */
 

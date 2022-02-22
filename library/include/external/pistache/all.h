@@ -1,6 +1,6 @@
 /**
  * @file external/pistache/all.h
- * @brief Unified header for enabling Pistache library.
+ * @brief Enable pistache
  * @copyright Copyleft 2021-2022 "unrealinsanity". All rights reversed.
  */
 
