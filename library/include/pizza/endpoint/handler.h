@@ -73,7 +73,11 @@ class Handler
     using Cake = pizza::endpoint::Cake;
 
     /// The API description
-    using ApiDesc = std::pair<Request::Method, const std::string_view>;
+    struct ApiDesc
+    {
+        const Request::Method requestMethod;  ///< Represents the request method
+        const std::string_view requestPath;   ///< Represents the request path
+    };
 
     /** Handle the request
      *

@@ -16,42 +16,43 @@ namespace pizza::endpoint::details
 
 /** Append a new router record
  *
- * @param router is the Pistache router
- * @param handler is the handler object
- * @param method is the request method
- * @param path is the request path
+ * @param pistacheRouter is the Pistache router
+ * @param pizzaHandler is the handler object
+ * @param requestMethod is the request method
+ * @param requestPath is the request path
  *
  * @private
  */
-inline void addHandler(Pistache::Rest::Router& router, Handler& handler,
-                       const Request::Method method, const std::string_view path) noexcept
+inline void addHandler(Pistache::Rest::Router& pistacheRouter, Handler& pizzaHandler,
+                       const Request::Method requestMethod,
+                       const std::string_view requestPath) noexcept
 {
-    switch (method)
+    switch (requestMethod)
     {
         case Request::Method::Get:
             return Pistache::Rest::Routes::Get(
-                router, path.data(),
-                Pistache::Rest::Routes::bind(&Handler::handleRequest, &handler));
+                pistacheRouter, requestPath.data(),
+                Pistache::Rest::Routes::bind(&Handler::handleRequest, &pizzaHandler));
 
         case Request::Method::Post:
             return Pistache::Rest::Routes::Post(
-                router, path.data(),
-                Pistache::Rest::Routes::bind(&Handler::handleRequest, &handler));
+                pistacheRouter, requestPath.data(),
+                Pistache::Rest::Routes::bind(&Handler::handleRequest, &pizzaHandler));
 
         case Request::Method::Put:
             return Pistache::Rest::Routes::Put(
-                router, path.data(),
-                Pistache::Rest::Routes::bind(&Handler::handleRequest, &handler));
+                pistacheRouter, requestPath.data(),
+                Pistache::Rest::Routes::bind(&Handler::handleRequest, &pizzaHandler));
 
         case Request::Method::Patch:
             return Pistache::Rest::Routes::Patch(
-                router, path.data(),
-                Pistache::Rest::Routes::bind(&Handler::handleRequest, &handler));
+                pistacheRouter, requestPath.data(),
+                Pistache::Rest::Routes::bind(&Handler::handleRequest, &pizzaHandler));
 
         case Request::Method::Delete:
             return Pistache::Rest::Routes::Delete(
-                router, path.data(),
-                Pistache::Rest::Routes::bind(&Handler::handleRequest, &handler));
+                pistacheRouter, requestPath.data(),
+                Pistache::Rest::Routes::bind(&Handler::handleRequest, &pizzaHandler));
 
         default:
             RUNTIME_ASSERT(false && "Use of unsupported request method")

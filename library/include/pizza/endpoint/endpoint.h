@@ -41,16 +41,16 @@ class Endpoint final
     template <concepts::PizzaHandler Handler>
     [[nodiscard]] std::string_view addHandler() noexcept
     {
-        auto handler = std::make_unique<Handler>();
-        for (const auto& [method, path] : Handler::k_Api)
+        auto pizzaHandler = std::make_unique<Handler>();
+        for (const auto& [requestMethod, requestPath] : Handler::k_ApiDesc)
         {
-            m_log.debug("Registering {} on {} {}", Handler::k_Name, magic_enum::enum_name(method),
-                        path);
+            m_log.debug("Registering {} on {} {}", Handler::k_Name,
+                        magic_enum::enum_name(requestMethod), requestPath);
 
-            details::addHandler(m_router, *handler, method, path);
+            details::addHandler(m_pistacheRouter, *pizzaHandler, requestMethod, requestPath);
         }
 
-        m_self.emplace_back(std::move(handler));
+        m_self.emplace_back(std::move(pizzaHandler));
         return Handler::k_Name;
     }
 
@@ -63,14 +63,14 @@ class Endpoint final
     void serveOn(const std::string_view address, const uint16_t port, const int threads) noexcept
     {
         const Pistache::Address pistacheAddress{address.data(), port};
-        Pistache::Http::Endpoint endpoint{pistacheAddress};
+        Pistache::Http::Endpoint pistacheEndpoint{pistacheAddress};
 
-        const auto options = Pistache::Http::Endpoint::options().threads(threads);
-        endpoint.init(options);
-        endpoint.setHandler(m_router.handler());
+        const auto pistacheOptions = Pistache::Http::Endpoint::options().threads(threads);
+        pistacheEndpoint.init(pistacheOptions);
+        pistacheEndpoint.setHandler(m_pistacheRouter.handler());
 
         m_log.info("Serving on {}:{} with {} threads", address, port, threads);
-        endpoint.serve();
+        pistacheEndpoint.serve();
     }
 
    private:
@@ -81,7 +81,7 @@ class Endpoint final
     std::vector<std::unique_ptr<Handler>> m_self;
 
     /// The Pistache REST Router
-    Pistache::Rest::Router m_router;
+    Pistache::Rest::Router m_pistacheRouter;
 };
 
 /** Add handler to endpoint
